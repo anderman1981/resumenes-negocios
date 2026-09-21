@@ -1,6 +1,9 @@
 ---
 import { NEWSLETTER } from '../config.mjs';
-const configurado = Boolean(NEWSLETTER.endpoint);
+// Si hay endpoint de proveedor (MailerLite/Brevo), se usa ese.
+// Si no, el formulario guarda el correo en tu propio Vercel Blob (/api/suscribir).
+const endpoint = NEWSLETTER.endpoint || '';
+const campo = NEWSLETTER.campoEmail || 'email';
 ---
 
 <div id="sub-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm">
@@ -16,34 +19,27 @@ const configurado = Boolean(NEWSLETTER.endpoint);
       </p>
     </div>
 
-    {configurado ? (
-      <>
-        <form id="sub-form" action={NEWSLETTER.endpoint} method="post" data-campo={NEWSLETTER.campoEmail} class="mt-6 space-y-3">
-          <input
-            type="email"
-            name={NEWSLETTER.campoEmail}
-            required
-            placeholder="tu@correo.com"
-            class="w-full rounded-xl border border-slate-200 px-4 py-3 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100"
-          />
-          <button type="submit" id="sub-submit" class="w-full rounded-xl bg-brand-600 px-4 py-3 font-semibold text-white transition hover:bg-brand-700 disabled:opacity-60">
-            Quiero recibir las lecciones
-          </button>
-          <p class="text-center text-xs text-slate-400">Sin spam. Puedes darte de baja cuando quieras.</p>
-        </form>
-        <div id="sub-ok" class="mt-6 hidden rounded-xl border border-green-200 bg-green-50 p-4 text-center text-green-700">
-          ✅ ¡Listo! Revisa tu correo para confirmar la suscripción.
-        </div>
-      </>
-    ) : (
-      <div class="mt-6 rounded-xl border border-amber-200 bg-amber-50 p-4 text-center text-sm text-amber-700">
-        ⚙️ Configura tu proveedor de email en <code>src/config.mjs</code> (NEWSLETTER.endpoint) para activar las suscripciones.
-      </div>
-    )}
+    <form id="sub-form" class="mt-6 space-y-3">
+      <input
+        id="sub-email"
+        type="email"
+        required
+        placeholder="tu@correo.com"
+        class="w-full rounded-xl border border-slate-200 px-4 py-3 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100"
+      />
+      <button type="submit" id="sub-submit" class="w-full rounded-xl bg-brand-600 px-4 py-3 font-semibold text-white transition hover:bg-brand-700 disabled:opacity-60">
+        Quiero recibir las lecciones
+      </button>
+      <p class="text-center text-xs text-slate-400">Sin spam. Puedes darte de baja cuando quieras.</p>
+    </form>
+
+    <div id="sub-ok" class="mt-6 hidden rounded-xl border border-green-200 bg-green-50 p-4 text-center text-green-700">
+      ✅ ¡Listo! Te avisaremos con cada nueva lección.
+    </div>
   </div>
 </div>
 
-<script>
+<script define:vars={{ endpoint, campo }}>
   const KEY = 'sub-visto-v1';
   const modal = document.getElementById('sub-modal');
   const cerrar = () => {
@@ -51,7 +47,7 @@ const configurado = Boolean(NEWSLETTER.endpoint);
     modal?.classList.remove('flex');
     try { localStorage.setItem(KEY, '1'); } catch (e) {}
   };
-  // Mostrar tras 3s en la primera visita
+
   try {
     if (!localStorage.getItem(KEY)) {
       setTimeout(() => {
@@ -60,18 +56,32 @@ const configurado = Boolean(NEWSLETTER.endpoint);
       }, 3000);
     }
   } catch (e) {}
+
   document.getElementById('sub-close')?.addEventListener('click', cerrar);
   modal?.addEventListener('click', (e) => { if (e.target === modal) cerrar(); });
 
   const form = document.getElementById('sub-form');
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
+    const email = document.getElementById('sub-email').value.trim();
+    if (!email) return;
     const btn = document.getElementById('sub-submit');
     const ok = document.getElementById('sub-ok');
     if (btn) { btn.disabled = true; btn.textContent = 'Enviando…'; }
     try {
-      // Envío "fire and forget" (no-cors) compatible con MailerLite/Brevo.
-      await fetch(form.action, { method: 'POST', mode: 'no-cors', body: new FormData(form) });
+      if (endpoint) {
+        // Proveedor externo (MailerLite/Brevo): envío fire-and-forget
+        const fd = new FormData();
+        fd.append(campo, email);
+        await fetch(endpoint, { method: 'POST', mode: 'no-cors', body: fd });
+      } else {
+        // Sin proveedor: guardamos en tu Vercel Blob
+        await fetch('/api/suscribir', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ email }),
+        });
+      }
     } catch (err) {}
     try { localStorage.setItem(KEY, '1'); } catch (e2) {}
     form.classList.add('hidden');
