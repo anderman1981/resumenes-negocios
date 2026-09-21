@@ -1,0 +1,95 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Simulador de Ventas con IA" description="Practica tus ventas contra un cliente resistente generado por IA y recibe una auditoría instantánea (Game Tape Review) con el método Alex Hormozi.">
+  <section class="border-b border-slate-100 bg-gradient-to-b from-slate-50 to-white">
+    <div class="mx-auto max-w-3xl px-4 py-12 text-center">
+      <span class="inline-block rounded-full bg-brand-100 px-3 py-1 text-sm font-semibold text-brand-700">Práctica interactiva</span>
+      <h1 class="mx-auto mt-4 max-w-2xl text-4xl font-extrabold tracking-tight text-slate-900">
+        Entrena tus ventas sin arriesgar clientes reales
+      </h1>
+      <p class="mx-auto mt-3 max-w-xl text-lg text-slate-600">
+        Enfréntate a un prospecto resistente generado por IA. Al terminar, escribe
+        <strong>EVALUAR</strong> y recibe tu auditoría con el método Alex Hormozi.
+      </p>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-4 py-8">
+    <div class="flex h-[65vh] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+      <div id="chat" class="flex-1 space-y-4 overflow-y-auto p-5"></div>
+      <form id="chat-form" class="flex gap-2 border-t border-slate-100 p-3">
+        <input
+          id="chat-input"
+          type="text"
+          autocomplete="off"
+          placeholder="Escribe tu mensaje… (o EVALUAR para recibir el reporte)"
+          class="flex-1 rounded-xl border border-slate-200 px-4 py-3 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100"
+        />
+        <button id="chat-send" type="submit" class="rounded-xl bg-brand-600 px-5 py-3 font-semibold text-white transition hover:bg-brand-700 disabled:opacity-50">
+          Enviar
+        </button>
+      </form>
+    </div>
+    <p class="mt-3 text-center text-xs text-slate-400">
+      Simulación educativa. Las respuestas son generadas por IA y pueden contener errores.
+    </p>
+  </section>
+
+  <script>
+    const chat = document.getElementById('chat');
+    const form = document.getElementById('chat-form');
+    const input = document.getElementById('chat-input');
+    const send = document.getElementById('chat-send');
+    const mensajes = [];
+
+    function burbuja(role, texto) {
+      const wrap = document.createElement('div');
+      wrap.className = role === 'user' ? 'flex justify-end' : 'flex justify-start';
+      const b = document.createElement('div');
+      b.className = role === 'user'
+        ? 'max-w-[85%] rounded-2xl rounded-br-sm bg-brand-600 px-4 py-2.5 text-white whitespace-pre-wrap'
+        : 'max-w-[85%] rounded-2xl rounded-bl-sm bg-slate-100 px-4 py-2.5 text-slate-800 whitespace-pre-wrap';
+      b.textContent = texto;
+      wrap.appendChild(b);
+      chat.appendChild(wrap);
+      chat.scrollTop = chat.scrollHeight;
+      return b;
+    }
+
+    async function enviar(texto) {
+      mensajes.push({ role: 'user', content: texto });
+      burbuja('user', texto);
+      input.value = '';
+      send.disabled = true;
+      const pensando = burbuja('assistant', '…');
+      try {
+        const r = await fetch('/api/simulador', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ messages: mensajes }),
+        });
+        const data = await r.json();
+        const reply = data.reply || data.error || 'Error al responder.';
+        pensando.textContent = reply;
+        mensajes.push({ role: 'assistant', content: reply });
+      } catch (e) {
+        pensando.textContent = 'No se pudo conectar. Verifica tu conexión o inténtalo más tarde.';
+      } finally {
+        send.disabled = false;
+        input.focus();
+        chat.scrollTop = chat.scrollHeight;
+      }
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const texto = input.value.trim();
+      if (texto) enviar(texto);
+    });
+
+    // Arranque: pedir el onboarding automáticamente
+    window.addEventListener('load', () => enviar('Hola, quiero empezar la simulación.'));
+  </script>
+</BaseLayout>
