@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../config.mjs';
+---
+
+<BaseLayout title="Sobre el proyecto" description={`Qué es ${SITE.name} y cómo se elaboran los resúmenes.`}>
+  <section class="mx-auto max-w-3xl px-4 py-12">
+    <h1 class="text-3xl font-extrabold text-slate-900">Sobre {SITE.name}</h1>
+    <div class="prose prose-slate mt-6 max-w-none">
+      <p>
+        {SITE.name} nace para ayudarte a aprender más rápido: tomamos libros y documentos
+        clave sobre <strong>negocios online, marketing, ventas y finanzas</strong> y los
+        transformamos en resúmenes claros, prácticos y accionables.
+      </p>
+
+      <h2>Cómo elaboramos los resúmenes</h2>
+      <p>
+        Cada resumen es un <strong>análisis original</strong>: extraemos las ideas centrales,
+        las explicamos con nuestras propias palabras y añadimos contexto y ejemplos de aplicación.
+        No reproducimos el texto de las obras originales.
+      </p>
+
+      <h2>Aviso legal</h2>
+      <p>
+        Los resúmenes tienen fines educativos e informativos. Los títulos, autores y obras
+        mencionadas pertenecen a sus respectivos propietarios. Si un resumen te resulta útil,
+        te animamos a comprar el libro original para apoyar a su autor.
+      </p>
+
+      <h2>Contacto</h2>
+      <p>¿Quieres sugerir un libro o reportar algo? Escríbenos a través de tus canales habituales.</p>
+    </div>
+  </section>
+</BaseLayout>

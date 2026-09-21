@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SummaryCard from '../../components/SummaryCard.astro';
+import AdSlot from '../../components/AdSlot.astro';
+import { getPublicados } from '../../lib/content.mjs';
+
+const todos = await getPublicados();
+---
+
+<BaseLayout title="Todos los resúmenes" description="Catálogo completo de resúmenes de libros y documentos de negocios online.">
+  <section class="mx-auto max-w-6xl px-4 py-12">
+    <h1 class="text-3xl font-extrabold text-slate-900">Todos los resúmenes</h1>
+    <p class="mt-2 text-slate-600">{todos.length} resúmenes publicados</p>
+
+    <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {todos.map((entry) => <SummaryCard entry={entry} />)}
+    </div>
+
+    <AdSlot slot="footer" />
+  </section>
+</BaseLayout>

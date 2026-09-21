@@ -1,0 +1,23 @@
+name: Rebuild diario (goteo de contenido)
+
+# Reconstruye y redespliega el sitio cada día para que se publique
+# el módulo cuya fecha ya llegó. Requiere un "Deploy Hook" de Vercel
+# guardado como secreto del repositorio: VERCEL_DEPLOY_HOOK.
+
+on:
+  schedule:
+    # 05:10 UTC cada día (≈ 00:10 hora Colombia). Ajusta si quieres otra hora.
+    - cron: '10 5 * * *'
+  workflow_dispatch: {} # permite lanzarlo manualmente desde la pestaña Actions
+
+jobs:
+  redeploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Disparar despliegue en Vercel
+        run: |
+          if [ -z "${{ secrets.VERCEL_DEPLOY_HOOK }}" ]; then
+            echo "Falta el secreto VERCEL_DEPLOY_HOOK"; exit 1
+          fi
+          curl -fsSL -X POST "${{ secrets.VERCEL_DEPLOY_HOOK }}"
+          echo "Despliegue disparado."

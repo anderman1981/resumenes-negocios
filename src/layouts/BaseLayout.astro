@@ -1,0 +1,33 @@
+---
+import SEO from '../components/SEO.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SuscripcionModal from '../components/SuscripcionModal.astro';
+import CookieConsent from '../components/CookieConsent.astro';
+import { SITE } from '../config.mjs';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  article?: boolean;
+  publishedTime?: Date;
+}
+const props = Astro.props;
+---
+
+<!doctype html>
+<html lang={SITE.lang}>
+  <head>
+    <SEO {...props} />
+  </head>
+  <body class="min-h-screen bg-white font-sans text-slate-800 antialiased">
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+    <SuscripcionModal />
+    <CookieConsent />
+  </body>
+</html>

@@ -1,0 +1,63 @@
+---
+import { NEWSLETTER } from '../config.mjs';
+const configurado = Boolean(NEWSLETTER.endpoint);
+---
+
+<div id="sub-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm">
+  <div class="relative w-full max-w-md rounded-2xl bg-white p-7 shadow-2xl">
+    <button id="sub-close" aria-label="Cerrar" class="absolute right-4 top-4 text-slate-400 hover:text-slate-600">✕</button>
+
+    <div class="text-center">
+      <div class="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-brand-600 text-2xl">🔔</div>
+      <h2 class="mt-4 text-2xl font-extrabold text-slate-900">Recibe una lección cada día</h2>
+      <p class="mt-2 text-slate-600">
+        Apúntate y te avisamos cada día cuando se publique el nuevo módulo.
+        <strong>El último día recibes la Guía Maestra completa en PDF.</strong>
+      </p>
+    </div>
+
+    {configurado ? (
+      <form id="sub-form" action={NEWSLETTER.endpoint} method="post" class="mt-6 space-y-3">
+        <input
+          type="email"
+          name={NEWSLETTER.campoEmail}
+          required
+          placeholder="tu@correo.com"
+          class="w-full rounded-xl border border-slate-200 px-4 py-3 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100"
+        />
+        <button type="submit" class="w-full rounded-xl bg-brand-600 px-4 py-3 font-semibold text-white transition hover:bg-brand-700">
+          Quiero recibir las lecciones
+        </button>
+        <p class="text-center text-xs text-slate-400">Sin spam. Puedes darte de baja cuando quieras.</p>
+      </form>
+    ) : (
+      <div class="mt-6 rounded-xl border border-amber-200 bg-amber-50 p-4 text-center text-sm text-amber-700">
+        ⚙️ Configura tu proveedor de email en <code>src/config.mjs</code> (NEWSLETTER.endpoint) para activar las suscripciones.
+      </div>
+    )}
+  </div>
+</div>
+
+<script>
+  const KEY = 'sub-visto-v1';
+  const modal = document.getElementById('sub-modal');
+  const cerrar = () => {
+    modal?.classList.add('hidden');
+    modal?.classList.remove('flex');
+    try { localStorage.setItem(KEY, '1'); } catch (e) {}
+  };
+  // Mostrar tras 3s en la primera visita
+  try {
+    if (!localStorage.getItem(KEY)) {
+      setTimeout(() => {
+        modal?.classList.remove('hidden');
+        modal?.classList.add('flex');
+      }, 3000);
+    }
+  } catch (e) {}
+  document.getElementById('sub-close')?.addEventListener('click', cerrar);
+  modal?.addEventListener('click', (e) => { if (e.target === modal) cerrar(); });
+  document.getElementById('sub-form')?.addEventListener('submit', () => {
+    try { localStorage.setItem(KEY, '1'); } catch (e) {}
+  });
+</script>

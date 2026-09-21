@@ -1,0 +1,21 @@
+# build
+dist/
+.astro/
+
+# deps
+node_modules/
+
+# env
+.env
+.env.production
+
+# os / editor
+.DS_Store
+*.log
+.vscode/
+
+# vídeos generados (pesados; se generan con scripts/generar-video.sh)
+videos/
+
+# materiales fuente (PDFs/audios originales; no van al repo público)
+_fuentes/

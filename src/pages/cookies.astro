@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../config.mjs';
+const hoy = new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+
+<BaseLayout title="Política de Cookies" description={`Política de cookies de ${SITE.name}.`}>
+  <section class="mx-auto max-w-3xl px-4 py-12">
+    <h1 class="text-3xl font-extrabold text-slate-900">Política de Cookies</h1>
+    <p class="mt-2 text-sm text-slate-400">Última actualización: {hoy}</p>
+
+    <div class="prose prose-slate mt-8 max-w-none">
+      <h2>¿Qué son las cookies?</h2>
+      <p>
+        Las cookies son pequeños archivos que un sitio web guarda en tu dispositivo para recordar
+        información sobre tu visita. Se usan para que el sitio funcione, para recordar tus preferencias
+        y para mostrar publicidad.
+      </p>
+
+      <h2>Tipos de cookies que usamos</h2>
+      <ul>
+        <li><strong>Técnicas / esenciales:</strong> necesarias para el funcionamiento del sitio. Por ejemplo, recordar si ya cerraste el aviso de cookies o el aviso de suscripción.</li>
+        <li><strong>De preferencias:</strong> recuerdan opciones tuyas para mejorar la experiencia.</li>
+        <li><strong>De publicidad (terceros):</strong> Google AdSense y sus socios utilizan cookies para mostrarte anuncios y medir su rendimiento.</li>
+        <li><strong>De analítica (si se activa):</strong> nos ayudan a entender de forma agregada cómo se usa el sitio.</li>
+      </ul>
+
+      <h2>Cookies de Google AdSense</h2>
+      <p>
+        Este sitio muestra anuncios mediante Google AdSense. Google utiliza cookies para publicar
+        anuncios en función de tus visitas a este y otros sitios. Puedes gestionar la personalización
+        de anuncios en la
+        <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Configuración de anuncios de Google</a>
+        y obtener más información en
+        <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">las políticas de Google</a>.
+      </p>
+
+      <h2>Cómo gestionar o desactivar las cookies</h2>
+      <ul>
+        <li>Puedes aceptar o rechazar las cookies no esenciales en el aviso que aparece al entrar al sitio.</li>
+        <li>Puedes configurar tu navegador para bloquear o eliminar cookies (Chrome, Firefox, Safari, Edge, etc.).</li>
+        <li>Ten en cuenta que bloquear algunas cookies puede afectar al funcionamiento del sitio.</li>
+      </ul>
+
+      <h2>Contacto</h2>
+      <p>Dudas sobre cookies: <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
+    </div>
+  </section>
+</BaseLayout>

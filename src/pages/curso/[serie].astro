@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AdSlot from '../../components/AdSlot.astro';
+import { getSeries, getSerie } from '../../lib/content.mjs';
+
+export async function getStaticPaths() {
+  const series = await getSeries();
+  const paths = [];
+  for (const s of series) {
+    paths.push({ params: { serie: s.slug }, props: { serie: s } });
+  }
+  return paths;
+}
+
+const { serie } = Astro.props;
+const modulos = await getSerie(serie.slug);
+const total = 7;
+const disponibles = modulos.filter((m) => m.disponible).length;
+---
+
+<BaseLayout title={serie.nombre} description={`Serie de ${total} días: ${serie.nombre}. Un módulo nuevo cada día.`}>
+  <section class="border-b border-slate-100 bg-gradient-to-b from-slate-50 to-white">
+    <div class="mx-auto max-w-4xl px-4 py-16 text-center">
+      <span class="inline-block rounded-full bg-slate-900 px-3 py-1 text-sm font-semibold text-white">
+        Serie de {total} días · {disponibles} disponibles
+      </span>
+      <h1 class="mx-auto mt-5 max-w-3xl text-4xl font-extrabold leading-tight tracking-tight text-slate-900">
+        {serie.nombre}
+      </h1>
+      <p class="mx-auto mt-4 max-w-2xl text-lg text-slate-600">
+        Un módulo nuevo cada día. Vuelve a diario para desbloquear la siguiente lección.
+      </p>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-4 py-12">
+    <ol class="space-y-4">
+      {modulos.map(({ entry, disponible }) => (
+        disponible ? (
+          <li>
+            <a href={`/resumenes/${entry.slug}`} class="group flex items-start gap-4 rounded-2xl border border-slate-200 bg-white p-5 transition hover:border-brand-300 hover:shadow-md">
+              <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-brand-600 text-sm font-bold text-white">
+                {entry.data.dia}
+              </span>
+              <div>
+                <h2 class="font-bold text-slate-900 group-hover:text-brand-600">{entry.data.titulo}</h2>
+                <p class="mt-1 text-sm text-slate-500">{entry.data.descripcion}</p>
+              </div>
+            </a>
+          </li>
+        ) : (
+          <li>
+            <div class="flex items-start gap-4 rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-5">
+              <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-slate-200 text-sm font-bold text-slate-500">
+                {entry.data.dia}
+              </span>
+              <div>
+                <h2 class="font-bold text-slate-400">{entry.data.titulo}</h2>
+                <p class="mt-1 text-sm text-slate-400">
+                  🔒 Disponible el {entry.data.fecha.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}
+                </p>
+              </div>
+            </div>
+          </li>
+        )
+      ))}
+      {Array.from({ length: Math.max(0, total - modulos.length) }).map((_, i) => (
+        <li>
+          <div class="flex items-center gap-4 rounded-2xl border border-dashed border-slate-200 p-5 text-slate-300">
+            <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-slate-100 text-sm font-bold">
+              {modulos.length + i + 1}
+            </span>
+            <span class="text-sm font-medium">Próximamente…</span>
+          </div>
+        </li>
+      ))}
+    </ol>
+
+    <AdSlot slot="footer" />
+  </section>
+</BaseLayout>

@@ -1,0 +1,86 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../config.mjs';
+const hoy = new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+
+<BaseLayout title="Política de Privacidad" description={`Política de privacidad de ${SITE.name}: cómo tratamos los datos, cookies y publicidad.`}>
+  <section class="mx-auto max-w-3xl px-4 py-12">
+    <h1 class="text-3xl font-extrabold text-slate-900">Política de Privacidad</h1>
+    <p class="mt-2 text-sm text-slate-400">Última actualización: {hoy}</p>
+
+    <div class="prose prose-slate mt-8 max-w-none">
+      <p>
+        En <strong>{SITE.name}</strong> ("el sitio") respetamos tu privacidad. Esta política explica qué
+        información recopilamos, cómo la usamos y qué opciones tienes. Al usar el sitio aceptas las
+        prácticas aquí descritas.
+      </p>
+
+      <h2>Responsable</h2>
+      <p>
+        Responsable del tratamiento: {SITE.author}. Contacto:
+        <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
+      </p>
+
+      <h2>Información que recopilamos</h2>
+      <ul>
+        <li><strong>Datos de navegación:</strong> páginas visitadas, tipo de dispositivo y navegador, e información recogida mediante cookies (ver más abajo).</li>
+        <li><strong>Datos que nos facilitas voluntariamente:</strong> tu correo electrónico si te suscribes a las notificaciones, o los datos que incluyas al contactarnos.</li>
+      </ul>
+
+      <h2>Uso de la información</h2>
+      <ul>
+        <li>Ofrecer y mejorar el contenido del sitio.</li>
+        <li>Enviarte las lecciones y novedades si te has suscrito (puedes darte de baja cuando quieras).</li>
+        <li>Mostrar publicidad relevante a través de terceros como Google AdSense.</li>
+        <li>Analizar el uso del sitio de forma agregada.</li>
+      </ul>
+
+      <h2>Publicidad — Google AdSense y cookies de terceros</h2>
+      <p>
+        Este sitio utiliza <strong>Google AdSense</strong>, un servicio de publicidad de Google. Google y sus
+        socios utilizan cookies para mostrar anuncios basados en tus visitas a este y otros sitios web.
+      </p>
+      <ul>
+        <li>
+          Google, como proveedor externo, utiliza cookies (incluida la cookie <strong>DoubleClick DART</strong>)
+          para publicar anuncios en función de tus visitas.
+        </li>
+        <li>
+          Puedes inhabilitar la publicidad personalizada visitando la
+          <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Configuración de anuncios de Google</a>.
+        </li>
+        <li>
+          Más información sobre cómo Google usa los datos:
+          <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener">policies.google.com/technologies/partner-sites</a>.
+        </li>
+        <li>
+          También puedes gestionar cookies de terceros en
+          <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener">aboutads.info/choices</a> y
+          <a href="https://www.youronlinechoices.eu/" target="_blank" rel="noopener">youronlinechoices.eu</a>.
+        </li>
+      </ul>
+
+      <h2>Cookies</h2>
+      <p>
+        Usamos cookies propias (técnicas y de preferencias) y de terceros (publicidad y analítica).
+        Consulta el detalle en nuestra <a href="/cookies">Política de Cookies</a>. Puedes aceptar o
+        rechazar las cookies no esenciales mediante el aviso que aparece al entrar al sitio, y cambiar
+        la configuración de tu navegador en cualquier momento.
+      </p>
+
+      <h2>Tus derechos</h2>
+      <p>
+        Dependiendo de tu país (por ejemplo, bajo el RGPD en la UE o la CCPA en California), puedes tener
+        derecho a acceder, rectificar, eliminar u oponerte al tratamiento de tus datos. Para ejercerlos,
+        escríbenos a <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
+      </p>
+
+      <h2>Menores</h2>
+      <p>El sitio no está dirigido a menores de edad y no recopilamos conscientemente sus datos.</p>
+
+      <h2>Cambios en esta política</h2>
+      <p>Podemos actualizar esta política. Publicaremos aquí cualquier cambio con su fecha correspondiente.</p>
+    </div>
+  </section>
+</BaseLayout>

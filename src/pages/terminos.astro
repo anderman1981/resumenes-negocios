@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../config.mjs';
+const hoy = new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+
+<BaseLayout title="Términos de Uso" description={`Términos y condiciones de uso de ${SITE.name}.`}>
+  <section class="mx-auto max-w-3xl px-4 py-12">
+    <h1 class="text-3xl font-extrabold text-slate-900">Términos de Uso</h1>
+    <p class="mt-2 text-sm text-slate-400">Última actualización: {hoy}</p>
+
+    <div class="prose prose-slate mt-8 max-w-none">
+      <h2>Aceptación</h2>
+      <p>Al acceder y usar <strong>{SITE.name}</strong> aceptas estos términos. Si no estás de acuerdo, no uses el sitio.</p>
+
+      <h2>Naturaleza del contenido</h2>
+      <p>
+        El contenido tiene <strong>fines exclusivamente educativos e informativos</strong>. Los resúmenes son
+        análisis originales elaborados con nuestras propias palabras y <strong>no reproducen ni sustituyen las
+        obras originales</strong>. Los títulos, autores y marcas mencionados pertenecen a sus respectivos
+        propietarios. Recomendamos adquirir las obras originales para apoyar a sus autores.
+      </p>
+
+      <h2>Sin asesoramiento profesional</h2>
+      <p>
+        La información no constituye asesoramiento financiero, legal ni profesional. Las decisiones que
+        tomes son tu responsabilidad. No garantizamos resultados concretos.
+      </p>
+
+      <h2>Propiedad intelectual del sitio</h2>
+      <p>
+        El diseño, los textos originales y la estructura del sitio pertenecen a {SITE.name}. No está permitido
+        copiarlos o redistribuirlos sin autorización.
+      </p>
+
+      <h2>Enlaces y terceros</h2>
+      <p>
+        El sitio puede contener enlaces y publicidad de terceros (como Google AdSense). No nos hacemos
+        responsables del contenido ni de las prácticas de privacidad de sitios externos.
+      </p>
+
+      <h2>Limitación de responsabilidad</h2>
+      <p>
+        El sitio se ofrece "tal cual". En la medida permitida por la ley, no seremos responsables de daños
+        derivados del uso del sitio o de la imposibilidad de usarlo.
+      </p>
+
+      <h2>Cambios</h2>
+      <p>Podemos modificar estos términos en cualquier momento; los cambios se publican en esta página.</p>
+
+      <h2>Contacto</h2>
+      <p><a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
+    </div>
+  </section>
+</BaseLayout>

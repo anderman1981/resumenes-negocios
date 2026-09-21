@@ -1,0 +1,63 @@
+---
+// Panel que muestra todos los módulos/días de una serie, con los futuros
+// bloqueados como "Próximamente".
+import { getSerie } from '../lib/content.mjs';
+
+interface Props {
+  serie: string;
+  actual?: string; // slug del módulo actual (para resaltarlo)
+}
+const { serie, actual } = Astro.props;
+const modulos = await getSerie(serie);
+const nombre = modulos[0]?.entry.data.serieNombre ?? 'Serie';
+const total = 7; // días previstos de la serie
+---
+
+<aside class="rounded-2xl border border-slate-200 bg-white p-5">
+  <p class="text-xs font-semibold uppercase tracking-wide text-brand-600">Serie · {modulos.length}/{total} días</p>
+  <h2 class="mt-1 text-lg font-bold text-slate-900">{nombre}</h2>
+
+  <ol class="mt-4 space-y-2">
+    {modulos.map(({ entry, disponible }) => {
+      const esActual = entry.slug === actual;
+      const base = 'flex items-start gap-3 rounded-xl px-3 py-2.5 text-sm transition';
+      return disponible ? (
+        <li>
+          <a
+            href={`/resumenes/${entry.slug}`}
+            class={`${base} ${esActual ? 'bg-brand-50 font-semibold text-brand-700' : 'hover:bg-slate-50 text-slate-700'}`}
+          >
+            <span class="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-brand-600 text-xs font-bold text-white">
+              {entry.data.dia}
+            </span>
+            <span>{entry.data.titulo}</span>
+          </a>
+        </li>
+      ) : (
+        <li>
+          <div class={`${base} cursor-not-allowed text-slate-400`}>
+            <span class="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-slate-200 text-xs font-bold text-slate-500">
+              {entry.data.dia}
+            </span>
+            <span>
+              {entry.data.titulo}
+              <span class="mt-0.5 block text-xs text-slate-400">
+                🔒 Disponible el {entry.data.fecha.toLocaleDateString('es-ES', { day: 'numeric', month: 'long' })}
+              </span>
+            </span>
+          </div>
+        </li>
+      );
+    })}
+    {Array.from({ length: Math.max(0, total - modulos.length) }).map((_, i) => (
+      <li>
+        <div class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-300">
+          <span class="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-slate-100 text-xs font-bold">
+            {modulos.length + i + 1}
+          </span>
+          <span>Próximamente…</span>
+        </div>
+      </li>
+    ))}
+  </ol>
+</aside>

@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SummaryCard from '../../components/SummaryCard.astro';
+import AdSlot from '../../components/AdSlot.astro';
+import { getPublicados } from '../../lib/content.mjs';
+import { CATEGORIAS } from '../../config.mjs';
+
+export async function getStaticPaths() {
+  const todos = await getPublicados();
+  return CATEGORIAS.map((cat) => ({
+    params: { categoria: cat.slug },
+    props: {
+      cat,
+      entries: todos.filter((e) => e.data.categoria === cat.slug),
+    },
+  }));
+}
+
+const { cat, entries } = Astro.props;
+---
+
+<BaseLayout title={cat.nombre} description={`Resúmenes de ${cat.nombre} sobre negocios online.`}>
+  <section class="mx-auto max-w-6xl px-4 py-12">
+    <p class="text-sm font-semibold uppercase tracking-wide text-brand-600">Categoría</p>
+    <h1 class="mt-1 text-3xl font-extrabold text-slate-900">{cat.nombre}</h1>
+    <p class="mt-2 text-slate-600">{entries.length} resúmenes</p>
+
+    {entries.length > 0 ? (
+      <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {entries.map((entry) => <SummaryCard entry={entry} />)}
+      </div>
+    ) : (
+      <p class="mt-8 rounded-xl bg-slate-50 p-8 text-center text-slate-500">
+        Aún no hay resúmenes en esta categoría.
+      </p>
+    )}
+
+    <AdSlot slot="footer" />
+  </section>
+</BaseLayout>

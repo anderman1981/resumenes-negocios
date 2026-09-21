@@ -1,0 +1,46 @@
+---
+import { SITE, CATEGORIAS } from '../config.mjs';
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-20 border-t border-slate-100 bg-slate-50">
+  <div class="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:grid-cols-2 md:grid-cols-4">
+    <div class="sm:col-span-2">
+      <p class="flex items-center gap-2 font-extrabold text-slate-900">
+        <span class="grid h-8 w-8 place-items-center rounded-lg bg-brand-600 text-white">R</span>
+        {SITE.name}
+      </p>
+      <p class="mt-3 max-w-sm text-sm text-slate-500">{SITE.description}</p>
+    </div>
+
+    <div>
+      <p class="text-sm font-semibold text-slate-900">Categorías</p>
+      <ul class="mt-3 space-y-2 text-sm text-slate-500">
+        {CATEGORIAS.map((c) => (
+          <li><a href={`/categorias/${c.slug}`} class="hover:text-brand-600">{c.nombre}</a></li>
+        ))}
+      </ul>
+    </div>
+
+    <div>
+      <p class="text-sm font-semibold text-slate-900">Sitio</p>
+      <ul class="mt-3 space-y-2 text-sm text-slate-500">
+        <li><a href="/resumenes" class="hover:text-brand-600">Todos los resúmenes</a></li>
+        <li><a href="/frases" class="hover:text-brand-600">Frases para compartir</a></li>
+        <li><a href="/sobre" class="hover:text-brand-600">Sobre el proyecto</a></li>
+        <li><a href="/contacto" class="hover:text-brand-600">Contacto</a></li>
+        <li><a href="/rss.xml" class="hover:text-brand-600">RSS</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-slate-100 px-4 py-6 text-center text-xs text-slate-400">
+    <nav class="mb-3 flex flex-wrap justify-center gap-x-4 gap-y-1">
+      <a href="/privacidad" class="hover:text-brand-600">Política de Privacidad</a>
+      <a href="/cookies" class="hover:text-brand-600">Cookies</a>
+      <a href="/terminos" class="hover:text-brand-600">Términos de Uso</a>
+      <a href="/contacto" class="hover:text-brand-600">Contacto</a>
+    </nav>
+    <p>© {year} {SITE.name}. Los resúmenes son análisis originales y no reproducen las obras originales.</p>
+  </div>
+</footer>

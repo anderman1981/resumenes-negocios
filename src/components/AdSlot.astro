@@ -1,0 +1,34 @@
+---
+import { ADSENSE } from '../config.mjs';
+
+interface Props {
+  slot?: keyof typeof ADSENSE.slots;
+  format?: string;
+  class?: string;
+}
+
+const { slot = 'inArticle', format = 'auto', class: className = '' } = Astro.props;
+const slotId = ADSENSE.slots[slot];
+const enabled = Boolean(ADSENSE.client && slotId);
+---
+
+{enabled ? (
+  <div class={`my-8 ${className}`}>
+    <p class="text-center text-xs uppercase tracking-wide text-slate-400 mb-1">Publicidad</p>
+    <ins
+      class="adsbygoogle block"
+      style="display:block"
+      data-ad-client={ADSENSE.client}
+      data-ad-slot={slotId}
+      data-ad-format={format}
+      data-full-width-responsive="true"
+    ></ins>
+    <!-- El push() de este bloque lo realiza CookieConsent.astro tras aceptar cookies -->
+  </div>
+) : (
+  <!-- Marcador de anuncio (visible solo en desarrollo, sin AdSense configurado) -->
+  <div class={`my-8 rounded-xl border-2 border-dashed border-slate-200 bg-slate-50 py-10 text-center ${className}`}>
+    <p class="text-sm font-medium text-slate-400">Espacio de anuncio (AdSense)</p>
+    <p class="text-xs text-slate-300 mt-1">Configura tu ID en src/config.mjs para activarlo</p>
+  </div>
+)}

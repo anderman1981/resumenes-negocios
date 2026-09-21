@@ -1,0 +1,39 @@
+---
+interface Props {
+  youtube?: string;
+  audio?: string;
+  titulo?: string;
+}
+const { youtube, audio, titulo = '' } = Astro.props;
+---
+
+{audio && (
+  <div class="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-5">
+    <p class="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-700">
+      🎧 Escucha este resumen
+    </p>
+    <audio controls preload="none" class="w-full">
+      <source src={audio} type="audio/mp4" />
+      Tu navegador no soporta audio.
+    </audio>
+  </div>
+)}
+
+{youtube && (
+  <div class="mt-8">
+    <p class="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-700">
+      ▶️ Míralo en vídeo
+    </p>
+    <div class="relative aspect-video overflow-hidden rounded-2xl bg-black">
+      <iframe
+        class="absolute inset-0 h-full w-full"
+        src={`https://www.youtube-nocookie.com/embed/${youtube}`}
+        title={titulo}
+        loading="lazy"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+    </div>
+  </div>
+)}

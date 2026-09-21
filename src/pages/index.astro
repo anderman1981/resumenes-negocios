@@ -1,0 +1,74 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SummaryCard from '../components/SummaryCard.astro';
+import AdSlot from '../components/AdSlot.astro';
+import { getPublicados } from '../lib/content.mjs';
+import { SITE, CATEGORIAS } from '../config.mjs';
+
+const todos = await getPublicados();
+const destacados = todos.filter((e) => e.data.destacado).slice(0, 3);
+const recientes = todos.slice(0, 6);
+---
+
+<BaseLayout>
+  <!-- Hero -->
+  <section class="border-b border-slate-100 bg-gradient-to-b from-slate-50 to-white">
+    <div class="mx-auto max-w-6xl px-4 py-16 text-center sm:py-24">
+      <span class="inline-block rounded-full bg-brand-100 px-3 py-1 text-sm font-semibold text-brand-700">
+        Negocios online, explicados en minutos
+      </span>
+      <h1 class="mx-auto mt-5 max-w-3xl text-4xl font-extrabold leading-tight tracking-tight text-slate-900 sm:text-5xl">
+        Los mejores libros y documentos de negocios, en resúmenes claros y accionables
+      </h1>
+      <p class="mx-auto mt-5 max-w-2xl text-lg text-slate-600">
+        {SITE.description}
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a href="/resumenes" class="rounded-xl bg-brand-600 px-6 py-3 font-semibold text-white transition hover:bg-brand-700">
+          Explorar resúmenes
+        </a>
+        <a href="/sobre" class="rounded-xl border border-slate-200 px-6 py-3 font-semibold text-slate-700 transition hover:bg-slate-50">
+          Cómo funciona
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categorías -->
+  <section class="mx-auto max-w-6xl px-4 py-10">
+    <div class="flex flex-wrap justify-center gap-2">
+      {CATEGORIAS.map((c) => (
+        <a href={`/categorias/${c.slug}`} class="rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 transition hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700">
+          {c.nombre}
+        </a>
+      ))}
+    </div>
+  </section>
+
+  {destacados.length > 0 && (
+    <section class="mx-auto max-w-6xl px-4 py-8">
+      <h2 class="mb-6 text-2xl font-bold text-slate-900">Destacados</h2>
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {destacados.map((entry) => <SummaryCard entry={entry} />)}
+      </div>
+    </section>
+  )}
+
+  <AdSlot slot="footer" class="mx-auto max-w-6xl px-4" />
+
+  <section class="mx-auto max-w-6xl px-4 py-8">
+    <div class="mb-6 flex items-center justify-between">
+      <h2 class="text-2xl font-bold text-slate-900">Más recientes</h2>
+      <a href="/resumenes" class="text-sm font-semibold text-brand-600 hover:underline">Ver todos →</a>
+    </div>
+    {recientes.length > 0 ? (
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {recientes.map((entry) => <SummaryCard entry={entry} />)}
+      </div>
+    ) : (
+      <p class="rounded-xl bg-slate-50 p-8 text-center text-slate-500">
+        Todavía no hay resúmenes publicados. Crea el primero con <code class="rounded bg-slate-200 px-1.5 py-0.5">npm run nuevo</code>.
+      </p>
+    )}
+  </section>
+</BaseLayout>
