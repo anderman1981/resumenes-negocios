@@ -10,7 +10,7 @@ export const SITE = {
   description:
     'Resúmenes claros y accionables de los mejores libros y documentos sobre negocios online, marketing, emprendimiento y finanzas personales.',
   // ⚠️ Cambia esto por tu dominio real cuando lo tengas (afecta sitemap y SEO)
-  url: 'https://tu-dominio.com',
+  url: 'https://resumenes-negocios.vercel.app',
   author: 'Anderson Martínez',
   // Correo de contacto real (OBLIGATORIO para AdSense y para las páginas legales)
   email: 'resumenes@andersonmares.com',
