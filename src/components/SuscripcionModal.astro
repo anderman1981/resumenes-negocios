@@ -17,19 +17,24 @@ const configurado = Boolean(NEWSLETTER.endpoint);
     </div>
 
     {configurado ? (
-      <form id="sub-form" action={NEWSLETTER.endpoint} method="post" class="mt-6 space-y-3">
-        <input
-          type="email"
-          name={NEWSLETTER.campoEmail}
-          required
-          placeholder="tu@correo.com"
-          class="w-full rounded-xl border border-slate-200 px-4 py-3 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100"
-        />
-        <button type="submit" class="w-full rounded-xl bg-brand-600 px-4 py-3 font-semibold text-white transition hover:bg-brand-700">
-          Quiero recibir las lecciones
-        </button>
-        <p class="text-center text-xs text-slate-400">Sin spam. Puedes darte de baja cuando quieras.</p>
-      </form>
+      <>
+        <form id="sub-form" action={NEWSLETTER.endpoint} method="post" data-campo={NEWSLETTER.campoEmail} class="mt-6 space-y-3">
+          <input
+            type="email"
+            name={NEWSLETTER.campoEmail}
+            required
+            placeholder="tu@correo.com"
+            class="w-full rounded-xl border border-slate-200 px-4 py-3 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100"
+          />
+          <button type="submit" id="sub-submit" class="w-full rounded-xl bg-brand-600 px-4 py-3 font-semibold text-white transition hover:bg-brand-700 disabled:opacity-60">
+            Quiero recibir las lecciones
+          </button>
+          <p class="text-center text-xs text-slate-400">Sin spam. Puedes darte de baja cuando quieras.</p>
+        </form>
+        <div id="sub-ok" class="mt-6 hidden rounded-xl border border-green-200 bg-green-50 p-4 text-center text-green-700">
+          ✅ ¡Listo! Revisa tu correo para confirmar la suscripción.
+        </div>
+      </>
     ) : (
       <div class="mt-6 rounded-xl border border-amber-200 bg-amber-50 p-4 text-center text-sm text-amber-700">
         ⚙️ Configura tu proveedor de email en <code>src/config.mjs</code> (NEWSLETTER.endpoint) para activar las suscripciones.
@@ -57,7 +62,20 @@ const configurado = Boolean(NEWSLETTER.endpoint);
   } catch (e) {}
   document.getElementById('sub-close')?.addEventListener('click', cerrar);
   modal?.addEventListener('click', (e) => { if (e.target === modal) cerrar(); });
-  document.getElementById('sub-form')?.addEventListener('submit', () => {
-    try { localStorage.setItem(KEY, '1'); } catch (e) {}
+
+  const form = document.getElementById('sub-form');
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('sub-submit');
+    const ok = document.getElementById('sub-ok');
+    if (btn) { btn.disabled = true; btn.textContent = 'Enviando…'; }
+    try {
+      // Envío "fire and forget" (no-cors) compatible con MailerLite/Brevo.
+      await fetch(form.action, { method: 'POST', mode: 'no-cors', body: new FormData(form) });
+    } catch (err) {}
+    try { localStorage.setItem(KEY, '1'); } catch (e2) {}
+    form.classList.add('hidden');
+    ok?.classList.remove('hidden');
+    setTimeout(cerrar, 3500);
   });
 </script>

@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import AdSlot from '../../components/AdSlot.astro';
 import Multimedia from '../../components/Multimedia.astro';
 import SeriePanel from '../../components/SeriePanel.astro';
+import Comentarios from '../../components/Comentarios.astro';
 import { getPublicados } from '../../lib/content.mjs';
 import { SITE, CATEGORIAS } from '../../config.mjs';
 
@@ -96,6 +97,8 @@ const jsonLd = {
           obra original para apoyar a su autor.
         </p>
       </div>
+
+      <Comentarios slug={entry.slug} />
     </article>
 
     <div class="lg:sticky lg:top-20 lg:self-start">

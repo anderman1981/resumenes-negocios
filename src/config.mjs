@@ -12,8 +12,8 @@ export const SITE = {
   // ⚠️ Cambia esto por tu dominio real cuando lo tengas (afecta sitemap y SEO)
   url: 'https://tu-dominio.com',
   author: 'Anderson Martínez',
-  // ⚠️ Correo de contacto real (OBLIGATORIO para AdSense y para las páginas legales)
-  email: 'contacto@tu-dominio.com',
+  // Correo de contacto real (OBLIGATORIO para AdSense y para las páginas legales)
+  email: 'resumenes@andersonmares.com',
   lang: 'es',
   locale: 'es_ES',
 };

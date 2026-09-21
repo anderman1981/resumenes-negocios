@@ -1,5 +1,10 @@
-// Función serverless de Vercel: proxy seguro al API de Claude para el simulador de ventas.
-// Requiere la variable de entorno ANTHROPIC_API_KEY en Vercel (Settings → Environment Variables).
+// Función serverless de Vercel: proxy al API de Groq (modelos gratis) para el simulador de ventas.
+//
+// Variables de entorno en Vercel (Settings → Environment Variables):
+//   GROQ_API_KEY   → tu clave de https://console.groq.com/keys   (OBLIGATORIA)
+//   GROQ_MODELS    → (opcional) lista separada por comas para la cascada de modelos.
+//                    Si uno falla o se queda sin cupo (429), pasa al siguiente.
+//
 // El navegador NUNCA ve la API key; solo habla con esta función.
 
 const SYSTEM_PROMPT = `Eres un Entrenador y Simulador de Ventas de Élite integrado en un sitio web. Tu objetivo es poner a prueba y evaluar el conocimiento en ventas de los usuarios mediante un juego de roles realista basado en la metodología de venta racional de Alex Hormozi. Respondes siempre en español latino.
@@ -44,56 +49,89 @@ Muestra las 3 frases menos efectivas del usuario y reescríbelas según el méto
 1. **Lo que dijiste:** "[frase original]"
    - **Cómo reencuadrarlo:** "[frase optimizada con lógica/riesgo inverso]"`;
 
+// Cascada de modelos GRATIS de Groq (de mejor a más ligero). Si uno falla o
+// se queda sin cupo, se intenta el siguiente automáticamente.
+const MODELOS_DEFAULT = [
+  'llama-3.3-70b-versatile',
+  'llama-3.1-8b-instant',
+  'gemma2-9b-it',
+];
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Método no permitido' });
     return;
   }
 
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) {
-    res.status(500).json({ error: 'Falta configurar ANTHROPIC_API_KEY en Vercel.' });
+    res.status(500).json({ error: 'Falta configurar GROQ_API_KEY en Vercel.' });
     return;
   }
 
+  const modelos = (process.env.GROQ_MODELS || '')
+    .split(',')
+    .map((m) => m.trim())
+    .filter(Boolean);
+  const cascada = modelos.length ? modelos : MODELOS_DEFAULT;
+
   try {
     const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
-    const messages = Array.isArray(body.messages) ? body.messages : [];
-    if (messages.length === 0) {
+    const historial = Array.isArray(body.messages) ? body.messages : [];
+    if (historial.length === 0) {
       res.status(400).json({ error: 'Faltan mensajes.' });
       return;
     }
 
-    // Limitar el historial para controlar costos (últimos 20 turnos)
-    const recorte = messages.slice(-20).map((m) => ({
-      role: m.role === 'assistant' ? 'assistant' : 'user',
-      content: String(m.content || '').slice(0, 4000),
-    }));
+    // Formato OpenAI-compatible: system + historial (últimos 20 turnos)
+    const mensajes = [
+      { role: 'system', content: SYSTEM_PROMPT },
+      ...historial.slice(-20).map((m) => ({
+        role: m.role === 'assistant' ? 'assistant' : 'user',
+        content: String(m.content || '').slice(0, 4000),
+      })),
+    ];
 
-    const r = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-5',
-        max_tokens: 1024,
-        system: SYSTEM_PROMPT,
-        messages: recorte,
-      }),
-    });
+    let ultimoError = '';
+    for (const model of cascada) {
+      try {
+        const r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json',
+            authorization: `Bearer ${apiKey}`,
+          },
+          body: JSON.stringify({
+            model,
+            max_tokens: 1024,
+            temperature: 0.8,
+            messages: mensajes,
+          }),
+        });
 
-    if (!r.ok) {
-      const detalle = await r.text();
-      res.status(502).json({ error: 'Error del proveedor de IA', detalle: detalle.slice(0, 500) });
-      return;
+        // 429 (sin cupo / rate limit) o 5xx → probar el siguiente modelo
+        if (r.status === 429 || r.status >= 500) {
+          ultimoError = `modelo ${model}: HTTP ${r.status}`;
+          continue;
+        }
+        if (!r.ok) {
+          ultimoError = `modelo ${model}: ${(await r.text()).slice(0, 200)}`;
+          continue;
+        }
+
+        const data = await r.json();
+        const texto = data.choices?.[0]?.message?.content?.trim();
+        if (texto) {
+          res.status(200).json({ reply: texto, modelo: model });
+          return;
+        }
+        ultimoError = `modelo ${model}: respuesta vacía`;
+      } catch (err) {
+        ultimoError = `modelo ${model}: ${String(err).slice(0, 150)}`;
+      }
     }
 
-    const data = await r.json();
-    const texto = (data.content || []).map((c) => c.text || '').join('').trim();
-    res.status(200).json({ reply: texto || 'No pude generar respuesta, intenta de nuevo.' });
+    res.status(502).json({ error: 'Todos los modelos gratuitos fallaron o sin cupo.', detalle: ultimoError });
   } catch (e) {
     res.status(500).json({ error: 'Error interno', detalle: String(e).slice(0, 300) });
   }
