@@ -23,11 +23,13 @@ export default {
       typography: {
         DEFAULT: {
           css: {
-            maxWidth: '68ch',
+            maxWidth: '70ch',
+            lineHeight: '1.75',
+            color: '#334155',
           },
         },
       },
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/typography')],
 };
