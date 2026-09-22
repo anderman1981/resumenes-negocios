@@ -7,7 +7,7 @@ import matter from 'gray-matter';
 import { readdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { execSync } from 'node:child_process';
+import { execSync, spawn } from 'node:child_process';
 import { put } from '@vercel/blob';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -94,5 +94,38 @@ app.post('/api/publicar', (req, res) => {
     res.status(500).json({ error: 'Error al publicar: ' + String(e).slice(0, 250) + ' (configura GH_TOKEN o haz git push manual)' });
   }
 });
+
+// ---- Pipeline: ejecutar los scripts de generación ----
+const SCRIPTS = {
+  todo: ['bash', ['scripts/generar-todo.sh']],
+  podcast: ['python3', ['scripts/generar-podcast.py', '_semana/guiones.md']],
+  covers: ['node', ['scripts/generar-covers.mjs']],
+  videos: ['node', ['scripts/generar-video-slides.mjs']],
+  subtitulos: ['python3', ['scripts/generar-subtitulos.py', '--modelo', 'small']],
+  guia: ['python3', ['scripts/generar-guia-pdf.py']],
+  publicar: ['node', ['scripts/publicar-cola.mjs']],
+};
+let job = { running: false, name: null, log: '', code: null };
+function push(txt) { job.log = (job.log + txt).slice(-60000); } // cap ~60KB
+
+app.post('/api/run', (req, res) => {
+  const { script } = req.body || {};
+  if (job.running) return res.status(409).json({ error: 'Ya hay un proceso en curso' });
+  const cmd = SCRIPTS[script];
+  if (!cmd) return res.status(400).json({ error: 'Script no permitido' });
+  job = { running: true, name: script, log: `$ ${cmd[0]} ${cmd[1].join(' ')}\n\n`, code: null };
+  try {
+    const p = spawn(cmd[0], cmd[1], { cwd: REPO });
+    p.stdout.on('data', (d) => push(d.toString()));
+    p.stderr.on('data', (d) => push(d.toString()));
+    p.on('close', (c) => { job.running = false; job.code = c; push(`\n[proceso terminado, código ${c}]\n`); });
+    p.on('error', (e) => { job.running = false; job.code = -1; push(`\n[error: ${e}]\n`); });
+    res.json({ ok: true });
+  } catch (e) {
+    job.running = false;
+    res.status(500).json({ error: String(e).slice(0, 200) });
+  }
+});
+app.get('/api/run/status', (req, res) => res.json(job));
 
 app.listen(PORT, () => console.log(`✅ Admin en http://localhost:${PORT}`));

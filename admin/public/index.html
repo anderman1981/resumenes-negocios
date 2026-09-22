@@ -11,6 +11,7 @@
     <div class="flex items-center gap-2 font-extrabold"><span class="grid h-8 w-8 place-items-center rounded-lg bg-blue-600 text-white">A</span> Admin de contenido</div>
     <div class="flex gap-2">
       <button id="btn-nuevo" class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold hover:bg-slate-50">+ Nuevo</button>
+      <button id="btn-pipeline" class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold hover:bg-slate-50">⚙️ Pipeline</button>
       <button id="btn-publicar" class="rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700">🚀 Publicar (git push)</button>
     </div>
   </header>
@@ -96,6 +97,27 @@
     </main>
   </div>
 
+  <div id="pipe-modal" class="fixed inset-0 z-20 hidden items-center justify-center bg-slate-900/60 p-4">
+    <div class="flex max-h-[85vh] w-full max-w-3xl flex-col rounded-2xl bg-white p-5 shadow-2xl">
+      <div class="flex items-center justify-between">
+        <h2 class="text-lg font-bold">⚙️ Pipeline de generación</h2>
+        <button id="pipe-close" class="text-slate-400 hover:text-slate-700">✕</button>
+      </div>
+      <p class="mt-1 text-sm text-slate-500">Ejecuta los pasos. El log aparece abajo en vivo. (Requiere que el contenedor tenga las herramientas: python, ffmpeg, etc.)</p>
+      <div class="mt-3 flex flex-wrap gap-2">
+        <button data-run="todo" class="pipe-btn rounded-lg bg-slate-900 px-3 py-2 text-sm font-semibold text-white hover:bg-slate-800">▶ Generar TODO</button>
+        <button data-run="podcast" class="pipe-btn rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold hover:bg-slate-50">🎙️ Audios</button>
+        <button data-run="covers" class="pipe-btn rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold hover:bg-slate-50">🖼️ Portadas</button>
+        <button data-run="videos" class="pipe-btn rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold hover:bg-slate-50">🎬 Vídeos</button>
+        <button data-run="subtitulos" class="pipe-btn rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold hover:bg-slate-50">💬 Subtítulos</button>
+        <button data-run="guia" class="pipe-btn rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold hover:bg-slate-50">📄 Guía PDF</button>
+        <button data-run="publicar" class="pipe-btn rounded-lg bg-green-600 px-3 py-2 text-sm font-semibold text-white hover:bg-green-700">🚀 Publicar</button>
+      </div>
+      <div class="mt-3 flex items-center gap-2 text-sm"><span id="pipe-estado" class="font-semibold text-slate-500">Inactivo</span></div>
+      <pre id="pipe-log" class="mt-2 flex-1 overflow-auto rounded-lg bg-slate-900 p-3 font-mono text-xs text-slate-100" style="min-height:240px">(sin salida todavía)</pre>
+    </div>
+  </div>
+
   <script>
     const $ = (s) => document.querySelector(s);
     const form = $('#form');
@@ -169,6 +191,31 @@
       alert(res.ok ? ('✅ ' + (res.msg||'Publicado')) : ('❌ ' + res.error));
       $('#btn-publicar').textContent = '🚀 Publicar (git push)';
     });
+
+    // ---- Pipeline ----
+    const pipeModal = $('#pipe-modal');
+    $('#btn-pipeline').addEventListener('click', () => { pipeModal.classList.remove('hidden'); pipeModal.classList.add('flex'); });
+    $('#pipe-close').addEventListener('click', () => { pipeModal.classList.add('hidden'); pipeModal.classList.remove('flex'); });
+    let polling = null;
+    async function pollEstado() {
+      try {
+        const s = await (await fetch('/api/run/status')).json();
+        $('#pipe-log').textContent = s.log || '(sin salida)';
+        $('#pipe-log').scrollTop = $('#pipe-log').scrollHeight;
+        $('#pipe-estado').textContent = s.running ? ('⏳ Ejecutando: ' + s.name) : (s.name ? ('✅ Terminado: ' + s.name + ' (código ' + s.code + ')') : 'Inactivo');
+        document.querySelectorAll('.pipe-btn').forEach((b) => b.disabled = s.running);
+        if (!s.running && polling) { clearInterval(polling); polling = null; }
+      } catch (e) {}
+    }
+    document.querySelectorAll('.pipe-btn').forEach((b) => b.addEventListener('click', async () => {
+      const script = b.dataset.run;
+      if (script === 'todo' && !confirm('Ejecutar TODO el pipeline (audios, portadas, vídeos, subtítulos, guía y publicar)?')) return;
+      const r = await fetch('/api/run', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ script }) });
+      const res = await r.json();
+      if (!res.ok) return alert(res.error || 'Error');
+      if (!polling) polling = setInterval(pollEstado, 1500);
+      pollEstado();
+    }));
 
     cargarLista();
   </script>
