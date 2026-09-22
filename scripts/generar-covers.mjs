@@ -10,13 +10,14 @@ const AZUL = '#1f47f5';
 const TEAL = '#14b8a6';
 
 const DIAS = [
-  { n: 1, t: ['Filosofía de la', 'venta racional'], slug: 'dia-1' },
-  { n: 2, t: ['Obstáculos', 'vs. objeciones'], slug: 'dia-2' },
-  { n: 3, t: ['Barreras de', 'tiempo y dinero'], slug: 'dia-3' },
-  { n: 4, t: ['Ajuste y', 'autoridad'], slug: 'dia-4' },
-  { n: 5, t: ['"Necesito', 'pensarlo"'], slug: 'dia-5' },
-  { n: 6, t: ['El marco', 'CLOSER'], slug: 'dia-6' },
-  { n: 7, t: ['Tonalidad', 'y práctica'], slug: 'dia-7' },
+  { n: 0, t: ['Introducción', 'a la Guía'], slug: 'dia-0-introduccion' },
+  { n: 1, t: ['Filosofía de la', 'venta racional'], slug: 'la-arquitectura-de-la-decision' },
+  { n: 2, t: ['Obstáculos', 'vs. objeciones'], slug: 'psicologia-tactica-de-la-venta' },
+  { n: 3, t: ['Barreras de', 'tiempo y dinero'], slug: 'desarmar-barreras-tiempo-dinero' },
+  { n: 4, t: ['Ajuste y', 'autoridad'], slug: 'reencuadrar-ajuste-y-autoridad' },
+  { n: 5, t: ['"Necesito', 'pensarlo"'], slug: 'neutralizar-el-necesito-pensarlo' },
+  { n: 6, t: ['El marco', 'CLOSER'], slug: 'el-marco-closer' },
+  { n: 7, t: ['Tonalidad', 'y práctica'], slug: 'practica-tonalidad-y-game-tape' },
 ];
 
 function svg({ n, t }) {

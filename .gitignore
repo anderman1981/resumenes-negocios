@@ -27,3 +27,6 @@ podcast-covers/
 podcast-audio/
 # cola procesada
 _cola/_publicados/
+
+# videos de podcast generados (subir a YouTube, no al deploy)
+videos-podcast/
