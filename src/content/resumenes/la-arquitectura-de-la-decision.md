@@ -18,6 +18,7 @@ serie: "vender-mejor-99"
 serieNombre: "Cómo vender mejor que el 99% de las personas"
 dia: 1
 audio: "/audio/la-arquitectura-de-la-decision.mp3"
+spotify: "https://open.spotify.com/episode/0x0UYXuIMf7coYUlbtBEzw"
 ---
 
 ## De qué trata

@@ -18,6 +18,7 @@ serie: "vender-mejor-99"
 serieNombre: "Cómo vender mejor que el 99% de las personas"
 dia: 2
 audio: "/audio/psicologia-tactica-de-la-venta.mp3"
+spotify: "https://open.spotify.com/episode/7vok8jopf7peow631Xm29B"
 ---
 
 ## De qué trata
