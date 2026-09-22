@@ -26,6 +26,7 @@ const resumenes = defineCollection({
     youtube: z.string().optional(),        // ID del vídeo de YouTube (ej: "dQw4w9WgXcQ")
     spotify: z.string().optional(),        // ID o URL del episodio de Spotify
     audio: z.string().optional(),          // ruta del audio local, ej: "/audio/dia-1.mp3"
+    audioPublico: z.string().optional(),   // URL pública del audio (para el feed de podcast RSS)
     guiaFinal: z.boolean().default(false), // true = último día, ofrece la Guía Maestra
     // --- Descarga de PDF por día ---
     pdf: z.string().optional(),            // ruta del PDF descargable, ej: "/guias/mi-guia.pdf"
