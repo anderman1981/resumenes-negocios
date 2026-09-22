@@ -108,6 +108,56 @@ Pasos de la API (una vez):
 
 ---
 
+## 🗓️ Calendario semanal automatizado (tu flujo Vie–Sáb–Dom)
+
+### VIERNES–SÁBADO — Contenido en NotebookLM (manual, tú)
+- Subes el material y generas en NotebookLM el **guion del podcast** y los **audios**.
+- Descargas los audios a `podcast-audio/` con el nombre del día (ej. `dia-1-<slug>.mp3`).
+- Guardas el guion de la semana en `_semana/guiones.md` (formato Host A / Host B).
+
+### SÁBADO — PDFs y textos (semiautomático)
+- Creas cada artículo en `_cola/<slug>/resumen.md` (con su `fecha` = el día que sale).
+- Los **textos de Spotify/YouTube** los tienes en los guiones y en `youtube/guiones-youtube.md`.
+
+### DOMINGO — Un comando genera y publica TODO
+```bash
+bash scripts/generar-todo.sh
+```
+Esto ejecuta en orden: audios → portadas → vídeos → subtítulos ES/EN → guía PDF →
+publica las páginas (git push → Vercel). Deja los assets listos en:
+`podcast-audio/`, `podcast-covers/`, `videos-podcast/`, `subtitulos/`.
+
+### DIARIO — Activación automática (sin tocar nada)
+- **Web:** cada artículo aparece solo en su `fecha` (goteo) gracias al **rebuild diario**
+  (`.github/workflows/rebuild-diario.yml`).
+- **Spotify:** si usas el feed `/podcast.xml` (audio en URL pública), los episodios se
+  publican solos en su fecha. Si subes manual, programa la fecha en Spotify.
+- **YouTube:** con n8n + YouTube API, un Schedule diario sube el vídeo del día.
+
+### Programar el DOMINGO en tu Mac (launchd)
+`~/Library/LaunchAgents/com.resumenes.semanal.plist`
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+  <key>Label</key><string>com.resumenes.semanal</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/zsh</string><string>-lc</string>
+    <string>cd /Users/andersonmartinezrestrepo/DEV-PROJECTS/01-active/landings/googleads && bash scripts/generar-todo.sh >> /tmp/semanal.log 2>&1</string>
+  </array>
+  <key>StartCalendarInterval</key>
+  <dict><key>Weekday</key><integer>0</integer><key>Hour</key><integer>9</integer><key>Minute</key><integer>0</integer></dict>
+</dict></plist>
+```
+Actívalo: `launchctl load ~/Library/LaunchAgents/com.resumenes.semanal.plist`
+(Weekday 0 = domingo, a las 9:00. Corre el orquestador solo.)
+
+> ⚠️ El Mac debe estar encendido a esa hora. Si prefieres que corra "aunque me
+> acuerde tarde", usa `StartInterval` o revisa el log en `/tmp/semanal.log`.
+
+---
+
 ## Checklist del domingo (tu rutina de 20 min)
 - [ ] Genero en NotebookLM el resumen + audio y los descargo.
 - [ ] Creo `_cola/<slug>/` con `resumen.md` (con `fecha` del día), `portada.png`, `guia.pdf`.
