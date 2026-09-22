@@ -18,6 +18,7 @@ serie: "vender-mejor-99"
 serieNombre: "Cómo vender mejor que el 99% de las personas"
 dia: 5
 audio: "/audio/neutralizar-el-necesito-pensarlo.mp3"
+spotify: "https://open.spotify.com/episode/5wCUQqfwvQ1MxfTKCzYPJ2"
 ---
 
 ## De qué trata

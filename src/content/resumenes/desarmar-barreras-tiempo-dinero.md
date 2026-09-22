@@ -18,6 +18,7 @@ serie: "vender-mejor-99"
 serieNombre: "Cómo vender mejor que el 99% de las personas"
 dia: 3
 audio: "/audio/desarmar-barreras-tiempo-dinero.mp3"
+spotify: "https://open.spotify.com/episode/1x0v5lDaIGyrAuT9LwcYC6"
 ---
 
 ## De qué trata

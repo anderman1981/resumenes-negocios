@@ -18,6 +18,7 @@ serie: "vender-mejor-99"
 serieNombre: "Cómo vender mejor que el 99% de las personas"
 dia: 6
 audio: "/audio/el-marco-closer.mp3"
+spotify: "https://open.spotify.com/episode/5orCNJZTdjupf543jRhfF3"
 ---
 
 ## De qué trata

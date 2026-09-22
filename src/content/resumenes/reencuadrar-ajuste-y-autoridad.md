@@ -18,6 +18,7 @@ serie: "vender-mejor-99"
 serieNombre: "Cómo vender mejor que el 99% de las personas"
 dia: 4
 audio: "/audio/reencuadrar-ajuste-y-autoridad.mp3"
+spotify: "https://open.spotify.com/episode/5CQBZoV6uEOxB9gsWwU3R6"
 ---
 
 ## De qué trata
