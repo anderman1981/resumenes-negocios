@@ -76,24 +76,6 @@ export default async function handler(req, res) {
     return;
   }
 
-  // Diagnóstico de lectura (temporal)
-  if (req.method === 'GET' && req.query?.debug) {
-    try {
-      const { blobs } = await list({ prefix: ARCHIVO, token: TOKEN });
-      const b = blobs.find((x) => x.pathname === ARCHIVO);
-      let dl = null, urlStatus = null, dlStatus = null, contenido = null;
-      if (b) {
-        dl = b.downloadUrl || null;
-        try { const r1 = await fetch(b.url, { cache: 'no-store' }); urlStatus = r1.status; } catch (e) { urlStatus = 'err'; }
-        if (b.downloadUrl) { try { const r2 = await fetch(b.downloadUrl, { cache: 'no-store' }); dlStatus = r2.status; contenido = (await r2.text()).slice(0, 100); } catch (e) { dlStatus = 'err'; } }
-      }
-      res.status(200).json({ blobsEncontrados: blobs.length, pathnames: blobs.map((x) => x.pathname), tieneDownloadUrl: Boolean(dl), urlStatus, dlStatus, muestraContenido: contenido });
-    } catch (e) {
-      res.status(200).json({ errorLista: String(e).slice(0, 200) });
-    }
-    return;
-  }
-
   // Listar comentarios de un artículo
   if (req.method === 'GET') {
     const slug = limpiar(req.query?.slug, 200);
