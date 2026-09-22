@@ -24,7 +24,8 @@ const resumenes = defineCollection({
     dia: z.number().optional(),            // número de módulo/día dentro de la serie
     // --- Multimedia ---
     youtube: z.string().optional(),        // ID del vídeo de YouTube (ej: "dQw4w9WgXcQ")
-    audio: z.string().optional(),          // ruta del audio, ej: "/audio/dia-1.mp3"
+    spotify: z.string().optional(),        // ID o URL del episodio de Spotify
+    audio: z.string().optional(),          // ruta del audio local, ej: "/audio/dia-1.mp3"
     guiaFinal: z.boolean().default(false), // true = último día, ofrece la Guía Maestra
     // --- Descarga de PDF por día ---
     pdf: z.string().optional(),            // ruta del PDF descargable, ej: "/guias/mi-guia.pdf"

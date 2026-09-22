@@ -1,13 +1,38 @@
 ---
 interface Props {
   youtube?: string;
+  spotify?: string;
   audio?: string;
   titulo?: string;
 }
-const { youtube, audio, titulo = '' } = Astro.props;
+const { youtube, spotify, audio, titulo = '' } = Astro.props;
+
+// Acepta un ID o una URL completa de episodio de Spotify y extrae el ID.
+let spotifyId = '';
+if (spotify) {
+  const m = spotify.match(/episode\/([A-Za-z0-9]+)/);
+  spotifyId = m ? m[1] : spotify.trim();
+}
 ---
 
-{audio && (
+{spotifyId && (
+  <div class="mt-8">
+    <p class="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-700">
+      🎧 Escucha este resumen (podcast)
+    </p>
+    <iframe
+      class="w-full rounded-2xl"
+      style="height:152px"
+      src={`https://open.spotify.com/embed/episode/${spotifyId}`}
+      title={titulo}
+      loading="lazy"
+      frameborder="0"
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+    ></iframe>
+  </div>
+)}
+
+{!spotifyId && audio && (
   <div class="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-5">
     <p class="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-700">
       🎧 Escucha este resumen
