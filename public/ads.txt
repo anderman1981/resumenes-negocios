@@ -1,3 +1,1 @@
-# Google AdSense — ads.txt
-# Cuando te aprueben AdSense, descomenta la línea de abajo y pon tu número de editor (pub-XXXX):
-# google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0
+google.com, pub-3104464003716869, DIRECT, f08c47fec0942fa0

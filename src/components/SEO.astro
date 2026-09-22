@@ -54,9 +54,14 @@ const imageUrl = new URL(image, SITE.url).href;
   href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
 />
 
-<!--
-  El script de Google AdSense NO se carga aquí directamente: se carga solo cuando
-  el usuario ACEPTA las cookies (ver src/components/CookieConsent.astro), para
-  cumplir con las políticas de consentimiento. El id de editor se define en src/config.mjs.
--->
-{ADSENSE.client && <meta name="google-adsense-account" content={ADSENSE.client} />}
+<!-- Google AdSense: script de verificación y anuncios automáticos (todas las páginas) -->
+{ADSENSE.client && (
+  <>
+    <meta name="google-adsense-account" content={ADSENSE.client} />
+    <script
+      async
+      src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE.client}`}
+      crossorigin="anonymous"
+    ></script>
+  </>
+)}

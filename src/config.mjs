@@ -26,7 +26,7 @@ export const SITE = {
 //  Mientras esté vacío, NO se cargan anuncios (así puedes desarrollar tranquilo).
 // =============================================================
 export const ADSENSE = {
-  client: '', // ej: 'ca-pub-1234567890123456'
+  client: 'ca-pub-3104464003716869',
   // Slots de anuncios (los creas en el panel de AdSense y pegas el número)
   slots: {
     inArticle: '',   // anuncio dentro del artículo

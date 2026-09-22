@@ -1,10 +1,7 @@
 ---
-// Aviso de cookies. Registra la elección del usuario y solo carga los anuncios
-// (Google AdSense) cuando el usuario ACEPTA. Para tráfico de la UE/EEE, además
-// activa el CMP certificado gratuito de Google en tu panel de AdSense
-// (Privacidad y mensajes). Ver DEPLOY.md.
-import { ADSENSE } from '../config.mjs';
-const client = ADSENSE.client;
+// Aviso de cookies (informativo). El script de AdSense se carga en el <head>
+// (ver SEO.astro). Para el consentimiento de la UE/EEE usa el CMP certificado
+// gratuito de Google: AdSense → Privacidad y mensajes. Ver DEPLOY.md.
 ---
 
 <div id="cookie-banner" class="fixed inset-x-0 bottom-0 z-50 hidden p-4">
@@ -15,9 +12,9 @@ const client = ADSENSE.client;
       <a href="/cookies" class="font-semibold text-brand-600 hover:underline">Política de Cookies</a>.
     </p>
     <div class="flex shrink-0 gap-2">
-      <button id="cookie-reject" class="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50">
-        Rechazar
-      </button>
+      <a href="/cookies" class="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50">
+        Más info
+      </a>
       <button id="cookie-accept" class="rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700">
         Aceptar
       </button>
@@ -25,41 +22,14 @@ const client = ADSENSE.client;
   </div>
 </div>
 
-<script define:vars={{ client }}>
+<script>
   const KEY = 'cookie-consent-v1';
   const banner = document.getElementById('cookie-banner');
-
-  function cargarAnuncios() {
-    if (!client || window.__adsCargados) return;
-    window.__adsCargados = true;
-    const s = document.createElement('script');
-    s.async = true;
-    s.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${client}`;
-    s.crossOrigin = 'anonymous';
-    document.head.appendChild(s);
-    // Renderizar los bloques de anuncios ya presentes en la página
-    document.querySelectorAll('ins.adsbygoogle').forEach(() => {
-      try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (e) {}
-    });
-  }
-
-  function decidir(valor) {
-    try { localStorage.setItem(KEY, valor); } catch (e) {}
-    banner?.classList.add('hidden');
-    if (valor === 'accept') cargarAnuncios();
-  }
-
   let estado = null;
   try { estado = localStorage.getItem(KEY); } catch (e) {}
-
-  if (estado === 'accept') {
-    cargarAnuncios();
-  } else if (estado === 'reject') {
-    // no cargamos anuncios
-  } else {
-    banner?.classList.remove('hidden');
-  }
-
-  document.getElementById('cookie-accept')?.addEventListener('click', () => decidir('accept'));
-  document.getElementById('cookie-reject')?.addEventListener('click', () => decidir('reject'));
+  if (!estado) banner?.classList.remove('hidden');
+  document.getElementById('cookie-accept')?.addEventListener('click', () => {
+    try { localStorage.setItem(KEY, 'accept'); } catch (e) {}
+    banner?.classList.add('hidden');
+  });
 </script>
