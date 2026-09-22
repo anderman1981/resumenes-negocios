@@ -13,9 +13,16 @@ import { put, list } from '@vercel/blob';
 
 const ARCHIVO = 'suscriptores.json';
 
+function blobToken() {
+  if (process.env.BLOB_READ_WRITE_TOKEN) return process.env.BLOB_READ_WRITE_TOKEN;
+  const par = Object.entries(process.env).find(([k]) => k.endsWith('_READ_WRITE_TOKEN'));
+  return par ? par[1] : undefined;
+}
+const TOKEN = blobToken();
+
 async function leerTodo() {
   try {
-    const { blobs } = await list({ prefix: ARCHIVO });
+    const { blobs } = await list({ prefix: ARCHIVO, token: TOKEN });
     const b = blobs.find((x) => x.pathname === ARCHIVO);
     if (!b) return [];
     const r = await fetch(b.downloadUrl || b.url, { cache: 'no-store' });
@@ -33,6 +40,7 @@ async function guardarTodo(lista) {
     contentType: 'application/json',
     addRandomSuffix: false,
     allowOverwrite: true,
+    token: TOKEN,
   });
 }
 
@@ -41,7 +49,7 @@ function emailValido(e) {
 }
 
 export default async function handler(req, res) {
-  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+  if (!TOKEN) {
     res.status(500).json({ error: 'Falta el store de Vercel Blob (BLOB_READ_WRITE_TOKEN).' });
     return;
   }

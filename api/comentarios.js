@@ -14,12 +14,20 @@ import { put, list } from '@vercel/blob';
 
 const ARCHIVO = 'comentarios.json';
 
+// Vercel puede nombrar el token del Blob con un prefijo del store, no siempre
+// exactamente BLOB_READ_WRITE_TOKEN. Detectamos cualquier *_READ_WRITE_TOKEN.
+function blobToken() {
+  if (process.env.BLOB_READ_WRITE_TOKEN) return process.env.BLOB_READ_WRITE_TOKEN;
+  const par = Object.entries(process.env).find(([k]) => k.endsWith('_READ_WRITE_TOKEN'));
+  return par ? par[1] : undefined;
+}
+const TOKEN = blobToken();
+
 async function leerTodo() {
   try {
-    const { blobs } = await list({ prefix: ARCHIVO });
+    const { blobs } = await list({ prefix: ARCHIVO, token: TOKEN });
     const b = blobs.find((x) => x.pathname === ARCHIVO);
     if (!b) return [];
-    // Con access:'private', downloadUrl es una URL firmada; url puede no ser pública.
     const enlace = b.downloadUrl || b.url;
     const r = await fetch(enlace, { cache: 'no-store' });
     if (!r.ok) return [];
@@ -36,6 +44,7 @@ async function guardarTodo(lista) {
     contentType: 'application/json',
     addRandomSuffix: false,
     allowOverwrite: true,
+    token: TOKEN,
   });
 }
 
@@ -44,7 +53,7 @@ function limpiar(str, max) {
 }
 
 export default async function handler(req, res) {
-  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+  if (!TOKEN) {
     res.status(500).json({ error: 'Falta el store de Vercel Blob (BLOB_READ_WRITE_TOKEN).' });
     return;
   }
