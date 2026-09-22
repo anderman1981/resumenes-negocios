@@ -1,8 +1,15 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Métodos/autores disponibles (deben coincidir con los de api/simulador.js)
+const METODOS = [
+  { id: 'hormozi', nombre: 'Alex Hormozi — Venta racional' },
+  { id: 'carnegie', nombre: 'Dale Carnegie — Influencia y relaciones' },
+  { id: 'consultivo', nombre: 'Venta consultiva — Preguntas SPIN' },
+];
 ---
 
-<BaseLayout title="Simulador de Ventas con IA" description="Practica tus ventas contra un cliente resistente generado por IA y recibe una auditoría instantánea (Game Tape Review) con el método Alex Hormozi.">
+<BaseLayout title="Simulador de Ventas con IA" description="Practica tus ventas contra un cliente resistente generado por IA y recibe una auditoría instantánea. Elige el método: Hormozi, Carnegie o venta consultiva.">
   <section class="border-b border-slate-100 bg-gradient-to-b from-slate-50 to-white">
     <div class="mx-auto max-w-3xl px-4 py-12 text-center">
       <span class="inline-block rounded-full bg-brand-100 px-3 py-1 text-sm font-semibold text-brand-700">Práctica interactiva</span>
@@ -11,8 +18,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </h1>
       <p class="mx-auto mt-3 max-w-xl text-lg text-slate-600">
         Enfréntate a un prospecto resistente generado por IA. Al terminar, escribe
-        <strong>EVALUAR</strong> y recibe tu auditoría con el método Alex Hormozi.
+        <strong>EVALUAR</strong> y recibe tu auditoría.
       </p>
+
+      <div class="mx-auto mt-6 flex max-w-md flex-col items-center gap-2">
+        <label for="metodo" class="text-sm font-semibold text-slate-700">Elige el método / autor:</label>
+        <select id="metodo" class="w-full rounded-xl border border-slate-200 px-4 py-2.5 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100">
+          {METODOS.map((m) => <option value={m.id}>{m.nombre}</option>)}
+        </select>
+        <p class="text-xs text-slate-400">Al cambiar el método se reinicia la simulación.</p>
+      </div>
     </div>
   </section>
 
@@ -42,7 +57,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     const form = document.getElementById('chat-form');
     const input = document.getElementById('chat-input');
     const send = document.getElementById('chat-send');
-    const mensajes = [];
+    const metodoSel = document.getElementById('metodo');
+    let mensajes = [];
 
     function burbuja(role, texto) {
       const wrap = document.createElement('div');
@@ -68,7 +84,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         const r = await fetch('/api/simulador', {
           method: 'POST',
           headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({ messages: mensajes }),
+          body: JSON.stringify({ messages: mensajes, metodo: metodoSel.value }),
         });
         const data = await r.json();
         const reply = data.reply || data.error || 'Error al responder.';
@@ -83,13 +99,22 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       }
     }
 
+    function iniciar() {
+      mensajes = [];
+      chat.innerHTML = '';
+      enviar('Hola, quiero empezar la simulación.');
+    }
+
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       const texto = input.value.trim();
       if (texto) enviar(texto);
     });
 
-    // Arranque: pedir el onboarding automáticamente
-    window.addEventListener('load', () => enviar('Hola, quiero empezar la simulación.'));
+    // Reiniciar la simulación al cambiar de método/autor
+    metodoSel.addEventListener('change', iniciar);
+
+    // Arranque automático
+    window.addEventListener('load', iniciar);
   </script>
 </BaseLayout>
