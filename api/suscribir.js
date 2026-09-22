@@ -51,6 +51,17 @@ function emailValido(e) {
 }
 
 export default async function handler(req, res) {
+  // Diagnóstico temporal: lista NOMBRES de variables relacionadas (sin valores).
+  if (req.method === 'GET' && req.query?.diag) {
+    const nombres = Object.keys(process.env).filter((k) => /blob|token|read_write|rw/i.test(k));
+    res.status(200).json({
+      variablesRelacionadas: nombres,
+      tokenDetectado: Boolean(TOKEN),
+      groqPresente: Boolean(process.env.GROQ_API_KEY),
+    });
+    return;
+  }
+
   if (!TOKEN) {
     res.status(500).json({ error: 'Falta el store de Vercel Blob (BLOB_READ_WRITE_TOKEN).' });
     return;
