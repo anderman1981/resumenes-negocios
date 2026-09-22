@@ -49,13 +49,36 @@ Muestra las 3 frases menos efectivas del usuario y reescríbelas según el méto
 1. **Lo que dijiste:** "[frase original]"
    - **Cómo reencuadrarlo:** "[frase optimizada con lógica/riesgo inverso]"`;
 
-// Cascada de modelos GRATIS de Groq (de mejor a más ligero). Si uno falla o
-// se queda sin cupo, se intenta el siguiente automáticamente.
-const MODELOS_DEFAULT = [
+// Modelos preferidos (si están disponibles en la cuenta). El orden importa.
+const PREFERIDOS = [
   'llama-3.3-70b-versatile',
   'llama-3.1-8b-instant',
-  'gemma2-9b-it',
+  'openai/gpt-oss-120b',
+  'openai/gpt-oss-20b',
+  'moonshotai/kimi-k2-instruct',
+  'qwen/qwen3-32b',
+  'deepseek-r1-distill-llama-70b',
 ];
+
+// Descubre los modelos de chat realmente disponibles en la cuenta de Groq,
+// para no romperse cuando Groq retira o renombra alguno.
+async function descubrirModelos(apiKey) {
+  try {
+    const r = await fetch('https://api.groq.com/openai/v1/models', {
+      headers: { authorization: `Bearer ${apiKey}` },
+    });
+    if (!r.ok) return [];
+    const d = await r.json();
+    const excluir = /whisper|tts|guard|embedding|embed|distil-whisper|prompt-guard|safety|allam/i;
+    const ids = (d.data || []).map((m) => m.id).filter((id) => id && !excluir.test(id));
+    // Preferidos primero (si existen), luego el resto disponible.
+    const enCuenta = PREFERIDOS.filter((p) => ids.includes(p));
+    const resto = ids.filter((id) => !PREFERIDOS.includes(id));
+    return [...enCuenta, ...resto];
+  } catch (e) {
+    return [];
+  }
+}
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -73,7 +96,11 @@ export default async function handler(req, res) {
     .split(',')
     .map((m) => m.trim())
     .filter(Boolean);
-  const cascada = modelos.length ? modelos : MODELOS_DEFAULT;
+  // Usa la lista fija de GROQ_MODELS si la definiste; si no, descubre los
+  // modelos disponibles en tu cuenta; si eso falla, usa los preferidos.
+  let cascada = modelos;
+  if (!cascada.length) cascada = await descubrirModelos(apiKey);
+  if (!cascada.length) cascada = PREFERIDOS;
 
   try {
     const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
