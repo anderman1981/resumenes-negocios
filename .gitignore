@@ -22,7 +22,8 @@ _fuentes/
 .vercel
 .env*
 
-# portadas de podcast generadas (subir manual a Spotify, no al deploy)
+# portadas y audios de podcast generados (subir a Spotify, no al deploy)
 podcast-covers/
+podcast-audio/
 # cola procesada
 _cola/_publicados/
