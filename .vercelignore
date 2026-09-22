@@ -1,0 +1,9 @@
+# Archivos que NO deben subirse a Vercel (evita el límite de 100 MB por archivo)
+videos/
+_fuentes/
+dist/
+node_modules/
+.git/
+*.m4a
+*.mp3
+*.mp4

@@ -5,9 +5,12 @@ interface Props {
   titulo?: string;
 }
 const { youtube, audio, titulo = '' } = Astro.props;
+// Solo mostramos el reproductor si el audio está alojado (URL completa http),
+// para no romper el deploy con archivos pesados. Los audios se sirven vía CDN/Blob.
+const audioHosted = audio && /^https?:\/\//.test(audio);
 ---
 
-{audio && (
+{audioHosted && (
   <div class="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-5">
     <p class="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-700">
       🎧 Escucha este resumen

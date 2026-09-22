@@ -19,3 +19,5 @@ videos/
 
 # materiales fuente (PDFs/audios originales; no van al repo público)
 _fuentes/
+.vercel
+.env*
