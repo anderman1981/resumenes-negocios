@@ -30,3 +30,6 @@ _cola/_publicados/
 
 # videos de podcast generados (subir a YouTube, no al deploy)
 videos-podcast/
+
+# subtitulos generados
+subtitulos/
