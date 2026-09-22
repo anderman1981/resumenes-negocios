@@ -17,7 +17,7 @@ tags: ["ventas", "closer", "estructura", "cierre", "hormozi"]
 serie: "vender-mejor-99"
 serieNombre: "Cómo vender mejor que el 99% de las personas"
 dia: 6
-audio: "/audio/dia-6.m4a"
+audio: "/audio/el-marco-closer.mp3"
 ---
 
 ## De qué trata

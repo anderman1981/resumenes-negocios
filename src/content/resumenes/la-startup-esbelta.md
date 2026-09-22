@@ -14,6 +14,7 @@ fecha: 2026-08-11
 destacado: false
 borrador: false
 tags: ["emprendimiento", "startup", "producto", "validación"]
+audio: "/audio/la-startup-esbelta.mp3"
 ---
 
 ## De qué trata

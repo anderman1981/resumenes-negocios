@@ -17,7 +17,7 @@ tags: ["ventas", "tonalidad", "práctica", "cierre", "hormozi"]
 serie: "vender-mejor-99"
 serieNombre: "Cómo vender mejor que el 99% de las personas"
 dia: 7
-audio: "/audio/dia-7.m4a"
+audio: "/audio/practica-tonalidad-y-game-tape.mp3"
 guiaFinal: true
 ---
 

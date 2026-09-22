@@ -14,6 +14,7 @@ fecha: 2026-09-19
 destacado: false
 borrador: false
 tags: ["ecommerce", "embudos", "conversión", "ventas online"]
+audio: "/audio/dotcom-secrets.mp3"
 ---
 
 ## De qué trata

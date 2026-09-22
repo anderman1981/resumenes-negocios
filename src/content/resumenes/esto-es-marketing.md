@@ -14,6 +14,7 @@ fecha: 2026-09-01
 destacado: true
 borrador: false
 tags: ["marketing digital", "marca", "posicionamiento", "storytelling"]
+audio: "/audio/esto-es-marketing.mp3"
 ---
 
 ## De qué trata

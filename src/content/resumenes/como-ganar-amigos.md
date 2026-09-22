@@ -14,6 +14,7 @@ fecha: 2026-08-25
 destacado: false
 borrador: false
 tags: ["ventas", "comunicación", "persuasión", "relaciones"]
+audio: "/audio/como-ganar-amigos.mp3"
 ---
 
 ## De qué trata

@@ -17,7 +17,7 @@ tags: ["ventas", "objeciones", "identidad", "autoridad", "hormozi"]
 serie: "vender-mejor-99"
 serieNombre: "Cómo vender mejor que el 99% de las personas"
 dia: 4
-audio: "/audio/dia-4.m4a"
+audio: "/audio/reencuadrar-ajuste-y-autoridad.mp3"
 ---
 
 ## De qué trata

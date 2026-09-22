@@ -17,7 +17,7 @@ tags: ["ventas", "persuasión", "psicología", "objeciones", "confianza"]
 serie: "vender-mejor-99"
 serieNombre: "Cómo vender mejor que el 99% de las personas"
 dia: 1
-audio: "/audio/dia-1.m4a"
+audio: "/audio/la-arquitectura-de-la-decision.mp3"
 ---
 
 ## De qué trata

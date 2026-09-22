@@ -14,6 +14,7 @@ fecha: 2026-08-04
 destacado: true
 borrador: false
 tags: ["productividad", "hábitos", "disciplina", "mejora continua"]
+audio: "/audio/habitos-atomicos.mp3"
 ---
 
 ## De qué trata

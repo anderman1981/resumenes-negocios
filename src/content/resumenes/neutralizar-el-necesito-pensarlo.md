@@ -17,7 +17,7 @@ tags: ["ventas", "objeciones", "postergación", "decisión", "hormozi"]
 serie: "vender-mejor-99"
 serieNombre: "Cómo vender mejor que el 99% de las personas"
 dia: 5
-audio: "/audio/dia-5.m4a"
+audio: "/audio/neutralizar-el-necesito-pensarlo.mp3"
 ---
 
 ## De qué trata

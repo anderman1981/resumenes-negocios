@@ -14,6 +14,7 @@ fecha: 2026-09-12
 destacado: false
 borrador: false
 tags: ["productividad", "concentración", "enfoque", "hábitos"]
+audio: "/audio/trabajo-profundo.mp3"
 ---
 
 ## De qué trata

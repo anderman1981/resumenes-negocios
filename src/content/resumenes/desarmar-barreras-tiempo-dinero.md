@@ -17,7 +17,7 @@ tags: ["ventas", "objeciones", "tiempo", "dinero", "hormozi"]
 serie: "vender-mejor-99"
 serieNombre: "Cómo vender mejor que el 99% de las personas"
 dia: 3
-audio: "/audio/dia-3.m4a"
+audio: "/audio/desarmar-barreras-tiempo-dinero.mp3"
 ---
 
 ## De qué trata

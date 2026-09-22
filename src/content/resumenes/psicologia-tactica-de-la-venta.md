@@ -17,7 +17,7 @@ tags: ["ventas", "objeciones", "psicología", "cierre", "hormozi"]
 serie: "vender-mejor-99"
 serieNombre: "Cómo vender mejor que el 99% de las personas"
 dia: 2
-audio: "/audio/dia-2.m4a"
+audio: "/audio/psicologia-tactica-de-la-venta.mp3"
 ---
 
 ## De qué trata

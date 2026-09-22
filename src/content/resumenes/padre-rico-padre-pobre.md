@@ -14,6 +14,7 @@ fecha: 2026-08-18
 destacado: true
 borrador: false
 tags: ["finanzas personales", "inversión", "activos", "libertad financiera"]
+audio: "/audio/padre-rico-padre-pobre.mp3"
 ---
 
 ## De qué trata

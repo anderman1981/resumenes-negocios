@@ -14,6 +14,7 @@ fecha: 2026-09-16
 destacado: false
 borrador: false
 tags: ["emprendimiento", "innovación", "estrategia", "startups"]
+audio: "/audio/de-cero-a-uno.mp3"
 ---
 
 ## De qué trata

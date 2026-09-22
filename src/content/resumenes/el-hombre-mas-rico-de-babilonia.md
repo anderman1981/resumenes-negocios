@@ -14,6 +14,7 @@ fecha: 2026-09-08
 destacado: false
 borrador: false
 tags: ["finanzas personales", "ahorro", "inversión", "hábitos"]
+audio: "/audio/el-hombre-mas-rico-de-babilonia.mp3"
 ---
 
 ## De qué trata
