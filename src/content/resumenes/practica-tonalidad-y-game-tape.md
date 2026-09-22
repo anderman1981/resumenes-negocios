@@ -72,10 +72,10 @@ Lo que separa al profesional del amateur: **grabar y revisar tus propias llamada
 
 Dominar las ventas no es memorizar un guion, sino construir un sistema que se afina en cada conversación: preparar la convicción, dejar que gobierne la tonalidad, cerrar con el bucle y aprender de la grabación. Con esto se cierra la serie completa — de la filosofía (Día 1) a la ejecución maestra (Día 7).
 
-## 🎁 Tu recompensa: la Guía Maestra
+## Has completado la serie
 
-Has completado los 7 días. Descarga el resumen completo de toda la serie en un solo documento:
+Estos son los 7 días del método, resumidos con nuestras palabras. Repasa cualquier lección cuando la necesites:
 
-<a href="/guias/guia-maestra-ventas-7-dias.pdf" download class="mt-2 inline-block rounded-xl bg-brand-600 px-6 py-3 font-semibold text-white no-underline hover:bg-brand-700">📥 Descargar la Guía Maestra (PDF)</a>
+<a href="/curso/vender-mejor-99" class="mt-2 inline-block rounded-xl bg-brand-600 px-6 py-3 font-semibold text-white no-underline hover:bg-brand-700">Ver la serie completa</a>
 
-> Resumen original con fines educativos del material de Alex Hormozi (Acquisition.com). No reproduce las diapositivas originales.
+> Resumen original con fines educativos del material de Alex Hormozi (Acquisition.com). No reproduce las diapositivas ni el material original.
