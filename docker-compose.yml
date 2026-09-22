@@ -1,0 +1,14 @@
+services:
+  admin:
+    build: ./admin
+    container_name: resumenes-admin
+    ports:
+      - "4322:4322"
+    volumes:
+      - .:/repo
+    environment:
+      - REPO_DIR=/repo
+      - BLOB_READ_WRITE_TOKEN=${BLOB_READ_WRITE_TOKEN:-}
+      - GH_TOKEN=${GH_TOKEN:-}
+      - GH_REPO=${GH_REPO:-anderman1981/resumenes-negocios}
+    restart: unless-stopped

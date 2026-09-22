@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin · Resúmenes de Negocios</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 text-slate-800">
+  <header class="sticky top-0 z-10 flex items-center justify-between border-b border-slate-200 bg-white px-4 py-3">
+    <div class="flex items-center gap-2 font-extrabold"><span class="grid h-8 w-8 place-items-center rounded-lg bg-blue-600 text-white">A</span> Admin de contenido</div>
+    <div class="flex gap-2">
+      <button id="btn-nuevo" class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold hover:bg-slate-50">+ Nuevo</button>
+      <button id="btn-publicar" class="rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700">🚀 Publicar (git push)</button>
+    </div>
+  </header>
+
+  <div class="mx-auto grid max-w-6xl gap-4 p-4 md:grid-cols-[280px_1fr]">
+    <aside class="rounded-xl border border-slate-200 bg-white p-3">
+      <p class="mb-2 text-xs font-semibold uppercase text-slate-400">Artículos</p>
+      <ul id="lista" class="space-y-1 text-sm"></ul>
+    </aside>
+
+    <main class="rounded-xl border border-slate-200 bg-white p-4">
+      <div id="vacio" class="py-20 text-center text-slate-400">Selecciona un artículo o crea uno nuevo.</div>
+      <form id="form" class="hidden space-y-3">
+        <div class="grid gap-3 sm:grid-cols-2">
+          <label class="text-sm">Slug (URL)<input name="slug" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" placeholder="mi-resumen" /></label>
+          <label class="text-sm">Categoría
+            <select name="categoria" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2">
+              <option value="marketing-digital">Marketing Digital</option>
+              <option value="emprendimiento">Emprendimiento</option>
+              <option value="finanzas-personales">Finanzas Personales</option>
+              <option value="productividad">Productividad</option>
+              <option value="ventas">Ventas</option>
+              <option value="ecommerce">E-commerce</option>
+            </select>
+          </label>
+        </div>
+        <label class="block text-sm">Título<input name="titulo" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" /></label>
+        <div class="grid gap-3 sm:grid-cols-2">
+          <label class="text-sm">Libro/Documento<input name="libro" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" /></label>
+          <label class="text-sm">Autor<input name="autor" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" /></label>
+        </div>
+        <label class="block text-sm">Descripción (SEO 150-160)<textarea name="descripcion" rows="2" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2"></textarea></label>
+        <div class="grid gap-3 sm:grid-cols-3">
+          <label class="text-sm">Fecha (publica)<input name="fecha" type="date" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" /></label>
+          <label class="text-sm">Min. lectura<input name="minutosLectura" type="number" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" /></label>
+          <label class="flex items-end gap-4 text-sm">
+            <span class="flex items-center gap-1"><input type="checkbox" name="destacado" /> Destacado</span>
+            <span class="flex items-center gap-1"><input type="checkbox" name="borrador" /> Borrador</span>
+          </label>
+        </div>
+        <label class="block text-sm">Ideas clave (una por línea)<textarea name="ideasClave" rows="3" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2"></textarea></label>
+        <label class="block text-sm">Tags (separadas por coma)<input name="tags" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" /></label>
+
+        <fieldset class="rounded-lg border border-slate-200 p-3">
+          <legend class="px-1 text-xs font-semibold uppercase text-slate-400">Serie (opcional)</legend>
+          <div class="grid gap-3 sm:grid-cols-3">
+            <label class="text-sm">serie<input name="serie" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" /></label>
+            <label class="text-sm">serieNombre<input name="serieNombre" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" /></label>
+            <label class="text-sm">día<input name="dia" type="number" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" /></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="rounded-lg border border-slate-200 p-3">
+          <legend class="px-1 text-xs font-semibold uppercase text-slate-400">Enlaces multimedia</legend>
+          <div class="grid gap-3 sm:grid-cols-2">
+            <label class="text-sm">Spotify (URL episodio)<input name="spotify" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" /></label>
+            <label class="text-sm">YouTube (ID)<input name="youtube" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" /></label>
+            <label class="text-sm">Audio público (URL)<input name="audioPublico" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" /></label>
+            <label class="text-sm">PDF (URL o /guias/x.pdf)<input name="pdf" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" /></label>
+            <label class="text-sm">Nombre botón PDF<input name="pdfNombre" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" /></label>
+            <label class="text-sm">Portada (URL)<input name="portada" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" /></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="rounded-lg border border-dashed border-slate-300 p-3">
+          <legend class="px-1 text-xs font-semibold uppercase text-slate-400">Subir documento/audio/imagen (a Blob público)</legend>
+          <div class="flex flex-wrap items-center gap-2">
+            <input type="file" id="archivo" class="text-sm" />
+            <select id="carpeta" class="rounded-lg border border-slate-300 px-2 py-2 text-sm"><option value="docs">docs</option><option value="audio">audio</option><option value="img">img</option></select>
+            <button type="button" id="btn-subir" class="rounded-lg bg-blue-600 px-3 py-2 text-sm font-semibold text-white hover:bg-blue-700">Subir</button>
+            <span id="subir-msg" class="text-sm text-slate-500"></span>
+          </div>
+          <input id="url-subida" readonly class="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs" placeholder="Aquí aparece la URL pública tras subir (cópiala a un campo de arriba)" />
+        </fieldset>
+
+        <label class="block text-sm">Contenido (Markdown)<textarea name="content" rows="16" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 font-mono text-sm"></textarea></label>
+
+        <div class="flex items-center gap-3">
+          <button type="submit" class="rounded-lg bg-slate-900 px-5 py-2.5 font-semibold text-white hover:bg-slate-800">💾 Guardar</button>
+          <span id="guardar-msg" class="text-sm text-slate-500"></span>
+        </div>
+      </form>
+    </main>
+  </div>
+
+  <script>
+    const $ = (s) => document.querySelector(s);
+    const form = $('#form');
+    let actual = null;
+
+    async function cargarLista() {
+      const { items } = await (await fetch('/api/list')).json();
+      $('#lista').innerHTML = items.map((it) =>
+        `<li><button data-slug="${it.slug}" class="w-full truncate rounded-lg px-2 py-1.5 text-left hover:bg-slate-100 ${it.borrador ? 'text-amber-600' : ''}">${it.borrador ? '📝 ' : ''}${it.titulo}<span class="block text-xs text-slate-400">${it.fecha} · ${it.categoria}</span></button></li>`
+      ).join('');
+      document.querySelectorAll('#lista button').forEach((b) => b.addEventListener('click', () => abrir(b.dataset.slug)));
+    }
+
+    function setVal(name, val) { const el = form.elements[name]; if (!el) return; if (el.type === 'checkbox') el.checked = !!val; else el.value = val ?? ''; }
+    function getVal(name) { const el = form.elements[name]; return el.type === 'checkbox' ? el.checked : el.value.trim(); }
+
+    async function abrir(slug) {
+      const r = await fetch('/api/item/' + slug);
+      const { data, content } = await r.json();
+      actual = slug;
+      $('#vacio').classList.add('hidden'); form.classList.remove('hidden');
+      ['titulo','libro','autor','categoria','descripcion','minutosLectura','serie','serieNombre','dia','spotify','youtube','audioPublico','pdf','pdfNombre','portada'].forEach((k) => setVal(k, data[k]));
+      setVal('slug', slug);
+      setVal('fecha', data.fecha ? String(data.fecha).slice(0,10) : '');
+      setVal('destacado', data.destacado); setVal('borrador', data.borrador);
+      setVal('ideasClave', (data.ideasClave || []).join('\n'));
+      setVal('tags', (data.tags || []).join(', '));
+      setVal('content', content);
+    }
+
+    $('#btn-nuevo').addEventListener('click', () => {
+      actual = null; form.reset(); $('#vacio').classList.add('hidden'); form.classList.remove('hidden');
+      setVal('minutosLectura', 7); setVal('fecha', new Date().toISOString().slice(0,10));
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const slug = getVal('slug');
+      if (!slug) return alert('Falta el slug');
+      const data = {
+        titulo: getVal('titulo'), libro: getVal('libro'), autor: getVal('autor'),
+        categoria: getVal('categoria'), descripcion: getVal('descripcion'),
+        minutosLectura: Number(getVal('minutosLectura')) || 7,
+        ideasClave: getVal('ideasClave').split('\n').map(s=>s.trim()).filter(Boolean),
+        fecha: getVal('fecha'), destacado: getVal('destacado'), borrador: getVal('borrador'),
+        tags: getVal('tags').split(',').map(s=>s.trim()).filter(Boolean),
+      };
+      ['serie','serieNombre','spotify','youtube','audioPublico','pdf','pdfNombre','portada'].forEach((k)=>{ const v=getVal(k); if(v) data[k]=v; });
+      const dia = getVal('dia'); if (dia) data.dia = Number(dia);
+      const r = await fetch('/api/item/' + slug, { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({ data, content: getVal('content') }) });
+      const res = await r.json();
+      $('#guardar-msg').textContent = res.ok ? '✅ Guardado' : ('❌ ' + res.error);
+      if (res.ok) cargarLista();
+    });
+
+    $('#btn-subir').addEventListener('click', async () => {
+      const f = $('#archivo').files[0]; if (!f) return alert('Elige un archivo');
+      $('#subir-msg').textContent = 'Subiendo...';
+      const fd = new FormData(); fd.append('archivo', f); fd.append('carpeta', $('#carpeta').value);
+      const r = await fetch('/api/subir', { method:'POST', body: fd });
+      const res = await r.json();
+      if (res.ok) { $('#url-subida').value = res.url; $('#subir-msg').textContent = '✅ Subido'; }
+      else $('#subir-msg').textContent = '❌ ' + res.error;
+    });
+
+    $('#btn-publicar').addEventListener('click', async () => {
+      if (!confirm('¿Publicar cambios a Vercel (git push)?')) return;
+      $('#btn-publicar').textContent = 'Publicando...';
+      const r = await fetch('/api/publicar', { method:'POST' });
+      const res = await r.json();
+      alert(res.ok ? ('✅ ' + (res.msg||'Publicado')) : ('❌ ' + res.error));
+      $('#btn-publicar').textContent = '🚀 Publicar (git push)';
+    });
+
+    cargarLista();
+  </script>
+</body>
+</html>
