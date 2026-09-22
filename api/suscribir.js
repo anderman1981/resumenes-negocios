@@ -15,7 +15,9 @@ const ARCHIVO = 'suscriptores.json';
 
 function blobToken() {
   if (process.env.BLOB_READ_WRITE_TOKEN) return process.env.BLOB_READ_WRITE_TOKEN;
-  const par = Object.entries(process.env).find(([k]) => k.endsWith('_READ_WRITE_TOKEN'));
+  let par = Object.entries(process.env).find(([k]) => k.endsWith('_READ_WRITE_TOKEN'));
+  if (par) return par[1];
+  par = Object.entries(process.env).find(([, v]) => typeof v === 'string' && v.startsWith('vercel_blob_rw_'));
   return par ? par[1] : undefined;
 }
 const TOKEN = blobToken();
