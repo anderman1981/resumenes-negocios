@@ -32,8 +32,9 @@ async function leerTodo() {
     const { blobs } = await list({ prefix: ARCHIVO, token: TOKEN });
     const b = blobs.find((x) => x.pathname === ARCHIVO);
     if (!b) return [];
+    // Blob privado: hay que autenticar la descarga con el token.
     const enlace = b.downloadUrl || b.url;
-    const r = await fetch(enlace, { cache: 'no-store' });
+    const r = await fetch(enlace, { cache: 'no-store', headers: { authorization: `Bearer ${TOKEN}` } });
     if (!r.ok) return [];
     const data = await r.json();
     return Array.isArray(data) ? data : [];

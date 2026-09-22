@@ -27,7 +27,7 @@ async function leerTodo() {
     const { blobs } = await list({ prefix: ARCHIVO, token: TOKEN });
     const b = blobs.find((x) => x.pathname === ARCHIVO);
     if (!b) return [];
-    const r = await fetch(b.downloadUrl || b.url, { cache: 'no-store' });
+    const r = await fetch(b.downloadUrl || b.url, { cache: 'no-store', headers: { authorization: `Bearer ${TOKEN}` } });
     if (!r.ok) return [];
     const data = await r.json();
     return Array.isArray(data) ? data : [];
