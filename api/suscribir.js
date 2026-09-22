@@ -38,7 +38,7 @@ async function leerTodo() {
 
 async function guardarTodo(lista) {
   await put(ARCHIVO, JSON.stringify(lista, null, 2), {
-    access: 'private',
+    access: 'public',
     contentType: 'application/json',
     addRandomSuffix: false,
     allowOverwrite: true,
