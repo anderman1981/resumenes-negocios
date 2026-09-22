@@ -6,10 +6,11 @@ import { SITE, CATEGORIAS } from '../config.mjs';
   <nav class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
     <a href="/" class="flex items-center gap-2 font-extrabold text-slate-900">
       <span class="grid h-8 w-8 place-items-center rounded-lg bg-brand-600 text-white">R</span>
-      <span class="hidden sm:inline">{SITE.name}</span>
+      <span>{SITE.name}</span>
     </a>
 
-    <div class="hidden items-center gap-1 md:flex">
+    <!-- Menú escritorio -->
+    <div class="hidden items-center gap-1 lg:flex">
       {CATEGORIAS.slice(0, 5).map((c) => (
         <a
           href={`/categorias/${c.slug}`}
@@ -22,17 +23,35 @@ import { SITE, CATEGORIAS } from '../config.mjs';
 
     <div class="flex items-center gap-2">
       <a
-        href="/frases"
-        class="hidden rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 sm:inline"
-      >
-        Frases
-      </a>
-      <a
         href="/simulador"
-        class="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+        class="hidden rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800 sm:inline"
       >
         🎯 Simulador
       </a>
+      <!-- Botón hamburguesa (móvil) -->
+      <button id="menu-btn" aria-label="Abrir menú" class="grid h-10 w-10 place-items-center rounded-lg text-slate-700 hover:bg-slate-100 lg:hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
     </div>
   </nav>
+
+  <!-- Menú móvil desplegable -->
+  <div id="menu-movil" class="hidden border-t border-slate-100 bg-white lg:hidden">
+    <div class="mx-auto max-w-6xl px-4 py-3">
+      <p class="px-3 pb-1 text-xs font-semibold uppercase tracking-wide text-slate-400">Categorías</p>
+      {CATEGORIAS.map((c) => (
+        <a href={`/categorias/${c.slug}`} class="block rounded-lg px-3 py-2.5 text-slate-700 hover:bg-slate-100">{c.nombre}</a>
+      ))}
+      <div class="my-2 border-t border-slate-100"></div>
+      <a href="/resumenes" class="block rounded-lg px-3 py-2.5 text-slate-700 hover:bg-slate-100">Todos los resúmenes</a>
+      <a href="/frases" class="block rounded-lg px-3 py-2.5 text-slate-700 hover:bg-slate-100">Frases para compartir</a>
+      <a href="/simulador" class="mt-1 block rounded-lg bg-slate-900 px-3 py-2.5 text-center font-semibold text-white">🎯 Simulador de ventas</a>
+    </div>
+  </div>
 </header>
+
+<script>
+  const btn = document.getElementById('menu-btn');
+  const menu = document.getElementById('menu-movil');
+  btn?.addEventListener('click', () => menu?.classList.toggle('hidden'));
+</script>
