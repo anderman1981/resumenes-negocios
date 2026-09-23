@@ -17,9 +17,11 @@
   </header>
 
   <div class="mx-auto grid max-w-6xl gap-4 p-4 md:grid-cols-[280px_1fr]">
-    <aside class="rounded-xl border border-slate-200 bg-white p-3">
-      <p class="mb-2 text-xs font-semibold uppercase text-slate-400">Artículos</p>
-      <ul id="lista" class="space-y-1 text-sm"></ul>
+    <aside class="self-start rounded-xl border border-slate-200 bg-white p-3 md:sticky md:top-16 md:max-h-[calc(100vh-5rem)] md:overflow-auto">
+      <p class="mb-2 text-xs font-semibold uppercase text-slate-400">Artículos <span id="cnt-total" class="text-slate-300"></span></p>
+      <input id="buscar" type="search" placeholder="🔎 Buscar por título o slug…" class="mb-2 w-full rounded-lg border border-slate-300 px-3 py-1.5 text-sm" />
+      <div id="chips" class="mb-3 flex flex-wrap gap-1"></div>
+      <div id="lista" class="space-y-3 text-sm"></div>
     </aside>
 
     <main class="rounded-xl border border-slate-200 bg-white p-4">
@@ -123,13 +125,76 @@
     const form = $('#form');
     let actual = null;
 
+    const CATS = {
+      'marketing-digital': 'Marketing Digital',
+      'emprendimiento': 'Emprendimiento',
+      'finanzas-personales': 'Finanzas Personales',
+      'productividad': 'Productividad',
+      'ventas': 'Ventas',
+      'ecommerce': 'E-commerce',
+    };
+    const catLabel = (c) => CATS[c] || c || 'Sin categoría';
+    const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (m) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[m]));
+
+    let ITEMS = [];
+    let filtroCat = 'todas';
+    let filtroTexto = '';
+    let soloBorradores = false;
+
     async function cargarLista() {
       const { items } = await (await fetch('/api/list')).json();
-      $('#lista').innerHTML = items.map((it) =>
-        `<li><button data-slug="${it.slug}" class="w-full truncate rounded-lg px-2 py-1.5 text-left hover:bg-slate-100 ${it.borrador ? 'text-amber-600' : ''}">${it.borrador ? '📝 ' : ''}${it.titulo}<span class="block text-xs text-slate-400">${it.fecha} · ${it.categoria}</span></button></li>`
-      ).join('');
-      document.querySelectorAll('#lista button').forEach((b) => b.addEventListener('click', () => abrir(b.dataset.slug)));
+      ITEMS = items;
+      render();
     }
+
+    function itemLi(it) {
+      const activo = it.slug === actual ? 'bg-blue-50 ring-1 ring-blue-200' : '';
+      const draft = it.borrador ? 'text-amber-600' : '';
+      return `<li><button data-slug="${esc(it.slug)}" class="w-full truncate rounded-lg px-2 py-1.5 text-left hover:bg-slate-100 ${activo} ${draft}">${it.borrador ? '📝 ' : ''}${esc(it.titulo)}<span class="block text-xs text-slate-400">${esc(it.fecha) || 'sin fecha'}</span></button></li>`;
+    }
+
+    function render() {
+      // Conteos por categoría (sobre todo el conjunto)
+      const counts = {};
+      ITEMS.forEach((it) => { const c = it.categoria || 'sin-categoria'; counts[c] = (counts[c] || 0) + 1; });
+      const cats = Object.keys(counts).sort((a, b) => catLabel(a).localeCompare(catLabel(b)));
+      const nBorr = ITEMS.filter((it) => it.borrador).length;
+
+      const chip = (id, label, n, active) =>
+        `<button data-cat="${id}" class="chip rounded-full px-2.5 py-1 text-xs font-semibold transition ${active ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}">${esc(label)} <span class="opacity-70">${n}</span></button>`;
+      let chipsHtml = chip('todas', 'Todas', ITEMS.length, filtroCat === 'todas' && !soloBorradores)
+        + cats.map((c) => chip(c, catLabel(c), counts[c], filtroCat === c && !soloBorradores)).join('');
+      if (nBorr) chipsHtml += `<button id="chip-borr" class="rounded-full px-2.5 py-1 text-xs font-semibold transition ${soloBorradores ? 'bg-amber-500 text-white' : 'bg-amber-100 text-amber-700 hover:bg-amber-200'}">📝 Borradores ${nBorr}</button>`;
+      $('#chips').innerHTML = chipsHtml;
+      document.querySelectorAll('.chip').forEach((b) => b.addEventListener('click', () => { filtroCat = b.dataset.cat; soloBorradores = false; render(); }));
+      const cb = $('#chip-borr'); if (cb) cb.addEventListener('click', () => { soloBorradores = !soloBorradores; render(); });
+
+      // Filtrado
+      const t = filtroTexto.trim().toLowerCase();
+      let list = ITEMS.slice();
+      if (soloBorradores) list = list.filter((it) => it.borrador);
+      else if (filtroCat !== 'todas') list = list.filter((it) => (it.categoria || 'sin-categoria') === filtroCat);
+      if (t) list = list.filter((it) => (it.titulo || '').toLowerCase().includes(t) || it.slug.toLowerCase().includes(t));
+
+      $('#cnt-total').textContent = `(${list.length})`;
+
+      if (!list.length) { $('#lista').innerHTML = '<p class="px-2 py-6 text-center text-xs text-slate-400">Sin resultados</p>'; return; }
+
+      // Agrupado por categoría, cada grupo ordenado por fecha desc
+      const groups = {};
+      list.forEach((it) => { const c = it.categoria || 'sin-categoria'; (groups[c] ||= []).push(it); });
+      const ordered = Object.keys(groups).sort((a, b) => catLabel(a).localeCompare(catLabel(b)));
+      $('#lista').innerHTML = ordered.map((c) => {
+        const g = groups[c].sort((a, b) => String(b.fecha).localeCompare(String(a.fecha)));
+        return `<div>
+          <p class="mb-1 px-1 text-[11px] font-bold uppercase tracking-wide text-slate-400">${esc(catLabel(c))} <span class="text-slate-300">· ${g.length}</span></p>
+          <ul class="space-y-0.5">${g.map(itemLi).join('')}</ul>
+        </div>`;
+      }).join('');
+      document.querySelectorAll('#lista button[data-slug]').forEach((b) => b.addEventListener('click', () => abrir(b.dataset.slug)));
+    }
+
+    $('#buscar').addEventListener('input', (e) => { filtroTexto = e.target.value; render(); });
 
     function setVal(name, val) { const el = form.elements[name]; if (!el) return; if (el.type === 'checkbox') el.checked = !!val; else el.value = val ?? ''; }
     function getVal(name) { const el = form.elements[name]; return el.type === 'checkbox' ? el.checked : el.value.trim(); }
@@ -138,6 +203,7 @@
       const r = await fetch('/api/item/' + slug);
       const { data, content } = await r.json();
       actual = slug;
+      render();
       $('#vacio').classList.add('hidden'); form.classList.remove('hidden');
       ['titulo','libro','autor','categoria','descripcion','minutosLectura','serie','serieNombre','dia','spotify','youtube','audioPublico','pdf','pdfNombre','portada'].forEach((k) => setVal(k, data[k]));
       setVal('slug', slug);
