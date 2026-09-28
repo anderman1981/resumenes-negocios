@@ -19,6 +19,9 @@ videos/
 
 # materiales fuente (PDFs/audios originales; no van al repo público)
 _fuentes/
+
+# audios fuente .m4a (se suben a Spotify manualmente; nunca al repo)
+*.m4a
 .vercel
 .env*
 
