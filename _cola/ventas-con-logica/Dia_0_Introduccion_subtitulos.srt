@@ -1,0 +1,15 @@
+1
+00:00:00,000 --> 00:00:05,000
+Bienvenido al Día 0 de la Guía Maestra "Ventas con Lógica: Guía Definitiva para el Cierre Exitoso".
+
+2
+00:00:05,100 --> 00:00:10,200
+Vender no es manipular ni presionar, es un proceso de educación sobre un puente de confianza.
+
+3
+00:00:10,300 --> 00:00:16,000
+Si el cliente supiera exactamente todo lo que tú sabes sobre el valor de tu producto, compraría de inmediato.
+
+4
+00:00:16,100 --> 00:00:22,000
+A lo largo de estos 7 días aprenderás a estructurar ofertas, diagnosticar el dolor y automatizar el cierre.
