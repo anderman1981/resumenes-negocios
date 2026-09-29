@@ -4,6 +4,7 @@ import AdSlot from '../../components/AdSlot.astro';
 import Multimedia from '../../components/Multimedia.astro';
 import SeriePanel from '../../components/SeriePanel.astro';
 import Comentarios from '../../components/Comentarios.astro';
+import Compartir from '../../components/Compartir.astro';
 import { getPublicados } from '../../lib/content.mjs';
 import { SITE, CATEGORIAS } from '../../config.mjs';
 
@@ -106,6 +107,14 @@ const jsonLd = {
           obra original para apoyar a su autor.
         </p>
       </div>
+
+      <Compartir
+        titulo={data.titulo}
+        url={`${SITE.url}/resumenes/${entry.slug}`}
+        frases={data.ideasClave.length > 0 ? data.ideasClave : [data.descripcion]}
+        portada={data.portada}
+        slug={entry.slug}
+      />
 
       <Comentarios slug={entry.slug} />
     </article>

@@ -1,0 +1,386 @@
+---
+/**
+ * Bloque "Compartir" al final de cada artículo.
+ * - Frases: usa ideasClave del artículo (con botón para cambiar de frase).
+ * - Redes: WhatsApp, X, Facebook, LinkedIn, Telegram + copiar frase y enlace.
+ * - Imagen: genera en el navegador una tarjeta 1080×1080 con la frase
+ *   (fondo: portada del artículo si existe, si no, degradado de marca)
+ *   para descargarla o compartirla directamente (Web Share API).
+ */
+import { SITE } from '../config.mjs';
+
+interface Props {
+  titulo: string;
+  url: string;
+  frases: string[];
+  portada?: string;
+  slug: string;
+}
+
+const { titulo, url, frases, portada = '', slug } = Astro.props;
+
+const lista = (frases ?? []).map((f) => (f ?? '').trim()).filter(Boolean);
+if (lista.length === 0) lista.push(titulo);
+
+const datos = JSON.stringify({ titulo, url, frases: lista, portada, slug, sitio: SITE.name })
+  .replace(/</g, '\\u003c');
+---
+
+<section
+  data-compartir
+  class="mt-10 overflow-hidden rounded-2xl border border-brand-100 bg-gradient-to-br from-brand-50 via-white to-brand-50/40 p-6 sm:p-7"
+>
+  <script type="application/json" set:html={datos} />
+
+  <div class="flex flex-wrap items-center justify-between gap-3">
+    <div>
+      <h2 class="text-lg font-extrabold text-slate-900">¿Te sirvió? Compártelo ✨</h2>
+      <p class="mt-0.5 text-sm text-slate-500">Elige una frase y llévala a tus redes con un clic.</p>
+    </div>
+    <span
+      data-count
+      class="rounded-full border border-brand-100 bg-white px-3 py-1 text-xs font-semibold text-brand-700"
+    ></span>
+  </div>
+
+  <!-- Frase elegida -->
+  <blockquote class="mt-4 rounded-xl border border-slate-200 bg-white p-5">
+    <p data-frase class="text-base font-medium leading-relaxed text-slate-800 sm:text-lg"></p>
+    <div class="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-3">
+      <button
+        type="button"
+        data-otra
+        class="rounded-lg border border-slate-200 px-3 py-1.5 text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
+      >
+        🎲 Otra frase
+      </button>
+      <button
+        type="button"
+        data-copiar
+        class="rounded-lg bg-slate-900 px-3 py-1.5 text-sm font-semibold text-white transition hover:bg-slate-700"
+      >
+        Copiar frase + enlace
+      </button>
+    </div>
+  </blockquote>
+
+  <!-- Redes -->
+  <div class="mt-4 flex flex-wrap gap-2">
+    <a
+      data-red="whatsapp"
+      href="#"
+      target="_blank"
+      rel="noopener"
+      class="rounded-xl bg-[#25D366] px-4 py-2.5 text-sm font-bold text-white transition hover:brightness-95"
+    >💬 WhatsApp</a>
+    <a
+      data-red="x"
+      href="#"
+      target="_blank"
+      rel="noopener"
+      class="rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-slate-700"
+    >𝕏 Twitter / X</a>
+    <a
+      data-red="facebook"
+      href="#"
+      target="_blank"
+      rel="noopener"
+      class="rounded-xl bg-[#1877F2] px-4 py-2.5 text-sm font-bold text-white transition hover:brightness-95"
+    >f Facebook</a>
+    <a
+      data-red="linkedin"
+      href="#"
+      target="_blank"
+      rel="noopener"
+      class="rounded-xl bg-[#0A66C2] px-4 py-2.5 text-sm font-bold text-white transition hover:brightness-95"
+    >in LinkedIn</a>
+    <a
+      data-red="telegram"
+      href="#"
+      target="_blank"
+      rel="noopener"
+      class="rounded-xl bg-[#229ED9] px-4 py-2.5 text-sm font-bold text-white transition hover:brightness-95"
+    >✈️ Telegram</a>
+  </div>
+
+  <!-- Imagen generada en el navegador -->
+  <div class="mt-4 rounded-xl bg-slate-900 p-4 sm:p-5">
+    <p class="text-sm font-bold text-white">🖼️ Llévala con imagen</p>
+    <p class="mt-1 text-xs leading-relaxed text-slate-400">
+      Creamos una tarjeta 1080×1080 con esta frase y el artículo, lista para tu estado de WhatsApp
+      o tu historia.
+    </p>
+    <div class="mt-3 flex flex-wrap items-center gap-2">
+      <button
+        type="button"
+        data-descargar
+        class="rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-brand-700"
+      >
+        ⬇️ Descargar imagen
+      </button>
+      <button
+        type="button"
+        data-share-img
+        class="rounded-xl border border-white/25 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-white/10"
+      >
+        📱 Compartir imagen
+      </button>
+      <span data-toast class="text-xs font-semibold text-brand-300 transition-opacity duration-300 opacity-0"></span>
+    </div>
+  </div>
+</section>
+
+<script>
+  const raiz = document.querySelector('[data-compartir]');
+  if (raiz) {
+    const nodo = raiz.querySelector('script[type="application/json"]');
+    const data = JSON.parse(nodo ? nodo.textContent || '{}' : '{}');
+    const frases = Array.isArray(data.frases) && data.frases.length ? data.frases : [data.titulo];
+    let idx = 0;
+
+    const fraseEl = raiz.querySelector('[data-frase]');
+    const countEl = raiz.querySelector('[data-count]');
+    const toastEl = raiz.querySelector('[data-toast]');
+    const enlaces = Array.from(raiz.querySelectorAll('[data-red]'));
+
+    const textoCompleto = () =>
+      `💡 "${frases[idx]}"\n\n📖 ${data.titulo}\n${data.url}`;
+
+    function hrefRed(red, frase) {
+      const t = encodeURIComponent;
+      switch (red) {
+        case 'whatsapp':
+          return `https://wa.me/?text=${t(`💡 "${frase}"\n\n📖 ${data.titulo}\n${data.url}`)}`;
+        case 'x':
+          return `https://x.com/intent/tweet?text=${t(`💡 "${frase}" — ${data.titulo}`)}&url=${t(data.url)}`;
+        case 'facebook':
+          return `https://www.facebook.com/sharer/sharer.php?u=${t(data.url)}`;
+        case 'linkedin':
+          return `https://www.linkedin.com/sharing/share-offsite/?url=${t(data.url)}`;
+        case 'telegram':
+          return `https://t.me/share/url?url=${t(data.url)}&text=${t(`💡 "${frase}"`)}`;
+        default:
+          return data.url;
+      }
+    }
+
+    function pintar() {
+      if (fraseEl) fraseEl.textContent = frases[idx];
+      if (countEl) countEl.textContent = `Frase ${idx + 1} de ${frases.length}`;
+      for (const a of enlaces) {
+        a.setAttribute('href', hrefRed(a.getAttribute('data-red') || '', frases[idx]));
+      }
+    }
+
+    function avisar(msg) {
+      if (!toastEl) return;
+      toastEl.textContent = msg;
+      toastEl.classList.remove('opacity-0');
+      setTimeout(() => toastEl.classList.add('opacity-0'), 2600);
+    }
+
+    // Cambiar de frase
+    const btnOtra = raiz.querySelector('[data-otra]');
+    if (btnOtra) {
+      btnOtra.addEventListener('click', () => {
+        if (frases.length < 2) return;
+        let n = idx;
+        while (n === idx) n = Math.floor(Math.random() * frases.length);
+        idx = n;
+        pintar();
+      });
+    }
+
+    // Copiar frase + enlace
+    const btnCopiar = raiz.querySelector('[data-copiar]');
+    if (btnCopiar) {
+      btnCopiar.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(textoCompleto());
+          const original = btnCopiar.textContent;
+          btnCopiar.textContent = '✓ ¡Copiado!';
+          setTimeout(() => { btnCopiar.textContent = original; }, 1800);
+        } catch (e) {
+          alert('Copia manual:\n\n' + textoCompleto());
+        }
+      });
+    }
+
+    // ---------- Generación de la imagen (canvas) ----------
+    const FAMILIA = 'system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif';
+
+    function envolver(ctx, texto, maxW) {
+      const palabras = String(texto).split(/\s+/);
+      const lineas = [];
+      let actual = '';
+      for (const p of palabras) {
+        const intento = actual ? actual + ' ' + p : p;
+        if (!actual || ctx.measureText(intento).width <= maxW) actual = intento;
+        else { lineas.push(actual); actual = p; }
+      }
+      if (actual) lineas.push(actual);
+      return lineas;
+    }
+
+    function ajustar(ctx, texto, maxW, maxH, desde, hasta) {
+      let size = desde;
+      while (size >= hasta) {
+        ctx.font = `800 ${size}px ${FAMILIA}`;
+        const lineas = envolver(ctx, texto, maxW);
+        if (lineas.length * size * 1.32 <= maxH) return { lineas, size };
+        size -= 2;
+      }
+      ctx.font = `800 ${hasta}px ${FAMILIA}`;
+      return { lineas: envolver(ctx, texto, maxW), size: hasta };
+    }
+
+    async function generarBlob() {
+      const W = 1080, H = 1080;
+      const canvas = document.createElement('canvas');
+      canvas.width = W;
+      canvas.height = H;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) throw new Error('canvas no disponible');
+
+      // Fondo: portada si existe, si no degradado de marca
+      let img = null;
+      if (data.portada) {
+        try {
+          img = new Image();
+          img.src = data.portada;
+          await img.decode();
+          if (!img.naturalWidth) img = null;
+        } catch (e) { img = null; }
+      }
+
+      if (img) {
+        const escala = Math.max(W / img.naturalWidth, H / img.naturalHeight);
+        const iw = img.naturalWidth * escala;
+        const ih = img.naturalHeight * escala;
+        ctx.drawImage(img, (W - iw) / 2, (H - ih) / 2, iw, ih);
+        ctx.fillStyle = 'rgba(15,23,42,0.80)';
+        ctx.fillRect(0, 0, W, H);
+      } else {
+        const g = ctx.createLinearGradient(0, 0, W, H);
+        g.addColorStop(0, '#0f172a');
+        g.addColorStop(1, '#1a2fb6');
+        ctx.fillStyle = g;
+        ctx.fillRect(0, 0, W, H);
+        const brillo = ctx.createRadialGradient(880, 140, 20, 880, 140, 620);
+        brillo.addColorStop(0, 'rgba(89,142,255,0.55)');
+        brillo.addColorStop(1, 'rgba(89,142,255,0)');
+        ctx.fillStyle = brillo;
+        ctx.fillRect(0, 0, W, H);
+        const brillo2 = ctx.createRadialGradient(160, 960, 20, 160, 960, 520);
+        brillo2.addColorStop(0, 'rgba(31,71,245,0.45)');
+        brillo2.addColorStop(1, 'rgba(31,71,245,0)');
+        ctx.fillStyle = brillo2;
+        ctx.fillRect(0, 0, W, H);
+      }
+
+      // Comilla decorativa
+      ctx.textAlign = 'left';
+      ctx.fillStyle = 'rgba(255,255,255,0.10)';
+      ctx.font = '800 300px Georgia, "Times New Roman", serif';
+      ctx.fillText('\u201C', 56, 330);
+
+      // Marca superior
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#8eb6ff';
+      ctx.font = `700 26px ${FAMILIA}`;
+      ctx.fillText(String(data.sitio || '').toUpperCase(), W / 2, 150);
+
+      // Frase (auto-ajuste)
+      const frase = '“' + frases[idx] + '”';
+      const { lineas, size } = ajustar(ctx, frase, 840, 500, 58, 30);
+      const lh = size * 1.32;
+      const bloque = lineas.length * lh;
+      let y = 540 - bloque / 2 + lh / 2;
+      ctx.fillStyle = '#ffffff';
+      for (const l of lineas) {
+        ctx.fillText(l, W / 2, y);
+        y += lh;
+      }
+
+      // Divisor de marca
+      const yDiv = y - lh / 2 + 46;
+      ctx.fillStyle = '#3366ff';
+      ctx.fillRect(W / 2 - 45, yDiv, 90, 5);
+
+      // Título del artículo (máx. 2 líneas)
+      ctx.font = `700 30px ${FAMILIA}`;
+      ctx.fillStyle = '#cbd5e1';
+      const tl = envolver(ctx, data.titulo, 840);
+      const t2 = tl.slice(0, 2);
+      if (tl.length > 2 && t2.length) t2[1] = t2[1].replace(/\s+$/, '') + '…';
+      let ty = yDiv + 62;
+      for (const l of t2) {
+        ctx.fillText(l, W / 2, ty);
+        ty += 42;
+      }
+
+      // Pie
+      ctx.fillStyle = 'rgba(255,255,255,0.60)';
+      ctx.font = `600 26px ${FAMILIA}`;
+      let host = data.url;
+      try { host = new URL(data.url).host; } catch (e) { /* url tal cual */ }
+      ctx.fillText(host, W / 2, H - 64);
+
+      return await new Promise((resolve, reject) => {
+        canvas.toBlob((b) => (b ? resolve(b) : reject(new Error('toBlob falló'))), 'image/png');
+      });
+    }
+
+    function descargar(blob) {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `${data.slug || 'frase'}-frase.png`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    }
+
+    const btnDescargar = raiz.querySelector('[data-descargar]');
+    if (btnDescargar) {
+      btnDescargar.addEventListener('click', async () => {
+        try {
+          btnDescargar.disabled = true;
+          descargar(await generarBlob());
+          avisar('✓ Imagen lista para tu estado');
+        } catch (e) {
+          avisar('No se pudo generar la imagen');
+        } finally {
+          btnDescargar.disabled = false;
+        }
+      });
+    }
+
+    const btnShare = raiz.querySelector('[data-share-img]');
+    if (btnShare) {
+      btnShare.addEventListener('click', async () => {
+        try {
+          btnShare.disabled = true;
+          const blob = await generarBlob();
+          const file = new File([blob], `${data.slug || 'frase'}-frase.png`, { type: 'image/png' });
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            await navigator.share({
+              files: [file],
+              title: data.titulo,
+              text: `💡 "${frases[idx]}"`,
+            });
+          } else {
+            descargar(blob);
+            avisar('Descárgala y súbela a tu estado 📲');
+          }
+        } catch (e) {
+          if (!e || e.name !== 'AbortError') avisar('No se pudo compartir la imagen');
+        } finally {
+          btnShare.disabled = false;
+        }
+      });
+    }
+
+    pintar();
+  }
+</script>
