@@ -58,3 +58,30 @@ youtube: "VIDEO_ID"                                 # opcional (vídeo)
 
 > ⚠️ El contenido debe ser **original y transformador** (tu análisis), no una copia
 > del libro/curso. Es lo que mantiene el sitio seguro para AdSense.
+
+## 📚 Series (varios capítulos con goteo)
+
+Una serie = **una carpeta fuente** + **una carpeta por capítulo**:
+
+```
+_cola/<serie>/                    ← carpeta fuente: guiones, portadas, srt, plantilla
+│   (SIN resumen.md → publicar la salta)
+_cola/<serie>-dia-1/resumen.md    ← capítulo 1 (carpeta publicable)
+_cola/<serie>-dia-2/resumen.md    ← capítulo 2
+…
+```
+
+- El frontmatter de cada capítulo lleva `serie:`, `serieNombre:` y `dia:`
+- `npm run publicar` procesa **solo** las carpetas `-dia-N` que tengan `resumen.md`
+- El hub `/curso/<serie>`, la tarjeta en homepage y la navegación interna
+  se generan **solos** a partir de esos campos
+
+### Serie activa en preparación
+
+| | |
+|---|---|
+| **Nombre** | Guías Estratégicas de Finanzas Personales y Contenido Digital |
+| **Serie slug** | `guias-finanzas-digitales` |
+| **Carpeta fuente** | `_cola/guias-finanzas-digitales/` |
+| **Goteo** | Día 1 = 6 oct 2026 → Día 7 = 12 oct 2026 |
+| **Capítulos** | `_cola/guias-finanzas-digitales-dia-N/` |
