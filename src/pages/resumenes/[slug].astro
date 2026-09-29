@@ -5,7 +5,7 @@ import Multimedia from '../../components/Multimedia.astro';
 import SeriePanel from '../../components/SeriePanel.astro';
 import Comentarios from '../../components/Comentarios.astro';
 import Compartir from '../../components/Compartir.astro';
-import { getPublicados } from '../../lib/content.mjs';
+import { getPublicados, getSerie } from '../../lib/content.mjs';
 import { SITE, CATEGORIAS } from '../../config.mjs';
 
 export async function getStaticPaths() {
@@ -20,6 +20,18 @@ const { entry } = Astro.props;
 const { data } = entry;
 const { Content } = await entry.render();
 const cat = CATEGORIAS.find((c) => c.slug === data.categoria);
+
+// Navegación interna de serie: solo hacia capítulos YA disponibles
+let anterior = null;
+let siguiente = null;
+if (data.serie) {
+  const modulos = await getSerie(data.serie);
+  const idx = modulos.findIndex((m) => m.entry.slug === entry.slug);
+  if (idx > 0 && modulos[idx - 1].disponible) anterior = modulos[idx - 1].entry;
+  if (idx >= 0 && idx < modulos.length - 1 && modulos[idx + 1].disponible) {
+    siguiente = modulos[idx + 1].entry;
+  }
+}
 
 // Schema.org para SEO enriquecido en Google
 const jsonLd = {
@@ -99,6 +111,31 @@ const jsonLd = {
       </div>
 
       <AdSlot slot="footer" />
+
+      {(anterior || siguiente) && (
+        <nav class="mt-8 flex items-stretch justify-between gap-3" aria-label="Navegación de la serie">
+          {anterior ? (
+            <a href={`/resumenes/${anterior.slug}`} class="group flex-1 rounded-2xl border border-slate-200 p-4 text-left transition hover:border-brand-300 hover:bg-brand-50/50">
+              <span class="text-xs font-semibold text-slate-400">← Día {anterior.data.dia}</span>
+              <span class="mt-1 block text-sm font-bold leading-snug text-slate-800 group-hover:text-brand-600">
+                {anterior.data.titulo}
+              </span>
+            </a>
+          ) : (
+            <div class="flex-1" />
+          )}
+          {siguiente ? (
+            <a href={`/resumenes/${siguiente.slug}`} class="group flex-1 rounded-2xl border border-slate-200 p-4 text-right transition hover:border-brand-300 hover:bg-brand-50/50">
+              <span class="text-xs font-semibold text-slate-400">Día {siguiente.data.dia} →</span>
+              <span class="mt-1 block text-sm font-bold leading-snug text-slate-800 group-hover:text-brand-600">
+                {siguiente.data.titulo}
+              </span>
+            </a>
+          ) : (
+            <div class="flex-1" />
+          )}
+        </nav>
+      )}
 
       <div class="mt-10 rounded-2xl bg-slate-50 p-6 text-sm text-slate-500">
         <p>

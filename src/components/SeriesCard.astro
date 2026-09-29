@@ -1,0 +1,60 @@
+---
+// Tarjeta de serie para homepage y catálogo: una serie = una tarjeta
+// que enlaza al hub (/curso/...) desde donde se despliegan sus capítulos.
+interface Props {
+  serie: {
+    slug: string;
+    nombre: string;
+    total: number;
+    disponibles: number;
+    portada?: string;
+    autor?: string;
+    proximo?: { dia: number; fecha: Date } | null;
+  };
+}
+const { serie } = Astro.props;
+const pct = Math.round((serie.disponibles / serie.total) * 100);
+const fechaProximo = serie.proximo?.fecha;
+---
+
+<a
+  href={`/curso/${serie.slug}`}
+  class="group flex flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+>
+  <div class="relative aspect-[16/9] overflow-hidden bg-gradient-to-br from-brand-500 to-brand-800">
+    {serie.portada ? (
+      <img src={serie.portada} alt={serie.nombre} class="h-full w-full object-cover" loading="lazy" />
+    ) : (
+      <div class="flex h-full w-full items-center justify-center p-6 text-center">
+        <span class="text-lg font-bold leading-tight text-white/95">{serie.nombre}</span>
+      </div>
+    )}
+    <span class="absolute left-3 top-3 rounded-full bg-slate-900/85 px-2.5 py-1 text-xs font-semibold text-white">
+      📚 Serie · {serie.disponibles}/{serie.total} días
+    </span>
+  </div>
+
+  <div class="flex flex-1 flex-col p-5">
+    <h3 class="text-lg font-bold leading-snug text-slate-900 group-hover:text-brand-600">
+      {serie.nombre}
+    </h3>
+    {serie.autor && <p class="mt-1 text-sm text-slate-500">con ideas de {serie.autor}</p>}
+
+    <div class="mt-4 h-2 overflow-hidden rounded-full bg-slate-100">
+      <div class="h-full rounded-full bg-brand-500 transition-all" style={`width: ${pct}%`}></div>
+    </div>
+
+    <div class="mt-2 flex items-center justify-between text-xs text-slate-400">
+      <span>{serie.disponibles} de {serie.total} disponibles</span>
+      {serie.proximo && fechaProximo ? (
+        <span class="font-medium text-slate-500">
+          🔒 Día {serie.proximo.dia} · {fechaProximo.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })}
+        </span>
+      ) : (
+        <span class="font-medium text-emerald-600">✅ Serie completa</span>
+      )}
+    </div>
+
+    <span class="mt-4 text-sm font-semibold text-brand-600">Ver la serie →</span>
+  </div>
+</a>

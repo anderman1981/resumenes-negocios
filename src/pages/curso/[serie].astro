@@ -14,7 +14,11 @@ export async function getStaticPaths() {
 
 const { serie } = Astro.props;
 const modulos = await getSerie(serie.slug);
-const total = 7;
+// Total dinámico: no asume 7 días (soporta series de otra longitud)
+const total = Math.max(
+  modulos.length,
+  ...modulos.map((m) => m.entry.data.dia ?? 0),
+);
 const disponibles = modulos.filter((m) => m.disponible).length;
 ---
 

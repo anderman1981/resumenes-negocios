@@ -1,19 +1,38 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SummaryCard from '../../components/SummaryCard.astro';
+import SeriesCard from '../../components/SeriesCard.astro';
 import AdSlot from '../../components/AdSlot.astro';
-import { getPublicados } from '../../lib/content.mjs';
+import { getPublicados, getSeries } from '../../lib/content.mjs';
 
 const todos = await getPublicados();
+const series = await getSeries();
+// Los episodios de series viven en su hub → aquí solo artículos sueltos
+const sueltos = todos.filter((e) => !e.data.serie);
 ---
 
 <BaseLayout title="Todos los resúmenes" description="Catálogo completo de resúmenes de libros y documentos de negocios online.">
   <section class="mx-auto max-w-6xl px-4 py-12">
     <h1 class="text-3xl font-extrabold text-slate-900">Todos los resúmenes</h1>
-    <p class="mt-2 text-slate-600">{todos.length} resúmenes publicados</p>
+    <p class="mt-2 text-slate-600">
+      {series.length > 0 && `${series.length} ${series.length === 1 ? 'serie' : 'series'} · `}
+      {sueltos.length} {sueltos.length === 1 ? 'artículo' : 'artículos'} independientes
+    </p>
 
-    <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {todos.map((entry) => <SummaryCard entry={entry} />)}
+    {series.length > 0 && (
+      <>
+        <h2 class="mt-10 mb-5 text-xl font-bold text-slate-900">📚 Series</h2>
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {series.map((s) => <SeriesCard serie={s} />)}
+        </div>
+      </>
+    )}
+
+    <h2 class="mt-12 mb-5 text-xl font-bold text-slate-900">
+      {series.length > 0 ? 'Artículos independientes' : 'Resúmenes'}
+    </h2>
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {sueltos.map((entry) => <SummaryCard entry={entry} />)}
     </div>
 
     <AdSlot slot="footer" />

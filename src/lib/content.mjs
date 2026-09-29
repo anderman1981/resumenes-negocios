@@ -30,7 +30,12 @@ export async function getSerie(serieSlug) {
     .sort((a, b) => (a.entry.data.dia ?? 0) - (b.entry.data.dia ?? 0));
 }
 
-/** Lista de series con al menos un módulo publicado. */
+/**
+ * Lista de series con al menos un módulo publicado, enriquecidas con
+ * progreso: total de módulos, cuántos disponibles, portada y el próximo
+ * módulo a desbloquear. Sirve para las tarjetas de serie en homepage
+ * y catálogo (una serie = una tarjeta que despliega sus capítulos).
+ */
 export async function getSeries() {
   const publicados = await getPublicados();
   const mapa = new Map();
@@ -42,5 +47,25 @@ export async function getSeries() {
       });
     }
   }
-  return [...mapa.values()];
+  const resultado = [];
+  for (const s of mapa.values()) {
+    const modulos = await getSerie(s.slug);
+    const total = Math.max(
+      modulos.length,
+      ...modulos.map((m) => m.entry.data.dia ?? 0),
+    );
+    const disponibles = modulos.filter((m) => m.disponible).length;
+    const proximo = modulos.find((m) => !m.disponible);
+    resultado.push({
+      ...s,
+      total,
+      disponibles,
+      portada: modulos[0]?.entry.data.portada,
+      autor: modulos[0]?.entry.data.autor,
+      proximo: proximo
+        ? { dia: proximo.entry.data.dia, fecha: proximo.entry.data.fecha }
+        : null,
+    });
+  }
+  return resultado;
 }

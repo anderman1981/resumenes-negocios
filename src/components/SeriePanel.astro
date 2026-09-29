@@ -10,11 +10,16 @@ interface Props {
 const { serie, actual } = Astro.props;
 const modulos = await getSerie(serie);
 const nombre = modulos[0]?.entry.data.serieNombre ?? 'Serie';
-const total = 7; // días previstos de la serie
+// Total dinámico: no asume 7 días (soporta series de otra longitud)
+const total = Math.max(
+  modulos.length,
+  ...modulos.map((m) => m.entry.data.dia ?? 0),
+);
+const disponibles = modulos.filter((m) => m.disponible).length;
 ---
 
 <aside class="rounded-2xl border border-slate-200 bg-white p-5">
-  <p class="text-xs font-semibold uppercase tracking-wide text-brand-600">Serie · {modulos.length}/{total} días</p>
+  <p class="text-xs font-semibold uppercase tracking-wide text-brand-600">Serie · {disponibles}/{total} días</p>
   <h2 class="mt-1 text-lg font-bold text-slate-900">{nombre}</h2>
 
   <ol class="mt-4 space-y-2">

@@ -1,13 +1,17 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SummaryCard from '../components/SummaryCard.astro';
+import SeriesCard from '../components/SeriesCard.astro';
 import AdSlot from '../components/AdSlot.astro';
-import { getPublicados } from '../lib/content.mjs';
+import { getPublicados, getSeries } from '../lib/content.mjs';
 import { SITE, CATEGORIAS } from '../config.mjs';
 
 const todos = await getPublicados();
-const destacados = todos.filter((e) => e.data.destacado).slice(0, 3);
-const recientes = todos.slice(0, 6);
+// Destacados excluye episodios de serie → la serie ya tiene su propia tarjeta
+const destacados = todos.filter((e) => e.data.destacado && !e.data.serie).slice(0, 3);
+// Los episodios de series se agrupan en su propia tarjeta → aquí solo sueltos
+const recientes = todos.filter((e) => !e.data.serie).slice(0, 6);
+const series = await getSeries();
 ---
 
 <BaseLayout>
@@ -44,6 +48,19 @@ const recientes = todos.slice(0, 6);
       ))}
     </div>
   </section>
+
+  <!-- Series (agrupadas: una tarjeta por serie → hub con sus capítulos) -->
+  {series.length > 0 && (
+    <section class="mx-auto max-w-6xl px-4 py-8">
+      <div class="mb-6 flex items-center justify-between">
+        <h2 class="text-2xl font-bold text-slate-900">📚 Series completas</h2>
+        <a href="/resumenes" class="text-sm font-semibold text-brand-600 hover:underline">Ver catálogo →</a>
+      </div>
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {series.map((s) => <SeriesCard serie={s} />)}
+      </div>
+    </section>
+  )}
 
   {destacados.length > 0 && (
     <section class="mx-auto max-w-6xl px-4 py-8">
