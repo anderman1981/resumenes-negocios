@@ -22,6 +22,10 @@ _fuentes/
 
 # audios fuente .m4a (se suben a Spotify manualmente; nunca al repo)
 *.m4a
+
+# PDFs de la cola (material de referencia/fuente; nunca al repo público;
+# los PDFs desplegados viven en public/guias/)
+_cola/**/*.pdf
 .vercel
 .env*
 
