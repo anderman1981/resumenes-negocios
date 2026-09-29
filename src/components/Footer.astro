@@ -41,6 +41,10 @@ const year = new Date().getFullYear();
       <a href="/terminos" class="hover:text-brand-600">Términos de Uso</a>
       <a href="/contacto" class="hover:text-brand-600">Contacto</a>
     </nav>
-    <p>© {year} {SITE.name}. Los resúmenes son análisis originales y no reproducen las obras originales.</p>
+    <p>
+      © {year} {SITE.name} · Un proyecto de
+      <a href={SITE.marcaUrl} class="font-semibold text-slate-500 hover:text-brand-600">{SITE.marca}</a>.
+      Los resúmenes son análisis originales y no reproducen las obras originales.
+    </p>
   </div>
 </footer>

@@ -12,6 +12,9 @@ export const SITE = {
   // ⚠️ Cambia esto por tu dominio real cuando lo tengas (afecta sitemap y SEO)
   url: 'https://resumenes-negocios.vercel.app',
   author: 'Anderson Martínez',
+  // Crédito del autor en el footer (marca + sitio personal)
+  marca: 'AMR Tech',
+  marcaUrl: 'https://andersonmares.xyz/',
   // Correo de contacto real (OBLIGATORIO para AdSense y para las páginas legales)
   email: 'resumenes@andersonmares.com',
   lang: 'es',
