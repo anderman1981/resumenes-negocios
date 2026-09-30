@@ -14,7 +14,7 @@ destacado: false
 borrador: true
 tags: ["finanzas-personales", "contenido-digital"]
 serie: "guias-finanzas-digitales"
-serieNombre: "Guías Estratégicas de Finanzas Personales y Contenido Digital"
+serieNombre: "Finanzas Personales y Contenido Digital"
 dia: 1                    # 1..7 según el capítulo
 audio: ""
 spotify: ""

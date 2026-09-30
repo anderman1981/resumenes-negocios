@@ -80,7 +80,7 @@ _cola/<serie>-dia-2/resumen.md    ← capítulo 2
 
 | | |
 |---|---|
-| **Nombre** | Guías Estratégicas de Finanzas Personales y Contenido Digital |
+| **Nombre (en sitio)** | Finanzas Personales y Contenido Digital |
 | **Serie slug** | `guias-finanzas-digitales` |
 | **Carpeta fuente** | `_cola/guias-finanzas-digitales/` |
 | **Goteo** | Día 1 = 6 oct 2026 → Día 7 = 12 oct 2026 |

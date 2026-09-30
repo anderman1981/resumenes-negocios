@@ -1,4 +1,6 @@
-# 📁 Guías Estratégicas de Finanzas Personales y Contenido Digital
+# 📁 Finanzas Personales y Contenido Digital
+
+(Serie completa: "Guías Estratégicas de Finanzas Personales y Contenido Digital" — nombre corto en el sitio: **"Finanzas Personales y Contenido Digital"**)
 
 Espacio local para recibir **TODO el material** de la próxima serie.
 Publicación programada: **del lunes 6 al domingo 12 de octubre de 2026** (un capítulo por día).
