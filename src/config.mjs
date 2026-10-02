@@ -61,3 +61,22 @@ export const CATEGORIAS = [
   { slug: 'ventas', nombre: 'Ventas' },
   { slug: 'ecommerce', nombre: 'E-commerce' },
 ];
+
+// Información y recursos por Serie
+export const SERIES_INFO = {
+  'ventas-con-logica': {
+    nombre: 'Ventas con Lógica',
+    descripcion: 'Mapa práctico de 7 días con 16 estrategias para diseñar ofertas irresistibles y escalar tus ventas con lógica y rigor.',
+    portada: '/portadas/ventas-con-logica.jpg',
+    pdf: '/guias/ventas-con-logica-dia-7.pdf',
+    pdfNombre: 'Descargar guía completa (PDF)',
+  },
+  'vender-mejor-99': {
+    nombre: 'Vender Mejor 99',
+    descripcion: 'Principios y tácticas probadas de ventas para aumentar la conversión y el valor de cada cliente.',
+    portada: '/portadas/vender-mejor-99.jpg',
+    pdf: '/guias/guia-vender-mejor-99.pdf',
+    pdfNombre: 'Descargar guía completa (PDF)',
+  },
+};
+

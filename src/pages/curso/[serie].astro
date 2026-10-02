@@ -1,7 +1,9 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import AdSlot from '../../components/AdSlot.astro';
+import CompartirSerie from '../../components/CompartirSerie.astro';
 import { getSeries, getSerie } from '../../lib/content.mjs';
+import { SITE } from '../../config.mjs';
 
 export async function getStaticPaths() {
   const series = await getSeries();
@@ -20,24 +22,83 @@ const total = Math.max(
   ...modulos.map((m) => m.entry.data.dia ?? 0),
 );
 const disponibles = modulos.filter((m) => m.disponible).length;
+
+const currentUrl = `${SITE.url}/curso/${serie.slug}`;
+const descripcionCorta = serie.descripcion || `Serie de ${total} días: ${serie.nombre}. Un módulo nuevo cada día.`;
 ---
 
-<BaseLayout title={serie.nombre} description={`Serie de ${total} días: ${serie.nombre}. Un módulo nuevo cada día.`}>
-  <section class="border-b border-slate-100 bg-gradient-to-b from-slate-50 to-white">
-    <div class="mx-auto max-w-4xl px-4 py-16 text-center">
-      <span class="inline-block rounded-full bg-slate-900 px-3 py-1 text-sm font-semibold text-white">
-        Serie de {total} días · {disponibles} disponibles
-      </span>
-      <h1 class="mx-auto mt-5 max-w-3xl text-4xl font-extrabold leading-tight tracking-tight text-slate-900">
-        {serie.nombre}
-      </h1>
-      <p class="mx-auto mt-4 max-w-2xl text-lg text-slate-600">
-        Un módulo nuevo cada día. Vuelve a diario para desbloquear la siguiente lección.
-      </p>
+<BaseLayout 
+  title={serie.nombre} 
+  description={descripcionCorta}
+  image={serie.portada}
+>
+  <section class="border-b border-slate-100 bg-gradient-to-b from-slate-50 to-white py-12 md:py-16">
+    <div class="mx-auto max-w-5xl px-4">
+      <div class="grid gap-8 md:grid-cols-12 md:items-center">
+        
+        {/* Imagen de Intro de la Serie */}
+        {serie.portada && (
+          <div class="md:col-span-5 lg:col-span-4 flex justify-center">
+            <div class="relative overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-xl transition-transform duration-300 hover:scale-[1.01]">
+              <img 
+                src={serie.portada} 
+                alt={`Portada ${serie.nombre}`} 
+                class="w-full max-w-[280px] sm:max-w-[320px] md:max-w-full h-auto object-cover rounded-2xl" 
+                loading="eager"
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Información, Resumen corto, Enlace de Material y Redes */}
+        <div class={`space-y-4 ${serie.portada ? 'md:col-span-7 lg:col-span-8 text-center md:text-left' : 'md:col-span-12 text-center max-w-3xl mx-auto'}`}>
+          <div class="inline-flex items-center gap-2 rounded-full bg-slate-900 px-3.5 py-1 text-xs sm:text-sm font-semibold text-white">
+            <span>Serie de {total} días</span>
+            <span>·</span>
+            <span class="text-brand-300">{disponibles} disponibles</span>
+          </div>
+
+          <h1 class="text-3xl sm:text-4xl font-extrabold leading-tight tracking-tight text-slate-900">
+            {serie.nombre}
+          </h1>
+
+          {/* Resumen corto (No oculta la imagen) */}
+          <p class="text-base sm:text-lg leading-relaxed text-slate-600 max-w-2xl">
+            {descripcionCorta}
+          </p>
+
+          {/* Enlace de Descarga de Material (si existe PDF) */}
+          {serie.pdf && (
+            <div class="pt-2 flex flex-wrap items-center justify-center md:justify-start gap-3">
+              <a
+                href={serie.pdf}
+                download
+                class="inline-flex items-center gap-2 rounded-xl bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-700 hover:shadow-md"
+              >
+                <span>📄</span>
+                <span>{serie.pdfNombre || 'Descargar material (PDF)'}</span>
+              </a>
+            </div>
+          )}
+
+          {/* Bloque para compartir en redes sociales */}
+          <CompartirSerie
+            nombre={serie.nombre}
+            descripcion={descripcionCorta}
+            url={currentUrl}
+            portada={serie.portada}
+            pdf={serie.pdf}
+            pdfNombre={serie.pdfNombre}
+          />
+        </div>
+
+      </div>
     </div>
   </section>
 
   <section class="mx-auto max-w-3xl px-4 py-12">
+    <h2 class="mb-6 text-xl font-bold text-slate-900">Módulos de la serie</h2>
+
     <ol class="space-y-4">
       {modulos.map(({ entry, disponible }) => (
         disponible ? (

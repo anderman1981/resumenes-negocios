@@ -1,4 +1,5 @@
 import { getCollection } from 'astro:content';
+import { SERIES_INFO } from '../config.mjs';
 
 /**
  * Devuelve los resúmenes PUBLICADOS: no borradores y cuya fecha ya llegó.
@@ -41,9 +42,14 @@ export async function getSeries() {
   const mapa = new Map();
   for (const e of publicados) {
     if (e.data.serie && !mapa.has(e.data.serie)) {
+      const info = SERIES_INFO[e.data.serie] || {};
       mapa.set(e.data.serie, {
         slug: e.data.serie,
-        nombre: e.data.serieNombre ?? e.data.serie,
+        nombre: info.nombre ?? e.data.serieNombre ?? e.data.serie,
+        descripcion: info.descripcion ?? 'Un módulo nuevo cada día. Vuelve a diario para desbloquear la siguiente lección.',
+        portada: info.portada,
+        pdf: info.pdf,
+        pdfNombre: info.pdfNombre,
       });
     }
   }
@@ -56,11 +62,12 @@ export async function getSeries() {
     );
     const disponibles = modulos.filter((m) => m.disponible).length;
     const proximo = modulos.find((m) => !m.disponible);
+    const portadaFinal = s.portada || modulos[0]?.entry.data.portada;
     resultado.push({
       ...s,
       total,
       disponibles,
-      portada: modulos[0]?.entry.data.portada,
+      portada: portadaFinal,
       autor: modulos[0]?.entry.data.autor,
       proximo: proximo
         ? { dia: proximo.entry.data.dia, fecha: proximo.entry.data.fecha }
@@ -69,3 +76,4 @@ export async function getSeries() {
   }
   return resultado;
 }
+
