@@ -31,6 +31,11 @@ const resumenes = defineCollection({
     // --- Descarga de PDF por día ---
     pdf: z.string().optional(),            // ruta del PDF descargable, ej: "/guias/mi-guia.pdf"
     pdfNombre: z.string().optional(),      // texto del botón, ej: "Descargar plantilla"
+    // --- Override del correo diario (opcional; copy generado en NotebookLM) ---
+    emailAsunto: z.string().optional(),    // asunto del email de notificación
+    emailPreheader: z.string().optional(), // preheader (texto gris junto al asunto)
+    emailEntradilla: z.string().optional(),// 2-3 frases de entradilla del correo
+    emailCta: z.string().optional(),       // texto del botón, ej: "Leer el resumen de hoy"
   }),
 });
 
