@@ -50,6 +50,8 @@ export async function getSeries() {
         portada: info.portada,
         pdf: info.pdf,
         pdfNombre: info.pdfNombre,
+        infografia: info.infografia,
+        infografiaNombre: info.infografiaNombre,
       });
     }
   }

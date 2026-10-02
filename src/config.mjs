@@ -70,6 +70,8 @@ export const SERIES_INFO = {
     portada: '/portadas/ventas-con-logica.jpg',
     pdf: '/guias/ventas-con-logica-dia-7.pdf',
     pdfNombre: 'Descargar guía completa (PDF)',
+    infografia: '/guias/guia-infografia-vender-mejor-99.pdf',
+    infografiaNombre: 'Descargar infografía resumen (PDF)',
   },
   'vender-mejor-99': {
     nombre: 'Vender Mejor 99',
@@ -77,6 +79,9 @@ export const SERIES_INFO = {
     portada: '/portadas/vender-mejor-99.jpg',
     pdf: '/guias/guia-vender-mejor-99.pdf',
     pdfNombre: 'Descargar guía completa (PDF)',
+    infografia: '/guias/guia-infografia-vender-mejor-99.pdf',
+    infografiaNombre: 'Descargar infografía (PDF)',
   },
 };
+
 

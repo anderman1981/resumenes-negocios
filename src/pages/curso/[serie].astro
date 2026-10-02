@@ -22,6 +22,7 @@ const total = Math.max(
   ...modulos.map((m) => m.entry.data.dia ?? 0),
 );
 const disponibles = modulos.filter((m) => m.disponible).length;
+const completado = disponibles >= total;
 
 const currentUrl = `${SITE.url}/curso/${serie.slug}`;
 const descripcionCorta = serie.descripcion || `Serie de ${total} días: ${serie.nombre}. Un módulo nuevo cada día.`;
@@ -67,19 +68,43 @@ const descripcionCorta = serie.descripcion || `Serie de ${total} días: ${serie.
             {descripcionCorta}
           </p>
 
-          {/* Enlace de Descarga de Material (si existe PDF) */}
-          {serie.pdf && (
-            <div class="pt-2 flex flex-wrap items-center justify-center md:justify-start gap-3">
-              <a
-                href={serie.pdf}
-                download
-                class="inline-flex items-center gap-2 rounded-xl bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-700 hover:shadow-md"
-              >
-                <span>📄</span>
-                <span>{serie.pdfNombre || 'Descargar material (PDF)'}</span>
-              </a>
-            </div>
-          )}
+          {/* Enlaces de Descarga de Materiales / PDF (Condicionado a finalización) */}
+          <div class="pt-2 flex flex-wrap items-center justify-center md:justify-start gap-3">
+            {completado ? (
+              serie.pdf && (
+                <a
+                  href={serie.pdf}
+                  download
+                  class="inline-flex items-center gap-2 rounded-xl bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-700 hover:shadow-md"
+                >
+                  <span>📄</span>
+                  <span>{serie.pdfNombre || 'Descargar guía completa (PDF)'}</span>
+                </a>
+              )
+            ) : (
+              <>
+                {serie.pdf && (
+                  <div 
+                    class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-100/90 px-4 py-2.5 text-xs sm:text-sm font-semibold text-slate-500 shadow-inner"
+                    title={`La guía completa se habilitará al publicar el Día ${total}`}
+                  >
+                    <span>🔒</span>
+                    <span>Guía completa (Disponible el Día {total})</span>
+                  </div>
+                )}
+                {serie.infografia && (
+                  <a
+                    href={serie.infografia}
+                    download
+                    class="inline-flex items-center gap-2 rounded-xl bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-700 hover:shadow-md"
+                  >
+                    <span>📊</span>
+                    <span>{serie.infografiaNombre || 'Descargar infografía (PDF)'}</span>
+                  </a>
+                )}
+              </>
+            )}
+          </div>
 
           {/* Bloque para compartir en redes sociales */}
           <CompartirSerie
