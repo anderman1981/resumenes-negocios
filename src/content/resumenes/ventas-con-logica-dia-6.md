@@ -11,7 +11,7 @@ ideasClave:
   - "El descuento por continuidad premia el compromiso; el bono lo hace tangible; la tarifa exenta lo simboliza"
   - "La cancelación se decide en la cabeza del cliente cada vez que aparece un cargo en su estado de cuenta"
   - "El tercer estadio decide tu valor de vida: la venta del día paga la cuenta, la continuidad construye el negocio"
-fecha: 2026-10-04
+fecha: 2026-10-03
 destacado: false
 borrador: false
 tags: ["ventas", "money-models", "hormozi", "continuidad", "recurrentes"]

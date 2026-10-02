@@ -11,7 +11,7 @@ ideasClave:
   - "Traspasar el crédito (rollover) reencuadra la nueva compra como algo que ya empezó"
   - "Los tres mecanismos trabajan sobre la misma variable: la comparación que hace el cliente en su cabeza"
   - "Un upsell bien anclado no se siente como venta extra, se siente como decisión obvia"
-fecha: 2026-10-03
+fecha: 2026-10-02
 destacado: false
 borrador: false
 tags: ["ventas", "money-models", "hormozi", "upsell", "anclaje"]

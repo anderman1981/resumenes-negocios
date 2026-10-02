@@ -11,7 +11,7 @@ ideasClave:
   - "Tres preguntas de auditoría revelan tu money model real: qué ofreces después, qué si dicen no y cómo cobras el largo plazo"
   - "Cada reunión, check-in o entrega es una oportunidad de hacer una nueva oferta"
   - "La meta final: que un cliente financie la captación de dos más en menos de 30 días"
-fecha: 2026-10-05
+fecha: 2026-10-04
 destacado: false
 borrador: false
 tags: ["ventas", "money-models", "hormozi", "estrategias", "guia"]

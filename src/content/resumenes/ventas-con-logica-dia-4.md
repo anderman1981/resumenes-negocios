@@ -11,7 +11,7 @@ ideasClave:
   - "Una prescripción específica convierte más que una recomendación genérica: el detalle es credibilidad"
   - "Los upsells suelen concentrar el beneficio neto: ahí se decide la rentabilidad real de la venta"
   - "Cada compra crea automáticamente un problema siguiente; si tú no lo ofreces, lo ofreces tú ni nadie"
-fecha: 2026-10-02
+fecha: 2026-10-01
 destacado: false
 borrador: false
 tags: ["ventas", "money-models", "hormozi", "upsell", "facturacion"]
