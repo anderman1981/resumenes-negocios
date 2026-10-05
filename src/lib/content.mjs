@@ -9,25 +9,31 @@ import { SERIES_INFO } from '../config.mjs';
  */
 export async function getPublicados() {
   const ahora = Date.now();
+  const isDev = import.meta.env.DEV || process.env.PREVIEW === 'true';
   const entries = await getCollection('resumenes', ({ data }) => !data.borrador);
   return entries
-    .filter((e) => e.data.fecha.valueOf() <= ahora)
+    .filter((e) => isDev || e.data.fecha.valueOf() <= ahora)
     .sort((a, b) => b.data.fecha.valueOf() - a.data.fecha.valueOf());
 }
 
 /**
  * Devuelve TODOS los módulos de una serie (incluidos los futuros, para
  * mostrarlos como "Próximamente"), ordenados por día. Cada uno lleva
- * `disponible` = true si su fecha ya llegó.
+ * `disponible` = true si su fecha ya llegó (o siempre true en modo dev/preview).
  */
 export async function getSerie(serieSlug) {
   const ahora = Date.now();
+  const isDev = import.meta.env.DEV || process.env.PREVIEW === 'true';
   const entries = await getCollection(
     'resumenes',
     ({ data }) => !data.borrador && data.serie === serieSlug
   );
   return entries
-    .map((e) => ({ entry: e, disponible: e.data.fecha.valueOf() <= ahora }))
+    .map((e) => ({
+      entry: e,
+      disponible: isDev || e.data.fecha.valueOf() <= ahora,
+      esFuturo: e.data.fecha.valueOf() > ahora,
+    }))
     .sort((a, b) => (a.entry.data.dia ?? 0) - (b.entry.data.dia ?? 0));
 }
 
@@ -38,7 +44,10 @@ export async function getSerie(serieSlug) {
  * y catálogo (una serie = una tarjeta que despliega sus capítulos).
  */
 export async function getSeries() {
-  const publicados = await getPublicados();
+  const isDev = import.meta.env.DEV || process.env.PREVIEW === 'true';
+  const ahora = Date.now();
+  const allEntries = await getCollection('resumenes', ({ data }) => !data.borrador);
+  const publicados = allEntries.filter((e) => isDev || e.data.fecha.valueOf() <= ahora);
   const mapa = new Map();
   for (const e of publicados) {
     if (e.data.serie && !mapa.has(e.data.serie)) {
@@ -48,6 +57,7 @@ export async function getSeries() {
         nombre: info.nombre ?? e.data.serieNombre ?? e.data.serie,
         descripcion: info.descripcion ?? 'Un módulo nuevo cada día. Vuelve a diario para desbloquear la siguiente lección.',
         portada: info.portada,
+        spotify: info.spotify,
         pdf: info.pdf,
         pdfNombre: info.pdfNombre,
         infografia: info.infografia,

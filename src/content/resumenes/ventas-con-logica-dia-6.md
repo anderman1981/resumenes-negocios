@@ -19,7 +19,7 @@ serie: "ventas-con-logica"
 serieNombre: "Ventas con Lógica"
 dia: 6
 audio: ""
-spotify: "https://open.spotify.com/episode/70IGQs7NrTshdn0ZfeqcBv?si=G0UvPeALSGahb_IMFi8vMQ"
+spotify: "https://open.spotify.com/episode/7fedZ6kZrpvjeSY22GQNcS?si=a0jJa1lDT2KIQHlbCM01sg"
 youtube: ""
 ---
 

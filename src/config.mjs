@@ -68,6 +68,7 @@ export const SERIES_INFO = {
     nombre: 'Ventas con Lógica',
     descripcion: 'Mapa práctico de 7 días con 16 estrategias para diseñar ofertas irresistibles y escalar tus ventas con lógica y rigor.',
     portada: '/portadas/ventas-con-logica.jpg',
+    spotify: 'https://open.spotify.com/episode/3bUW6u5pDol9riwT6TH265?si=FxwyB9TzQpypEpV9asHjSw',
     pdf: '/guias/ventas-con-logica-dia-7.pdf',
     pdfNombre: 'Descargar guía completa (PDF)',
     infografia: '/guias/guia-infografia-vender-mejor-99.pdf',
@@ -81,6 +82,15 @@ export const SERIES_INFO = {
     pdfNombre: 'Descargar guía completa (PDF)',
     infografia: '/guias/guia-infografia-vender-mejor-99.pdf',
     infografiaNombre: 'Descargar infografía (PDF)',
+  },
+  'crecimiento-e-ingresos-startups': {
+    nombre: 'Crecimiento e Ingresos en Startups',
+    descripcion: 'Sistema científico de aceleración de ventas y escalabilidad en 7 días (+ Día 0) basado en las metodologías de HubSpot y Stage 2 Capital.',
+    portada: '/assets/programas/crecimiento-e-ingresos-startups/covers/portada_principal.png',
+    pdf: '/assets/programas/crecimiento-e-ingresos-startups/pdf/dia_7_guia_blueprint_moats_beachhead.pdf',
+    pdfNombre: 'Descargar guía completa (PDF)',
+    infografia: '/assets/programas/crecimiento-e-ingresos-startups/pdf/dia_0_slides_marco_estructural.pdf',
+    infografiaNombre: 'Descargar marco estructural (PDF)',
   },
 };
 
