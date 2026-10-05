@@ -1,0 +1,225 @@
+---
+interface Option {
+  key: string;
+  text: string;
+}
+
+interface Question {
+  id: number;
+  question: string;
+  options: Option[];
+  correct: string;
+  justification?: string;
+}
+
+interface Props {
+  questions: Question[];
+  title?: string;
+}
+
+const { questions = [], title = '📝 Quiz Evaluativo' } = Astro.props;
+const quizId = `quiz-${Math.random().toString(36).slice(2, 9)}`;
+---
+
+{questions.length > 0 && (
+  <div id={quizId} class="my-10 rounded-2xl border border-slate-200 bg-white p-5 sm:p-8 shadow-sm">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-5">
+      <div>
+        <h3 class="text-xl font-extrabold text-slate-900 flex items-center gap-2">
+          <span>{title}</span>
+        </h3>
+        <p class="text-xs sm:text-sm text-slate-500 mt-1">
+          Pon a prueba tu comprensión estratégica y recibe retroalimentación inmediata con justificación técnica.
+        </p>
+      </div>
+      <div class="flex items-center gap-3">
+        <span class="quiz-score-badge inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-3.5 py-1 text-xs font-bold text-slate-700">
+          <span>Aciertos:</span>
+          <strong class="score-count text-brand-600">0</strong>
+          <span>/</span>
+          <span>{questions.length}</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- Questions list -->
+    <div class="mt-6 space-y-8">
+      {questions.map((q, idx) => (
+        <div class="question-block rounded-xl border border-slate-200 bg-slate-50/50 p-5 sm:p-6 transition" data-qid={q.id} data-correct={q.correct.toLowerCase()}>
+          <div class="flex items-start gap-3">
+            <span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-slate-900 text-xs font-bold text-white">
+              {idx + 1}
+            </span>
+            <div class="flex-1">
+              <h4 class="text-base sm:text-lg font-bold text-slate-900 leading-snug">
+                {q.question}
+              </h4>
+
+              <!-- Options -->
+              <div class="mt-4 space-y-2.5">
+                {q.options.map((opt) => (
+                  <button
+                    type="button"
+                    class="option-btn group flex w-full items-start gap-3 rounded-xl border border-slate-200 bg-white p-3.5 text-left text-xs sm:text-sm font-medium text-slate-700 shadow-sm transition hover:border-brand-400 hover:bg-brand-50/30"
+                    data-opt-key={opt.key.toLowerCase()}
+                  >
+                    <span class="opt-indicator grid h-6 w-6 shrink-0 place-items-center rounded-lg border border-slate-200 bg-slate-100 text-xs font-bold uppercase text-slate-600 group-hover:border-brand-300 group-hover:text-brand-700">
+                      {opt.key}
+                    </span>
+                    <span class="opt-text flex-1 pt-0.5 leading-relaxed">
+                      {opt.text}
+                    </span>
+                  </button>
+                ))}
+              </div>
+
+              <!-- Feedback / Justification (Hidden until answered) -->
+              <div class="feedback-box hidden mt-4 rounded-xl border p-4 text-xs sm:text-sm leading-relaxed transition-all">
+                <div class="flex items-center gap-2 font-bold mb-1 feedback-status"></div>
+                {q.justification && (
+                  <p class="feedback-justification text-slate-700 mt-1">
+                    <strong>Justificación:</strong> {q.justification}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Final Summary Banner (Hidden until all answered) -->
+    <div class="quiz-summary hidden mt-8 rounded-2xl border-2 border-brand-200 bg-gradient-to-r from-brand-50 to-indigo-50 p-6 text-center">
+      <h4 class="text-lg sm:text-xl font-extrabold text-slate-900 summary-title">
+        ¡Quiz Completado!
+      </h4>
+      <p class="mt-2 text-sm sm:text-base text-slate-700 summary-desc">
+        Has completado todas las preguntas evaluativas del día.
+      </p>
+      <div class="mt-4 flex flex-wrap items-center justify-center gap-3">
+        <button
+          type="button"
+          class="btn-reset-quiz rounded-xl bg-slate-900 px-5 py-2.5 text-xs sm:text-sm font-bold text-white shadow transition hover:bg-brand-600"
+        >
+          🔄 Reiniciar Quiz
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
+<script define:vars={{ quizId, totalQuestions: questions.length }}>
+  function initQuiz() {
+    const root = document.getElementById(quizId);
+    if (!root) return;
+    if (root.dataset.ready === 'true') return;
+    root.dataset.ready = 'true';
+
+    let score = 0;
+    let answeredCount = 0;
+    const scoreCountEl = root.querySelector('.score-count');
+    const summaryBox = root.querySelector('.quiz-summary');
+    const summaryTitle = root.querySelector('.summary-title');
+    const summaryDesc = root.querySelector('.summary-desc');
+    const btnReset = root.querySelector('.btn-reset-quiz');
+
+    const questionBlocks = root.querySelectorAll('.question-block');
+
+    questionBlocks.forEach((block) => {
+      const correct = block.getAttribute('data-correct');
+      const optButtons = block.querySelectorAll('.option-btn');
+      const feedbackBox = block.querySelector('.feedback-box');
+      const feedbackStatus = block.querySelector('.feedback-status');
+
+      optButtons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          if (block.hasAttribute('data-answered')) return;
+          block.setAttribute('data-answered', 'true');
+          answeredCount++;
+
+          const selectedKey = btn.getAttribute('data-opt-key');
+          const isCorrect = selectedKey === correct;
+
+          if (isCorrect) {
+            score++;
+            btn.className = 'option-btn flex w-full items-start gap-3 rounded-xl border-2 border-emerald-500 bg-emerald-50/80 p-3.5 text-left text-xs sm:text-sm font-semibold text-emerald-950 shadow-sm';
+            const ind = btn.querySelector('.opt-indicator');
+            if (ind) ind.className = 'opt-indicator grid h-6 w-6 shrink-0 place-items-center rounded-lg bg-emerald-600 text-xs font-bold text-white';
+            
+            if (feedbackBox) {
+              feedbackBox.classList.remove('hidden');
+              feedbackBox.className = 'feedback-box mt-4 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-xs sm:text-sm leading-relaxed text-emerald-900';
+              if (feedbackStatus) feedbackStatus.innerHTML = '<span class="text-emerald-700">✓ ¡Respuesta Correcta!</span>';
+            }
+          } else {
+            btn.className = 'option-btn flex w-full items-start gap-3 rounded-xl border-2 border-rose-400 bg-rose-50/80 p-3.5 text-left text-xs sm:text-sm font-medium text-rose-950 shadow-sm';
+            const ind = btn.querySelector('.opt-indicator');
+            if (ind) ind.className = 'opt-indicator grid h-6 w-6 shrink-0 place-items-center rounded-lg bg-rose-500 text-xs font-bold text-white';
+
+            // Highlight the correct one
+            optButtons.forEach((b) => {
+              if (b.getAttribute('data-opt-key') === correct) {
+                b.className = 'option-btn flex w-full items-start gap-3 rounded-xl border-2 border-emerald-400 bg-emerald-50/50 p-3.5 text-left text-xs sm:text-sm font-semibold text-emerald-900 shadow-sm';
+                const cInd = b.querySelector('.opt-indicator');
+                if (cInd) cInd.className = 'opt-indicator grid h-6 w-6 shrink-0 place-items-center rounded-lg bg-emerald-500 text-xs font-bold text-white';
+              }
+            });
+
+            if (feedbackBox) {
+              feedbackBox.classList.remove('hidden');
+              feedbackBox.className = 'feedback-box mt-4 rounded-xl border border-rose-200 bg-rose-50 p-4 text-xs sm:text-sm leading-relaxed text-rose-900';
+              if (feedbackStatus) feedbackStatus.innerHTML = '<span class="text-rose-700">✗ Respuesta Incorrecta</span>';
+            }
+          }
+
+          // Disable other buttons
+          optButtons.forEach((b) => {
+            b.classList.add('cursor-default');
+            b.classList.remove('hover:border-brand-400', 'hover:bg-brand-50/30');
+          });
+
+          if (scoreCountEl) scoreCountEl.textContent = score;
+
+          // Check if all answered
+          if (answeredCount >= totalQuestions && summaryBox) {
+            summaryBox.classList.remove('hidden');
+            const pct = Math.round((score / totalQuestions) * 100);
+            if (pct >= 80) {
+              summaryTitle.textContent = `🎉 ¡Excelente! ${score} de ${totalQuestions} (${pct}%)`;
+              summaryDesc.textContent = 'Demuestras un dominio sólido de los conceptos estratégicos de esta lección.';
+            } else if (pct >= 50) {
+              summaryTitle.textContent = `👍 Buen esfuerzo: ${score} de ${totalQuestions} (${pct}%)`;
+              summaryDesc.textContent = 'Has asimilado las bases, pero se recomienda repasar las justificaciones y flashcards.';
+            } else {
+              summaryTitle.textContent = `📚 Requiere Repaso: ${score} de ${totalQuestions} (${pct}%)`;
+              summaryDesc.textContent = 'Te sugerimos escuchar de nuevo el podcast del día y revisar las diapositivas.';
+            }
+          }
+        });
+      });
+    });
+
+    btnReset?.addEventListener('click', () => {
+      score = 0;
+      answeredCount = 0;
+      if (scoreCountEl) scoreCountEl.textContent = '0';
+      if (summaryBox) summaryBox.classList.add('hidden');
+
+      questionBlocks.forEach((block) => {
+        block.removeAttribute('data-answered');
+        const feedbackBox = block.querySelector('.feedback-box');
+        if (feedbackBox) feedbackBox.classList.add('hidden');
+
+        const optButtons = block.querySelectorAll('.option-btn');
+        optButtons.forEach((b) => {
+          b.className = 'option-btn group flex w-full items-start gap-3 rounded-xl border border-slate-200 bg-white p-3.5 text-left text-xs sm:text-sm font-medium text-slate-700 shadow-sm transition hover:border-brand-400 hover:bg-brand-50/30';
+          const ind = b.querySelector('.opt-indicator');
+          if (ind) ind.className = 'opt-indicator grid h-6 w-6 shrink-0 place-items-center rounded-lg border border-slate-200 bg-slate-100 text-xs font-bold uppercase text-slate-600 group-hover:border-brand-300 group-hover:text-brand-700';
+        });
+      });
+    });
+  }
+
+  initQuiz();
+  document.addEventListener('astro:page-load', initQuiz);
+</script>

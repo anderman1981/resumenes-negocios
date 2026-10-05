@@ -1,0 +1,286 @@
+{
+  "flashcards": [
+    {
+      "front": "¿Cuál es la diferencia entre un gerente inspector y un gerente coach?",
+      "back": "El inspector exige resultados de cuota; el coach diagnostica e invierte tiempo en desarrollar habilidades individuales."
+    },
+    {
+      "front": "¿Qué establece la \"Analogía de la Lección de Golf\" en coaching comercial?",
+      "back": "Desarrollar UNA sola habilidad a la vez durante 30 días en lugar de abrumar con múltiples correcciones."
+    },
+    {
+      "front": "¿Cómo se diagnostica qué habilidad necesita trabajar un vendedor?",
+      "back": "Analizando las tasas de conversión por etapa de su embudo individual frente al promedio del equipo."
+    },
+    {
+      "front": "¿Qué es una sesión de Film Review?",
+      "back": "Una reunión donde el equipo comercial escucha y analiza grabaciones de llamadas reales para retroalimentarse."
+    },
+    {
+      "front": "¿Cómo crea el gerente seguridad psicológica en el Film Review?",
+      "back": "Iniciando las primeras sesiones con sus propias grabaciones donde comete errores."
+    },
+    {
+      "front": "¿Qué es una comisión diferida?",
+      "back": "Dividir el pago de la comisión (ej. 50% a la firma, 50% tras la activación) para alinear al vendedor con la retención."
+    },
+    {
+      "front": "¿Qué es la cláusula de Clawback?",
+      "back": "La devolución de la comisión de venta si el cliente cancela el contrato en los primeros meses por no ser un fit adecuado."
+    },
+    {
+      "front": "¿Por qué las promociones comerciales deben ser basadas en datos cuantitativos?",
+      "back": "Para eliminar el favoritismo y motivar al equipo con reglas claras de ascenso basadas en rendimiento comprobado."
+    },
+    {
+      "front": "¿Cuál es el impacto del coaching métrico en el Ramp-Up Time?",
+      "back": "Reduce el tiempo necesario para que un nuevo vendedor alcance cuota hasta en un 40%."
+    },
+    {
+      "front": "¿Qué indicador mide si la compensación está funcionando para el negocio?",
+      "back": "El Net Revenue Retention (NRR) y la reducción del Churn temprano de clientes."
+    }
+  ],
+  "quiz": [
+    {
+      "id": 1,
+      "question": "La principal transformación sugerida para los gerentes de ventas en la metodología de Mark Roberge es:",
+      "options": [
+        {
+          "key": "a",
+          "text": "Pasar de inspeccionar cuotas a hacer coaching diario basado en métricas."
+        },
+        {
+          "key": "b",
+          "text": "Asumir todas las llamadas de venta ellos mismos."
+        },
+        {
+          "key": "c",
+          "text": "Reemplazar las reuniones por correos electrónicos."
+        },
+        {
+          "key": "d",
+          "text": "Bajar las cuotas comerciales."
+        }
+      ],
+      "correct": "a",
+      "justification": "El crecimiento sostenible requiere desarrollar las habilidades del equipo en lugar de fiscalizar."
+    },
+    {
+      "id": 2,
+      "question": "La 'Analogía de la Lección de Golf' aplicada a las ventas enseña que:",
+      "options": [
+        {
+          "key": "a",
+          "text": "Es necesario jugar golf con los clientes para cerrar ventas."
+        },
+        {
+          "key": "b",
+          "text": "El gerente debe enfocar el entrenamiento en UNA sola habilidad técnica a la vez durante un periodo sostenido."
+        },
+        {
+          "key": "c",
+          "text": "Los vendedores deben trabajar 18 horas al día."
+        },
+        {
+          "key": "d",
+          "text": "El equipo debe competir individualmente."
+        }
+      ],
+      "correct": "b",
+      "justification": "Tratar de corregir múltiples aspectos simultáneamente paraliza la ejecución del vendedor."
+    },
+    {
+      "id": 3,
+      "question": "Si un vendedor presenta una alta tasa de conversión de 'Connect a Demo', pero una muy baja conversión de 'Demo a Propuesta', la habilidad a trabajar es:",
+      "options": [
+        {
+          "key": "a",
+          "text": "La velocidad al contestar el teléfono."
+        },
+        {
+          "key": "b",
+          "text": "La técnica de descubrimiento de necesidades y preguntas de dolor durante la demo."
+        },
+        {
+          "key": "c",
+          "text": "El cierre del contrato legal."
+        },
+        {
+          "key": "d",
+          "text": "La firma de correos electrónicos."
+        }
+      ],
+      "correct": "b",
+      "justification": "Una baja conversión post-demo indica que no se logró conectar el producto con un dolor financiero claro."
+    },
+    {
+      "id": 4,
+      "question": "¿Cuál es una práctica clave para asegurar que las sesiones de Film Review sean bien recibidas por el equipo?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Usar las grabaciones para sancionar públicamente a los vendedores."
+        },
+        {
+          "key": "b",
+          "text": "Liderar con vulnerabilidad, usando grabaciones con errores del propio gerente o de los vendedores sénior."
+        },
+        {
+          "key": "c",
+          "text": "Obligar a todos a aplaudir."
+        },
+        {
+          "key": "d",
+          "text": "Realizar las sesiones a la medianoche."
+        }
+      ],
+      "correct": "b",
+      "justification": "Mostrar errores del propio líder elimina el miedo al juicio y genera un ambiente seguro de aprendizaje."
+    },
+    {
+      "id": 5,
+      "question": "El propósito de estructurar comisiones diferidas (ej. 50% al cierre, 50% a los 6 meses de retención) es:",
+      "options": [
+        {
+          "key": "a",
+          "text": "Ahorrar dinero a la empresa."
+        },
+        {
+          "key": "b",
+          "text": "Alinear el incentivo del vendedor con la calidad del cliente y la retención a largo plazo."
+        },
+        {
+          "key": "c",
+          "text": "Complicar la contabilidad."
+        },
+        {
+          "key": "d",
+          "text": "Pagar menos impuestos."
+        }
+      ],
+      "correct": "b",
+      "justification": "Evita que los vendedores traigan clientes tóxicos con alto riesgo de cancelaciones tempranas."
+    },
+    {
+      "id": 6,
+      "question": "¿Qué es una cláusula de 'Clawback' en un plan de compensación de ventas?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Un bono por puntualidad."
+        },
+        {
+          "key": "b",
+          "text": "El derecho de la empresa a recuperar la comisión pagada si el cliente cancela dentro de un periodo inicial (ej. 60 o 90 días)."
+        },
+        {
+          "key": "c",
+          "text": "Un aumento salarial automático."
+        },
+        {
+          "key": "d",
+          "text": "Una sanción por llegar tarde."
+        }
+      ],
+      "correct": "b",
+      "justification": "Desincentiva la venta forzada a clientes que no tienen el perfil adecuado."
+    },
+    {
+      "id": 7,
+      "question": "¿Cómo deben estructurarse los ascensos dentro de la fuerza de ventas (ej. de SDR a AE, o de Junior AE a Senior AE)?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Según la simpatía con el gerente."
+        },
+        {
+          "key": "b",
+          "text": "Con criterios cuantitativos transparentes alcanzados de forma sostenida durante 2 o más trimestres."
+        },
+        {
+          "key": "c",
+          "text": "Por antigüedad exclusivamente."
+        },
+        {
+          "key": "d",
+          "text": "Por sorteo."
+        }
+      ],
+      "correct": "b",
+      "justification": "La meritocracia basada en datos fomenta un ambiente justo y enfocado en el rendimiento."
+    },
+    {
+      "id": 8,
+      "question": "¿Cuál es la duración recomendada para una sesión semanal de Film Review en grupo?",
+      "options": [
+        {
+          "key": "a",
+          "text": "5 minutos."
+        },
+        {
+          "key": "b",
+          "text": "Entre 30 y 45 minutos."
+        },
+        {
+          "key": "c",
+          "text": "8 horas seguidas."
+        },
+        {
+          "key": "d",
+          "text": "3 semanas."
+        }
+      ],
+      "correct": "b",
+      "justification": "Un formato ágil de 30 a 45 minutos mantiene la atención y el dinamismo del equipo."
+    },
+    {
+      "id": 9,
+      "question": "El coaching métrico continuado permite reducir el Ramp-Up Time de los nuevos vendedores porque:",
+      "options": [
+        {
+          "key": "a",
+          "text": "Diagnostica rápidamente sus puntos débiles y acelera la curva de aprendizaje con práctica guiada."
+        },
+        {
+          "key": "b",
+          "text": "Les exige trabajar los fines de semana."
+        },
+        {
+          "key": "c",
+          "text": "Elimina la necesidad de hacer demos."
+        },
+        {
+          "key": "d",
+          "text": "Les regala la cuota del primer mes."
+        }
+      ],
+      "correct": "a",
+      "justification": "La retroalimentación enfocada corrige hábitos ineficientes desde las primeras semanas."
+    },
+    {
+      "id": 10,
+      "question": "Un plan de compensación bien diseñado debe premiar no solo la adquisición de nuevos clientes, sino también:",
+      "options": [
+        {
+          "key": "a",
+          "text": "La cantidad de publicaciones en redes sociales."
+        },
+        {
+          "key": "b",
+          "text": "La retención y expansión de ingresos (Net Revenue Retention)."
+        },
+        {
+          "key": "c",
+          "text": "Las horas sentado en el escritorio."
+        },
+        {
+          "key": "d",
+          "text": "El uso del uniforme."
+        }
+      ],
+      "correct": "b",
+      "justification": "La salud financiera sostenible de una startup depende de la expansión del valor de vida del cliente."
+    }
+  ]
+}

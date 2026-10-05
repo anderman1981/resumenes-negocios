@@ -1,0 +1,126 @@
+{
+  "flashcards": [
+    {
+      "front": "¿Cuál es la tasa de fracaso de las startups financiada en Series A y Series C?",
+      "back": "**75% en ambas etapas**. El acceso a mayor capital en Series C no reduce el fracaso si la causa raíz es el escalamiento prematuro."
+    },
+    {
+      "front": "¿Cuál era la definición de ventas en la era del *Shelfware* (80s/90s) vs. la era de suscripción?",
+      "back": "En el Shelfware era \"generar ingresos\" tras firmar el contrato. En la era de suscripción es **\"crear valor para el cliente\"**; los ingresos son solo una consecuencia."
+    },
+    {
+      "front": "¿Qué es el Escalamiento Prematuro?",
+      "back": "Acelerar la contratación comercial e inversión en marketing antes de validar cuantitativamente el Product-Market Fit y la Economía Unitaria."
+    },
+    {
+      "front": "¿Cuáles son las 3 Fases Secuenciales del Sistema Maestro de Crecimiento?",
+      "back": "1. Product-Market Fit (Creación de Valor) ➔ 2. Go-To-Market Fit (Economía Unitaria) ➔ 3. Escalamiento Acelerado (Velocímetro Comercial)."
+    },
+    {
+      "front": "¿En qué consiste la rutina diaria de \"Film Review\"?",
+      "back": "Una reunión diaria a las 5:00 PM donde el equipo interfuncional (Ventas, Producto, Marketing, CS) analiza grabaciones de llamadas reales para detectar cuellos de botella."
+    }
+  ],
+  "quiz": [
+    {
+      "id": 1,
+      "question": "¿Por qué el porcentaje de fracaso comercial se mantiene en 75% tanto en Series A como en Series C?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Por falta de financiamiento de los fondos de venture capital."
+        },
+        {
+          "key": "b",
+          "text": "Por escalar prematuramente el equipo comercial antes de validar la retención y la economía unitaria."
+        },
+        {
+          "key": "c",
+          "text": "Por la falta de habilidades técnicas en los ingenieros de producto."
+        }
+      ],
+      "correct": "b",
+      "justification": "El escalamiento prematuro fuerza el crecimiento en mercados no validados, colapsando la retención."
+    },
+    {
+      "id": 2,
+      "question": "En la economía actual de software por suscripción y consumo, las ventas deben redefinirse como:",
+      "options": [
+        {
+          "key": "a",
+          "text": "Un proceso agresivo de cierre a cualquier costo."
+        },
+        {
+          "key": "b",
+          "text": "Un departamento encargado exclusivamente de cuotas mensuales."
+        },
+        {
+          "key": "c",
+          "text": "Un mecanismo centrado en la creación de valor para el cliente."
+        }
+      ],
+      "correct": "c",
+      "justification": "En suscripción, si el cliente no percibe valor continuo, cancela (*churn*), destruyendo el LTV."
+    },
+    {
+      "id": 3,
+      "question": "¿Cuál es el principal peligro del Churn como métrica de salud del negocio?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Que es una métrica difícil de calcular en Excel."
+        },
+        {
+          "key": "b",
+          "text": "Que es un indicador *lagging* (retardado) que refleja decisiones tomadas 6 a 12 meses atrás."
+        },
+        {
+          "key": "c",
+          "text": "Que los inversionistas no le prestan atención en las juntas de consejo."
+        }
+      ],
+      "correct": "b",
+      "justification": "Cuando el Churn se manifiesta, la fuga de clientes ya ocurrió y es tarde para reaccionar."
+    },
+    {
+      "id": 4,
+      "question": "¿Cuál es la secuencia correcta de validación previa al escalamiento masivo?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Escalamiento ➔ Go-To-Market Fit ➔ Product-Market Fit."
+        },
+        {
+          "key": "b",
+          "text": "Product-Market Fit ➔ Go-To-Market Fit ➔ Escalamiento Controlado."
+        },
+        {
+          "key": "c",
+          "text": "Inversión en Marketing ➔ Contratación de 20 Vendedores ➔ Retención."
+        }
+      ],
+      "correct": "b",
+      "justification": "Debe validarse primero el valor (PMF), luego la rentabilidad del canal (GTM Fit) y finalmente la velocidad."
+    },
+    {
+      "id": 5,
+      "question": "¿Qué objetivo busca la reunión diaria de Film Review a las 5:00 PM?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Revisar las comisiones del día de cada vendedor."
+        },
+        {
+          "key": "b",
+          "text": "Escuchar llamadas reales de clientes para alinear a Producto, Marketing y Ventas en la creación de valor."
+        },
+        {
+          "key": "c",
+          "text": "Dar retroalimentación negativa masiva sobre 50 errores a la vez."
+        }
+      ],
+      "correct": "b",
+      "justification": "Permite un aprendizaje acelerado e interfuncional sobre los dolores reales del comprador."
+    }
+  ]
+}

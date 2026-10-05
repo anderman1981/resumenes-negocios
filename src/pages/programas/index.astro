@@ -1,0 +1,101 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getProgramas } from '../../lib/programas.mjs';
+
+const programas = await getProgramas();
+---
+
+<BaseLayout
+  title="Programas Multimodales de 7 Días — Resúmenes de Negocios"
+  description="Aprende y domina metodologías ejecutivas de negocios, ventas y startups con audio podcasts, diapositivas, guías prácticas, flashcards y quizzes evaluativos."
+>
+  <!-- Hero Section -->
+  <section class="border-b border-slate-100 bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 py-16 sm:py-20 text-white">
+    <div class="mx-auto max-w-5xl px-4 text-center">
+      <span class="inline-flex items-center gap-1.5 rounded-full bg-brand-500/20 px-3.5 py-1 text-xs sm:text-sm font-semibold text-brand-300 border border-brand-500/30">
+        🚀 Aprendizaje Multimodal Intensivo
+      </span>
+      <h1 class="mt-4 text-3xl sm:text-5xl font-extrabold tracking-tight">
+        Programas Ejecutivos en 7 Días
+      </h1>
+      <p class="mx-auto mt-4 max-w-2xl text-base sm:text-lg text-slate-300 leading-relaxed">
+        Series estructuradas con audio podcasts, presentaciones de diapositivas en PDF, workbooks descargables, fichas mnemotécnicas interactivas y autoevaluaciones con justificación técnica.
+      </p>
+    </div>
+  </section>
+
+  <!-- Programs List -->
+  <section class="mx-auto max-w-5xl px-4 py-16">
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <h2 class="text-2xl font-bold text-slate-900">Programas Disponibles</h2>
+        <p class="text-sm text-slate-500">Selecciona un programa para comenzar tu ruta de aprendizaje.</p>
+      </div>
+      <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700">
+        {programas.length} {programas.length === 1 ? 'programa' : 'programas'}
+      </span>
+    </div>
+
+    {programas.length === 0 ? (
+      <div class="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-12 text-center text-slate-500">
+        <p class="text-lg font-medium">No hay programas publicados actualmente.</p>
+        <p class="mt-1 text-sm">Ejecuta el compilador con <code>npm run crear-programa</code> para activar un nuevo programa.</p>
+      </div>
+    ) : (
+      <div class="grid gap-8 md:grid-cols-2">
+        {programas.map((p) => (
+          <div class="flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:border-brand-300 hover:shadow-lg">
+            {p.portada && (
+              <div class="aspect-video w-full overflow-hidden bg-slate-100 border-b border-slate-100">
+                <img
+                  src={p.portada}
+                  alt={p.nombre}
+                  class="h-full w-full object-cover transition duration-300 hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
+            )}
+            <div class="p-6 flex-1 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="rounded-md bg-brand-50 px-2.5 py-0.5 text-xs font-bold text-brand-700">
+                    Serie de 7 Días (+ Día 0)
+                  </span>
+                  <span class="text-xs text-slate-400">
+                    · {p.dias.length} módulos
+                  </span>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900">
+                  <a href={`/programas/${p.slug}`} class="hover:text-brand-600">
+                    {p.nombre}
+                  </a>
+                </h3>
+                <p class="mt-1 text-xs font-semibold text-slate-500">
+                  Por {p.autor}
+                </p>
+                <p class="mt-3 text-sm text-slate-600 line-clamp-3 leading-relaxed">
+                  {p.descripcion}
+                </p>
+              </div>
+
+              <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+                <div class="flex items-center gap-3 text-xs text-slate-500">
+                  <span title="Audio Podcasts">🎧 Audios</span>
+                  <span title="Diapositivas y Guías">📄 PDFs</span>
+                  <span title="Quizzes evaluativos">📝 Quizzes</span>
+                </div>
+                <a
+                  href={`/programas/${p.slug}`}
+                  class="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 px-4 py-2 text-xs font-bold text-white shadow-sm transition hover:bg-brand-600"
+                >
+                  <span>Iniciar Programa</span>
+                  <span>→</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+  </section>
+</BaseLayout>

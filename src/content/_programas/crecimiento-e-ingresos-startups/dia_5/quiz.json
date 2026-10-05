@@ -1,0 +1,286 @@
+{
+  "flashcards": [
+    {
+      "front": "¿Cuál es el predictor #1 de éxito en contrataciones de ventas según Mark Roberge?",
+      "back": "La Coachability (Entrenabilidad): la capacidad de absorber e integrar feedback constructivo."
+    },
+    {
+      "front": "¿Por qué suele fracasar el \"vendedor estrella\" de una gran corporación en una startup?",
+      "back": "Porque está acostumbrado a marcas maduras, soporte masivo y procesos fijos, paralizándose en el entorno caótico de una startup."
+    },
+    {
+      "front": "¿En qué consiste la Curiosidad en ventas?",
+      "back": "La capacidad de hacer preguntas de indagación profunda sobre los dolores del cliente en lugar de hablar del producto."
+    },
+    {
+      "front": "¿Cuál es la prueba práctica para medir la Coachability en una entrevista?",
+      "back": "La simulación de Role Play de 4 pasos: Simulación 1 -> Autoevaluación -> Feedback duro -> Simulación 2."
+    },
+    {
+      "front": "¿Qué respuesta en la fase de autoevaluación es una señal de alerta (Red Flag)?",
+      "back": "Que el candidato se ponga defensivo, culpe al cliente hipotético o se califique con 10/10 sin autocrítica."
+    },
+    {
+      "front": "¿Qué rasgo evalúa la facilidad para comprender industrias complejas?",
+      "back": "La Inteligencia (capacidad de sintetizar conceptos técnicos en valor de negocio)."
+    },
+    {
+      "front": "¿Cómo se elimina el sesgo subjetivo (\"Gut Feeling\") en la selección?",
+      "back": "Mediante el uso de rúbricas cuantitativas estandarizadas con evidencias de comportamientos concretos."
+    },
+    {
+      "front": "¿Por qué la experiencia previa en la industria NO es el criterio principal?",
+      "back": "Porque la entrenabilidad y la curiosidad permiten aprender la industria rápidamente, mientras que un vendedor inentrenable con experiencia no se adaptará."
+    },
+    {
+      "front": "¿Qué es un análisis de regresión en contratación de ventas?",
+      "back": "Correlacionar las notas cuantitativas otorgadas en la entrevista contra las ventas reales logradas a los 6 meses."
+    },
+    {
+      "front": "¿Cuál es el propósito del examen de certificación en el onboarding comercial?",
+      "back": "Garantizar que ningún vendedor atienda clientes reales sin dominar el playbook y haber aprobado simulaciones."
+    }
+  ],
+  "quiz": [
+    {
+      "id": 1,
+      "question": "Según la metodología de Mark Roberge, ¿cuál es la característica con mayor correlación con el éxito en ventas?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Años de experiencia vendiendo en la misma industria."
+        },
+        {
+          "key": "b",
+          "text": "Coachability (Entrenabilidad)."
+        },
+        {
+          "key": "c",
+          "text": "Extroversión y carisma."
+        },
+        {
+          "key": "d",
+          "text": "Agenda de contactos previa."
+        }
+      ],
+      "correct": "b",
+      "justification": "La entrenabilidad permite al vendedor aprender, iterar y adaptarse al playbook rápidamente."
+    },
+    {
+      "id": 2,
+      "question": "¿Cuál es el error principal al contratar a un top performer de una multinacional para una startup en etapa temprana?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Cobran comisiones muy bajas."
+        },
+        {
+          "key": "b",
+          "text": "Carecen de adaptabilidad al caos y dependen del reconocimiento de una marca consolidada."
+        },
+        {
+          "key": "c",
+          "text": "No saben usar correo electrónico."
+        },
+        {
+          "key": "d",
+          "text": "Venden demasiado rápido."
+        }
+      ],
+      "correct": "b",
+      "justification": "La venta en startup requiere exploración y resiliencia sin el respaldo institucional de una corporación."
+    },
+    {
+      "id": 3,
+      "question": "En la prueba de simulación de Role Play, ¿qué se evalúa principalmente entre la primera y la segunda simulación?",
+      "options": [
+        {
+          "key": "a",
+          "text": "La velocidad con la que habla el candidato."
+        },
+        {
+          "key": "b",
+          "text": "Si el candidato integró el feedback recibido para ajustar su comportamiento."
+        },
+        {
+          "key": "c",
+          "text": "La calidad de su vestimenta."
+        },
+        {
+          "key": "d",
+          "text": "El tono de voz."
+        }
+      ],
+      "correct": "b",
+      "justification": "Demuestra en la práctica real su grado de entrenabilidad e integración de críticas."
+    },
+    {
+      "id": 4,
+      "question": "¿Cómo se define el rasgo de Curiosidad en el contexto comercial?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Hacer preguntas inquisitivas para entender la causa raíz del dolor del cliente."
+        },
+        {
+          "key": "b",
+          "text": "Curiosidad por saber cuánto gana el CEO."
+        },
+        {
+          "key": "c",
+          "text": "Cambiar de trabajo frecuentemente."
+        },
+        {
+          "key": "d",
+          "text": "Leer las noticias del periódico."
+        }
+      ],
+      "correct": "a",
+      "justification": "Un vendedor curioso busca diagnosticar antes de prescribir una solución."
+    },
+    {
+      "id": 5,
+      "question": "Si en la autoevaluación posterior al Role Play el candidato afirma que su llamada fue 'perfecta' a pesar de haber cometido errores evidentes, esto indica:",
+      "options": [
+        {
+          "key": "a",
+          "text": "Alta confianza deseable."
+        },
+        {
+          "key": "b",
+          "text": "Falta de autoconciencia y baja coachability (Red Flag)."
+        },
+        {
+          "key": "c",
+          "text": "Habilidad de negociación avanzada."
+        },
+        {
+          "key": "d",
+          "text": "Que debe ser contratado de inmediato."
+        }
+      ],
+      "correct": "b",
+      "justification": "La incapacidad de reconocer áreas de mejora impide el aprendizaje continuo."
+    },
+    {
+      "id": 6,
+      "question": "¿Cuál es el peso sugerido para la Coachability en la rúbrica cuantitativa de contratación?",
+      "options": [
+        {
+          "key": "a",
+          "text": "5%"
+        },
+        {
+          "key": "b",
+          "text": "10%"
+        },
+        {
+          "key": "c",
+          "text": "Entre 25% y 30%"
+        },
+        {
+          "key": "d",
+          "text": "80%"
+        }
+      ],
+      "correct": "c",
+      "justification": "Es la variable individual con mayor peso en el modelo predictivo de éxito comercial."
+    },
+    {
+      "id": 7,
+      "question": "El uso de rúbricas de calificación estandarizadas en las entrevistas permite:",
+      "options": [
+        {
+          "key": "a",
+          "text": "Reemplazar a los entrevistadores por IA."
+        },
+        {
+          "key": "b",
+          "text": "Objetivar el proceso y realizar análisis de regresión con los datos de rendimiento futuro."
+        },
+        {
+          "key": "c",
+          "text": "Hacer entrevistas en 2 minutos."
+        },
+        {
+          "key": "d",
+          "text": "Evitar pagar salarios."
+        }
+      ],
+      "correct": "b",
+      "justification": "Transforma la selección intuitiva en un modelo de datos empírico y mejorable."
+    },
+    {
+      "id": 8,
+      "question": "¿Qué rasgo mide la capacidad de explicar conceptos técnicos complejos de forma sencilla para el cliente?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Éxito previo."
+        },
+        {
+          "key": "b",
+          "text": "Inteligencia."
+        },
+        {
+          "key": "c",
+          "text": "Ética de trabajo."
+        },
+        {
+          "key": "d",
+          "text": "Puntualidad."
+        }
+      ],
+      "correct": "b",
+      "justification": "La inteligencia comercial se refleja en la traducción de complejidad técnica a valor de negocio."
+    },
+    {
+      "id": 9,
+      "question": "¿En qué consiste el examen de certificación durante el onboarding de un nuevo vendedor?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Un test de cultura general."
+        },
+        {
+          "key": "b",
+          "text": "Una prueba teórica y de simulación práctica que debe aprobarse antes de asignar leads reales."
+        },
+        {
+          "key": "c",
+          "text": "Una revisión de currículum."
+        },
+        {
+          "key": "d",
+          "text": "Un contrato legal."
+        }
+      ],
+      "correct": "b",
+      "justification": "Protege la reputación de la empresa y los leads al garantizar la competencia mínima requerida."
+    },
+    {
+      "id": 10,
+      "question": "¿Cómo debe evolucionar la fórmula de contratación de una startup con el paso del tiempo?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Permanecer congelada para siempre."
+        },
+        {
+          "key": "b",
+          "text": "Ajustarse periódicamente analizando qué rasgos de la rúbrica correlacionan con los vendedores de mayor facturación."
+        },
+        {
+          "key": "c",
+          "text": "Cambiar según el estado de ánimo del gerente."
+        },
+        {
+          "key": "d",
+          "text": "Copiarse de la competencia todos los meses."
+        }
+      ],
+      "correct": "b",
+      "justification": "La fórmula es un modelo vivo que se refina mediante retroalimentación de datos reales."
+    }
+  ]
+}

@@ -10,7 +10,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "nuevo": "node scripts/generar-resumen.mjs",
-    "publicar": "node scripts/publicar-cola.mjs"
+    "publicar": "node scripts/publicar-cola.mjs",
+    "crear-programa": "node scripts/crear-nuevo-programa.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.11",
@@ -19,6 +20,7 @@
     "@tailwindcss/typography": "^0.5.20",
     "@vercel/blob": "^2.8.0",
     "astro": "^4.16.18",
+    "marked": "^18.0.14",
     "tailwindcss": "^3.4.17"
   }
 }

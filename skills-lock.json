@@ -6,6 +6,12 @@
       "sourceType": "github",
       "skillPath": "skills/atxp/SKILL.md",
       "computedHash": "fcef89f8eba21cb0274708f8ed2487d261180f38c768f019830a4f23a5a87fc0"
+    },
+    "crear-nuevo-programa": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": ".agents/skills/crear-nuevo-programa/SKILL.md",
+      "computedHash": "165f847264c7875a2fd089731209f787571a203d3faa21e94ac54b7af901dde1"
     }
   }
 }

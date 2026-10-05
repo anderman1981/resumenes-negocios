@@ -1,0 +1,107 @@
+{
+  "slug": "crecimiento-e-ingresos-startups",
+  "nombre": "Crecimiento e Ingresos en Startups",
+  "titulo": "Programa Maestro Multimodal: Aceleración de Ventas y Escalamiento en 7 Días (+ Día 0)",
+  "descripcion": "Sistema científico de go-to-market basado en las metodologías de aceleración comercial de HubSpot y Stage 2 Capital. Incluye podcasts ejecutivos, diapositivas, plantillas de cálculo, fichas mnemotécnicas y quizzes evaluativos diarios.",
+  "autor": "Mark Roberge (HubSpot / Stage 2 Capital) & Equipo Editorial",
+  "categoria": "emprendimiento",
+  "portada": "/assets/programas/crecimiento-e-ingresos-startups/covers/portada_principal.png",
+  "dias": [
+    {
+      "dia": 0,
+      "dirName": "dia_0",
+      "diaSlug": "dia-0",
+      "titulo": "Día 0: Marco Estructural del Sistema de Escalabilidad",
+      "descripcion": "Onboarding y diagnóstico inicial de escalabilidad. Por qué el 75% de las startups fracasan y cómo evitar el escalamiento prematuro.",
+      "audio": "/assets/programas/crecimiento-e-ingresos-startups/audio/dia_0_onboarding_escalabilidad.mp3",
+      "slidesPdf": "/assets/programas/crecimiento-e-ingresos-startups/pdf/dia_0_slides_marco_estructural.pdf",
+      "guiaPdf": "/assets/programas/crecimiento-e-ingresos-startups/pdf/dia_0_guia_onboarding_sistema.pdf",
+      "flashcardsCount": 5,
+      "quizCount": 5
+    },
+    {
+      "dia": 1,
+      "dirName": "dia_1",
+      "diaSlug": "dia-1",
+      "titulo": "Día 1: Cuantificación del Product-Market Fit e Indicadores Líderes",
+      "descripcion": "La fórmula matemática del PMF (p% / e / t), selección de eventos y análisis de retención mediante matrices de cohortes.",
+      "audio": "/assets/programas/crecimiento-e-ingresos-startups/audio/dia_1_cuantificacion_pmf.mp3",
+      "slidesPdf": "/assets/programas/crecimiento-e-ingresos-startups/pdf/dia_1_slides_cuantificacion_pmf.pdf",
+      "guiaPdf": "/assets/programas/crecimiento-e-ingresos-startups/pdf/dia_1_guia_matriz_cohortes_pmf.pdf",
+      "flashcardsCount": 10,
+      "quizCount": 10
+    },
+    {
+      "dia": 2,
+      "dirName": "dia_2",
+      "diaSlug": "dia-2",
+      "titulo": "Día 2: Go-To-Market Fit y Economía Unitaria (LTV, CAC, Payback)",
+      "descripcion": "Validación de economía unitaria sostenible: ratio LTV:CAC > 3.0x, periodo de Payback menor a 12 meses y cálculo de CAC Fully Loaded.",
+      "audio": "/assets/programas/crecimiento-e-ingresos-startups/audio/dia_2_gtm_fit_economia_unitaria.mp3",
+      "slidesPdf": "/assets/programas/crecimiento-e-ingresos-startups/pdf/dia_2_slides_gtm_fit_economia_unitaria.pdf",
+      "guiaPdf": "/assets/programas/crecimiento-e-ingresos-startups/pdf/dia_2_guia_calculadora_ltv_cac.pdf",
+      "flashcardsCount": 10,
+      "quizCount": 10
+    },
+    {
+      "dia": 3,
+      "dirName": "dia_3",
+      "diaSlug": "dia-3",
+      "titulo": "Día 3: El Velocímetro de Escalamiento y Ritmo de Crecimiento",
+      "descripcion": "El tablero de control del crecimiento: cómo determinar cuántos vendedores contratar sin sobrecargar los canales de adquisición.",
+      "audio": "/assets/programas/crecimiento-e-ingresos-startups/audio/dia_3_velocimetro_escalamiento.mp3",
+      "slidesPdf": "/assets/programas/crecimiento-e-ingresos-startups/pdf/dia_3_slides_velocimetro_escalamiento.pdf",
+      "guiaPdf": "/assets/programas/crecimiento-e-ingresos-startups/pdf/dia_3_guia_matriz_segmentacion.pdf",
+      "flashcardsCount": 10,
+      "quizCount": 10
+    },
+    {
+      "dia": 4,
+      "dirName": "dia_4",
+      "diaSlug": "dia-4",
+      "titulo": "Día 4: Alineación Científica entre Ventas y Marketing (SLA)",
+      "descripcion": "Contrato de Nivel de Servicio (SLA) basado en puntos de valor de leads en lugar de volumen bruto de MQLs.",
+      "audio": "/assets/programas/crecimiento-e-ingresos-startups/audio/dia_4_alineacion_ventas_marketing.mp3",
+      "slidesPdf": "/assets/programas/crecimiento-e-ingresos-startups/pdf/dia_4_slides_alineacion_ventas_marketing.pdf",
+      "guiaPdf": "/assets/programas/crecimiento-e-ingresos-startups/pdf/dia_4_guia_sla_ventas_marketing.pdf",
+      "flashcardsCount": 10,
+      "quizCount": 10
+    },
+    {
+      "dia": 5,
+      "dirName": "dia_5",
+      "diaSlug": "dia-5",
+      "titulo": "Día 5: La Fórmula de Contratación de Ventas e Ingeniería de Perfil",
+      "descripcion": "Modelo cuantitativo de contratación: evaluación de coachability, simulación de llamadas en vivo y definición del perfil de vendedor.",
+      "audio": "/assets/programas/crecimiento-e-ingresos-startups/audio/dia_5_formula_contratacion_ventas.mp3",
+      "slidesPdf": "/assets/programas/crecimiento-e-ingresos-startups/pdf/dia_5_slides_formula_contratacion.pdf",
+      "guiaPdf": "/assets/programas/crecimiento-e-ingresos-startups/pdf/dia_5_guia_rubrica_entrevista.pdf",
+      "flashcardsCount": 10,
+      "quizCount": 10
+    },
+    {
+      "dia": 6,
+      "dirName": "dia_6",
+      "diaSlug": "dia-6",
+      "titulo": "Día 6: Coaching Métrico, Film Review y Planes de Compensación",
+      "descripcion": "Rutina diaria de Film Review a las 5:00 PM, diagnóstico métrico en embudo y estructuración de comisiones ligadas a retención.",
+      "audio": "/assets/programas/crecimiento-e-ingresos-startups/audio/dia_6_coaching_metrico_compensacion.mp3",
+      "slidesPdf": "/assets/programas/crecimiento-e-ingresos-startups/pdf/dia_6_slides_coaching_metrico.pdf",
+      "guiaPdf": "/assets/programas/crecimiento-e-ingresos-startups/pdf/dia_6_guia_manual_film_review.pdf",
+      "flashcardsCount": 10,
+      "quizCount": 10
+    },
+    {
+      "dia": 7,
+      "dirName": "dia_7",
+      "diaSlug": "dia-7",
+      "titulo": "Día 7: Disrupción de IA en Go-To-Market y Moats Estratégicos",
+      "descripcion": "Efectos de red de datos propietarios, modelos de cobro por valor ($/outcome), integración profunda (workflow embedding) y estrategia Beachhead.",
+      "audio": "/assets/programas/crecimiento-e-ingresos-startups/audio/dia_7_disrupcion_ia_gtm_moats.mp3",
+      "slidesPdf": "/assets/programas/crecimiento-e-ingresos-startups/pdf/dia_7_slides_disrupcion_ia_gtm.pdf",
+      "guiaPdf": "/assets/programas/crecimiento-e-ingresos-startups/pdf/dia_7_guia_blueprint_moats_beachhead.pdf",
+      "flashcardsCount": 10,
+      "quizCount": 15
+    }
+  ]
+}

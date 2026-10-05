@@ -1,0 +1,286 @@
+{
+  "flashcards": [
+    {
+      "front": "¿Qué es el \"Series A Pothole\"?",
+      "back": "El colapso financiero causado por contratar demasiados vendedores antes de validar la repetibilidad comercial."
+    },
+    {
+      "front": "¿Qué dicta el ritmo de contratación (*sales pacing*)?",
+      "back": "La salud de los indicadores de retención y la economía unitaria (LTV:CAC y Payback), NO el capital disponible."
+    },
+    {
+      "front": "¿Qué indica la Luz Verde en el velocímetro?",
+      "back": "Retención alta y Payback < 10m. Autoriza contratar de 2 a 4 ejecutivos de ventas al mes."
+    },
+    {
+      "front": "¿Qué se debe hacer en Luz Roja?",
+      "back": "Congelar inmediatamente la contratación comercial y auditar el proceso de valor y retención."
+    },
+    {
+      "front": "¿Por qué se debe contratar vendedores en parejas (Paired Hiring)?",
+      "back": "Para aislar si el rendimiento bajo se debe a incompetencia individual o a un fallo en el playbook/mercado."
+    },
+    {
+      "front": "¿Qué es el Ramp-Up Time?",
+      "back": "El periodo que le toma a un nuevo vendedor alcanzar el 80%-100% de su cuota mensual asignada."
+    },
+    {
+      "front": "¿Qué señala un aumento constante en el Ramp-Up Time?",
+      "back": "Colapso en el programa de capacitación, saturación del equipo o falta de flujo de leads calificados."
+    },
+    {
+      "front": "¿Qué significa analizar la empresa \"bajo el capó\"?",
+      "back": "Desglosar métricas por sub-segmentos (ICP, producto, canal) en lugar de evaluar promedios globales."
+    },
+    {
+      "front": "¿Qué hacer con un sub-segmento que presenta Churn elevado?",
+      "back": "Aplicar la Matriz de Descalificación y detener los esfuerzos comerciales en ese nicho."
+    },
+    {
+      "front": "¿Cuál es la relación entre la capacidad de leads y el headcount comercial?",
+      "back": "Agregar vendedores sin aumentar los SQLs diluye las oportunidades por vendedor y destruye la cuota promedio."
+    }
+  ],
+  "quiz": [
+    {
+      "id": 1,
+      "question": "¿Cuál es la causa principal del llamado \"Series A Pothole\"?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Falta de presupuesto para marketing."
+        },
+        {
+          "key": "b",
+          "text": "Escalar prematuramente el equipo de ventas sin un proceso repetible validado."
+        },
+        {
+          "key": "c",
+          "text": "Competencia agresiva de precios."
+        },
+        {
+          "key": "d",
+          "text": "Cambio en las normativas fiscales."
+        }
+      ],
+      "correct": "b",
+      "justification": "Acelerar la contratación comercial basándose únicamente en el capital levantado destruye la economía de la empresa."
+    },
+    {
+      "id": 2,
+      "question": "En el Velocímetro de Escalamiento, ¿qué variable determina la Luz Verde para acelerar contrataciones?",
+      "options": [
+        {
+          "key": "a",
+          "text": "La cantidad de fondos restantes en la cuenta bancaria."
+        },
+        {
+          "key": "b",
+          "text": "La aprobación del departamento de Recursos Humanos."
+        },
+        {
+          "key": "c",
+          "text": "Retención de clientes consistente e indicadores de Payback < 10-12 meses."
+        },
+        {
+          "key": "d",
+          "text": "El número de seguidores en LinkedIn."
+        }
+      ],
+      "correct": "c",
+      "justification": "La luz verde proviene de métricas operativas saludables que confirman la sostenibilidad de la adquisición."
+    },
+    {
+      "id": 3,
+      "question": "¿Por qué se recomienda contratar ejecutivos de ventas en pares en etapas tempranas?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Para ahorrar costos de onboarding."
+        },
+        {
+          "key": "b",
+          "text": "Para fomentar la competencia agresiva."
+        },
+        {
+          "key": "c",
+          "text": "Para diferenciar entre fallas de habilidad individual y fallas del proceso comercial/playbook."
+        },
+        {
+          "key": "d",
+          "text": "Porque los vendedores trabajan mejor en parejas."
+        }
+      ],
+      "correct": "c",
+      "justification": "Al tener dos personas en las mismas condiciones, se aísla la variable de rendimiento individual de la validez del mercado."
+    },
+    {
+      "id": 4,
+      "question": "Si las métricas muestran una Luz Amarilla en el velocímetro, la acción recomendada es:",
+      "options": [
+        {
+          "key": "a",
+          "text": "Despedir a la mitad del equipo comercial."
+        },
+        {
+          "key": "b",
+          "text": "Mantener la capacidad comercial constante y diagnosticar cuellos de botella sin agregar nuevos vendedores."
+        },
+        {
+          "key": "c",
+          "text": "Duplicar las cuotas individuales."
+        },
+        {
+          "key": "d",
+          "text": "Cambiar de producto inmediatamente."
+        }
+      ],
+      "correct": "b",
+      "justification": "La luz amarilla exige cautela: estabilizar el rendimiento antes de tomar decisiones de expansión o reducción."
+    },
+    {
+      "id": 5,
+      "question": "¿Qué indica un incremento en el Ramp-Up Time de los nuevos vendedores?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Que el producto es cada vez más fácil de vender."
+        },
+        {
+          "key": "b",
+          "text": "Que la empresa está lista para cotizar en bolsa."
+        },
+        {
+          "key": "c",
+          "text": "Fricción en el entrenamiento, cuello de botella en la entrega de leads o pérdida de competitividad."
+        },
+        {
+          "key": "d",
+          "text": "Que los vendedores son más experimentados."
+        }
+      ],
+      "correct": "c",
+      "justification": "Tardar más tiempo en alcanzar cuota es un síntoma claro de problemas en el sistema de habilitación o demanda."
+    },
+    {
+      "id": 6,
+      "question": "¿Por qué es peligroso tomar decisiones basadas únicamente en los promedios globales de la empresa?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Porque los promedios ocultan nichos hiper-rentables y nichos altamente deficitarios \"bajo el capó\"."
+        },
+        {
+          "key": "b",
+          "text": "Porque los promedios son difíciles de calcular."
+        },
+        {
+          "key": "c",
+          "text": "Porque a los inversionistas no les gustan las matemáticas."
+        },
+        {
+          "key": "d",
+          "text": "Porque no influyen en el flujo de caja."
+        }
+      ],
+      "correct": "a",
+      "justification": "Un promedio aceptable puede esconder un segmento Enterprise brillante combinada con un segmento SMB con alto churn."
+    },
+    {
+      "id": 7,
+      "question": "¿Qué se debe hacer al identificar un sub-segmento de clientes con alto Churn y Payback > 20 meses?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Contratar más vendedores enfocados en ese segmento."
+        },
+        {
+          "key": "b",
+          "text": "Bajar los precios un 50%."
+        },
+        {
+          "key": "c",
+          "text": "Descalificar el segmento y reorientar el esfuerzo comercial hacia nichos saludables."
+        },
+        {
+          "key": "d",
+          "text": "Ignorar los datos hasta el próximo año."
+        }
+      ],
+      "correct": "c",
+      "justification": "Enfocar los recursos limitados únicamente en los segmentos donde existe tracción y rentabilidad real."
+    },
+    {
+      "id": 8,
+      "question": "¿Cuál es el rol de la capacidad de leads (SQLs) al planificar el headcount comercial?",
+      "options": [
+        {
+          "key": "a",
+          "text": "No tiene relación con el número de vendedores."
+        },
+        {
+          "key": "b",
+          "text": "Define el límite superior de vendedores que el sistema de demanda puede alimentar con cuotas alcanzables."
+        },
+        {
+          "key": "c",
+          "text": "Sirve solo para evaluar al equipo de marketing."
+        },
+        {
+          "key": "d",
+          "text": "Determina el salario base."
+        }
+      ],
+      "correct": "b",
+      "justification": "Si no hay suficientes leads para cada vendedor, agregar más personas solo disminuye la productividad individual."
+    },
+    {
+      "id": 9,
+      "question": "En la metodología de Mark Roberge, la contratación masiva de cohortes se justifica cuando:",
+      "options": [
+        {
+          "key": "a",
+          "text": "La startup levanta una Serie B."
+        },
+        {
+          "key": "b",
+          "text": "El equipo de ventas anterior alcanzó o superó cuota durante al menos 2 trimestres consecutivos con métricas saludables."
+        },
+        {
+          "key": "c",
+          "text": "El fundador no quiere hacer más demos."
+        },
+        {
+          "key": "d",
+          "text": "Comienza un nuevo año fiscal."
+        }
+      ],
+      "correct": "b",
+      "justification": "La consistencia histórica de rendimiento valida la capacidad del sistema para absorber nueva fuerza de ventas."
+    },
+    {
+      "id": 10,
+      "question": "¿Cuál es el mensaje central del Día 3 para la junta directiva (Board) de una startup?",
+      "options": [
+        {
+          "key": "a",
+          "text": "\"El crecimiento rápido requiere contratar 100 vendedores inmediatamente\"."
+        },
+        {
+          "key": "b",
+          "text": "\"El ritmo de escalamiento debe estar regido por métricas unitarias y retención, no por el saldo bancario\"."
+        },
+        {
+          "key": "c",
+          "text": "\"Las ventas no se pueden medir cuantitativamente\"."
+        },
+        {
+          "key": "d",
+          "text": "\"El marketing es opcional si los vendedores son buenos\"."
+        }
+      ],
+      "correct": "b",
+      "justification": "Proteger el capital y la eficiencia mediante un crecimiento gobernado por datos objetivos de tracción."
+    }
+  ]
+}

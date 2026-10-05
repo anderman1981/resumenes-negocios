@@ -1,0 +1,246 @@
+{
+  "flashcards": [
+    {
+      "front": "¿Cuál es la fórmula matemática cuantitativa del Product-Market Fit?",
+      "back": "$p\\%$ de los clientes alcanzan el evento $e$ en el tiempo $t$."
+    },
+    {
+      "front": "¿Por qué los ingresos recurrentes (ARR) o cerrar $500K USD no garantizan PMF?",
+      "back": "Porque refleja *Message-Market Fit* (habilidad de ventas), no necesariamente que los clientes adopten el producto y retengan."
+    },
+    {
+      "front": "¿Cuál es el indicador líder de retención de Slack?",
+      "back": "$70\\%$ de los equipos envían **2,000 mensajes de equipo en 30 días**."
+    },
+    {
+      "front": "¿Cuál es el indicador líder de retención de Dropbox?",
+      "back": "$85\\%$ de los usuarios suben **1 archivo en 1 carpeta en 1 dispositivo en 1 hora**."
+    },
+    {
+      "front": "¿Cuál es el indicador líder de retención de HubSpot?",
+      "back": "$80\\%$ de los clientes utilizan **5 o más de las 25 funciones** de la plataforma en **60 días**."
+    },
+    {
+      "front": "¿Cuáles son las 4 características de un buen evento $e$?",
+      "back": "1. Instrumentable por software. 2. Factual e inspectable. 3. Temprano (30-60 días). 4. Alineado con la propuesta de valor."
+    },
+    {
+      "front": "¿Por qué las encuestas de satisfacción o NPS pueden ser engañosas para medir PMF?",
+      "back": "Porque sufren de falsos positivos y cortesía del cliente. El comportamiento real de uso es factual."
+    },
+    {
+      "front": "¿Cómo se analiza el progreso en la Matriz de Cohortes de Adquisición Mensual?",
+      "back": "Mirando verticalmente hacia abajo la columna de un mes específico (ej. Mes 2) para verificar que el % de clientes que alcanzan el evento $e$ aumenta con el tiempo."
+    },
+    {
+      "front": "¿Cómo debe estructurarse la comisión del vendedor en la fase de validación de PMF?",
+      "back": "$50\\%$ al firmar el contrato y $50\\%$ cuando el cliente alcanza el indicador líder de retención ($e$ en $t$)."
+    },
+    {
+      "front": "¿Cuál debe ser la primera diapositiva en la junta de consejo (*board deck*) de una startup buscando PMF?",
+      "back": "La Matriz de Cohortes del Indicador Líder de Retención."
+    }
+  ],
+  "quiz": [
+    {
+      "id": 1,
+      "question": "¿Qué representa el evento $e$ en la fórmula cuantitativa del PMF ($p\\% / e / t$)?",
+      "options": [
+        {
+          "key": "a",
+          "text": "La firma del contrato comercial."
+        },
+        {
+          "key": "b",
+          "text": "El *Aha Moment* o acción clave de uso del producto que correlaciona con la retención."
+        },
+        {
+          "key": "c",
+          "text": "La llamada de renovación anual."
+        }
+      ],
+      "correct": "b",
+      "justification": ""
+    },
+    {
+      "id": 2,
+      "question": "Para Slack, alcanzar el PMF significa que un equipo envía:",
+      "options": [
+        {
+          "key": "a",
+          "text": "500 correos electrónicos en 10 días."
+        },
+        {
+          "key": "b",
+          "text": "2,000 mensajes de equipo en 30 días."
+        },
+        {
+          "key": "c",
+          "text": "10,000 mensajes en 1 año."
+        }
+      ],
+      "correct": "b",
+      "justification": ""
+    },
+    {
+      "id": 3,
+      "question": "¿Por qué la tasa de churn anual es un indicador inadecuado para aprender rápidamente en una startup?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Porque no le interesa a los inversionistas."
+        },
+        {
+          "key": "b",
+          "text": "Porque es una métrica *lagging* que refleja eventos ocurridos 12 meses atrás."
+        },
+        {
+          "key": "c",
+          "text": "Porque cambia todos los días."
+        }
+      ],
+      "correct": "b",
+      "justification": ""
+    },
+    {
+      "id": 4,
+      "question": "Si analizas una matriz de cohortes, ¿qué demuestra que tu producto está mejorando su PMF mes a mes?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Que cada mes gastas más en publicidad."
+        },
+        {
+          "key": "b",
+          "text": "Que el porcentaje de clientes que alcanzan el evento $e$ en el Mes 2 aumenta en las cohortes recientes."
+        },
+        {
+          "key": "c",
+          "text": "Que el número total de empleados de tu empresa aumentó."
+        }
+      ],
+      "correct": "b",
+      "justification": ""
+    },
+    {
+      "id": 5,
+      "question": "El indicador líder de retención de HubSpot consiste en que el 80% de los clientes usen:",
+      "options": [
+        {
+          "key": "a",
+          "text": "1 sola función al 100%."
+        },
+        {
+          "key": "b",
+          "text": "5 o más funciones de la plataforma en 60 días."
+        },
+        {
+          "key": "c",
+          "text": "La plataforma durante 8 horas diarias."
+        }
+      ],
+      "correct": "b",
+      "justification": ""
+    },
+    {
+      "id": 6,
+      "question": "¿Cuál de las siguientes características NO corresponde a un buen indicador líder?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Ser subjetivo y basado en la percepción del gerente de cuenta."
+        },
+        {
+          "key": "b",
+          "text": "Ser instrumentable mediante código de telemetría."
+        },
+        {
+          "key": "c",
+          "text": "Ocurrir en los primeros 30 a 60 días de vida del cliente."
+        }
+      ],
+      "correct": "a",
+      "justification": ""
+    },
+    {
+      "id": 7,
+      "question": "Alinear la comisión de ventas diferida (50% al contrato, 50% al alcanzar el indicador líder) logra:",
+      "options": [
+        {
+          "key": "a",
+          "text": "Que los vendedores dejen de hacer llamadas."
+        },
+        {
+          "key": "b",
+          "text": "Que los vendedores califiquen mejor y no vendan a clientes que van a cancelar."
+        },
+        {
+          "key": "c",
+          "text": "Reducir el salario base a cero."
+        }
+      ],
+      "correct": "b",
+      "justification": ""
+    },
+    {
+      "id": 8,
+      "question": "¿Qué ocurre si aceleras la contratación de ventas antes de lograr que el indicador líder supere el 60-70%?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Escalas un modelo con fuga de clientes (*churn* masivo) y destruyes capital."
+        },
+        {
+          "key": "b",
+          "text": "Logras automáticamente el PMF."
+        },
+        {
+          "key": "c",
+          "text": "Aumentas el LTV instantáneamente."
+        }
+      ],
+      "correct": "a",
+      "justification": ""
+    },
+    {
+      "id": 9,
+      "question": "El tiempo $t$ ideal en la fórmula del PMF para la mayoría de las startups SaaS B2B debe ser:",
+      "options": [
+        {
+          "key": "a",
+          "text": "De 1 a 2 años."
+        },
+        {
+          "key": "b",
+          "text": "De 30 a 60 días (o incluso horas en PLG)."
+        },
+        {
+          "key": "c",
+          "text": "Indefinido."
+        }
+      ],
+      "correct": "b",
+      "justification": ""
+    },
+    {
+      "id": 10,
+      "question": "En la prueba estadística de validación del indicador líder, si los clientes que alcanzan $e$ tienen 93% de retención anual y los que no lo alcanzan tienen 39%, se concluye que:",
+      "options": [
+        {
+          "key": "a",
+          "text": "El indicador líder es inválido."
+        },
+        {
+          "key": "b",
+          "text": "El indicador líder está fuertemente correlacionado con el éxito y es el estándar de PMF."
+        },
+        {
+          "key": "c",
+          "text": "Hay que cambiar la estrategia de precios de inmediato."
+        }
+      ],
+      "correct": "b",
+      "justification": ""
+    }
+  ]
+}

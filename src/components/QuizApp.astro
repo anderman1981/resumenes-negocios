@@ -1,0 +1,12 @@
+---
+import QuizEvaluativo from './QuizEvaluativo.astro';
+
+interface Props {
+  questions: any[];
+  title?: string;
+}
+
+const props = Astro.props;
+---
+
+<QuizEvaluativo {...props} />

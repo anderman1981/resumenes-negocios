@@ -1,0 +1,217 @@
+---
+interface Props {
+  src: string;
+  title?: string;
+  subtitle?: string;
+  cover?: string;
+  duration?: string;
+}
+
+const { src, title = 'Audio del Día', subtitle = 'Podcast Multimodal', cover, duration } = Astro.props;
+const playerId = `audio-player-${Math.random().toString(36).slice(2, 9)}`;
+---
+
+<div id={playerId} class="relative overflow-hidden rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-900 to-slate-950 p-5 text-white shadow-xl">
+  <div class="flex flex-col sm:flex-row items-center gap-4">
+    {cover && (
+      <div class="h-20 w-20 shrink-0 overflow-hidden rounded-xl border border-slate-700 bg-slate-800 shadow-md">
+        <img src={cover} alt={title} class="h-full w-full object-cover" loading="lazy" />
+      </div>
+    )}
+
+    <div class="flex-1 text-center sm:text-left min-w-0">
+      <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+        <span class="inline-flex items-center gap-1 rounded-full bg-brand-500/20 px-2.5 py-0.5 text-xs font-semibold text-brand-300 border border-brand-500/30">
+          🎙️ Podcast
+        </span>
+        {duration && (
+          <span class="text-xs text-slate-400">
+            ⏱ {duration}
+          </span>
+        )}
+      </div>
+      <h3 class="mt-1 text-base sm:text-lg font-bold text-white truncate" title={title}>
+        {title}
+      </h3>
+      <p class="text-xs text-slate-400 truncate">
+        {subtitle}
+      </p>
+    </div>
+
+    <!-- Acceso a descarga -->
+    <a
+      href={src}
+      download
+      class="hidden sm:inline-flex items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-800/80 px-3 py-1.5 text-xs font-medium text-slate-300 transition hover:bg-slate-700 hover:text-white"
+      title="Descargar archivo de audio"
+    >
+      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+      </svg>
+      <span>Audio</span>
+    </a>
+  </div>
+
+  <!-- Audio Element -->
+  <audio class="audio-element hidden" preload="metadata">
+    <source src={src} type={src.endsWith('.m4a') ? 'audio/mp4' : 'audio/mpeg'} />
+    Tu navegador no soporta el reproductor de audio.
+  </audio>
+
+  <!-- Progress Bar -->
+  <div class="mt-4">
+    <div class="flex items-center justify-between text-xs font-mono text-slate-400 mb-1">
+      <span class="time-current">0:00</span>
+      <span class="time-total">--:--</span>
+    </div>
+    <div class="progress-bar-container relative h-2 w-full cursor-pointer rounded-full bg-slate-800 overflow-hidden">
+      <div class="progress-bar-fill h-full w-0 bg-gradient-to-r from-brand-500 to-cyan-400 transition-all duration-75"></div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="mt-4 flex items-center justify-between gap-2">
+    <div class="flex items-center gap-2">
+      <!-- Skip -10s -->
+      <button type="button" class="btn-rewind rounded-lg p-2 text-slate-400 transition hover:bg-slate-800 hover:text-white" title="Retroceder 10s">
+        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0019 16V8a1 1 0 00-1.6-.8l-5.334 4zM4.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0011 16V8a1 1 0 00-1.6-.8l-5.334 4z" />
+        </svg>
+      </button>
+
+      <!-- Play / Pause -->
+      <button type="button" class="btn-play grid h-10 w-10 place-items-center rounded-full bg-brand-500 text-white shadow-lg shadow-brand-500/30 transition hover:scale-105 hover:bg-brand-400 active:scale-95" title="Reproducir">
+        <svg class="icon-play h-5 w-5 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M8 5v14l11-7z" />
+        </svg>
+        <svg class="icon-pause hidden h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+        </svg>
+      </button>
+
+      <!-- Skip +10s -->
+      <button type="button" class="btn-forward rounded-lg p-2 text-slate-400 transition hover:bg-slate-800 hover:text-white" title="Adelantar 10s">
+        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.934 12.8a1 1 0 000-1.6l-5.334-4A1 1 0 005 8v8a1 1 0 001.6.8l5.334-4zM19.934 12.8a1 1 0 000-1.6l-5.334-4A1 1 0 0013 8v8a1 1 0 001.6.8l5.334-4z" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Speed Button -->
+    <div class="flex items-center gap-2">
+      <button type="button" class="btn-speed rounded-lg border border-slate-700 bg-slate-800/80 px-2.5 py-1 text-xs font-bold text-slate-300 transition hover:bg-slate-700 hover:text-white" title="Velocidad de reproducción">
+        1x
+      </button>
+
+      <a
+        href={src}
+        download
+        class="sm:hidden rounded-lg p-2 text-slate-400 transition hover:bg-slate-800 hover:text-white"
+        title="Descargar audio"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+  function setupAudioPlayers() {
+    document.querySelectorAll('[id^="audio-player-"]').forEach((wrapper) => {
+      if (wrapper.hasAttribute('data-initialized')) return;
+      wrapper.setAttribute('data-initialized', 'true');
+
+      const audio = wrapper.querySelector<HTMLAudioElement>('.audio-element');
+      const btnPlay = wrapper.querySelector<HTMLButtonElement>('.btn-play');
+      const iconPlay = wrapper.querySelector<SVGElement>('.icon-play');
+      const iconPause = wrapper.querySelector<SVGElement>('.icon-pause');
+      const btnRewind = wrapper.querySelector<HTMLButtonElement>('.btn-rewind');
+      const btnForward = wrapper.querySelector<HTMLButtonElement>('.btn-forward');
+      const btnSpeed = wrapper.querySelector<HTMLButtonElement>('.btn-speed');
+      const timeCurrent = wrapper.querySelector<HTMLElement>('.time-current');
+      const timeTotal = wrapper.querySelector<HTMLElement>('.time-total');
+      const progressBarContainer = wrapper.querySelector<HTMLElement>('.progress-bar-container');
+      const progressBarFill = wrapper.querySelector<HTMLElement>('.progress-bar-fill');
+
+      if (!audio || !btnPlay) return;
+
+      const formatTime = (secs: number) => {
+        if (isNaN(secs) || secs < 0) return '0:00';
+        const m = Math.floor(secs / 60);
+        const s = Math.floor(secs % 60);
+        return `${m}:${s < 10 ? '0' : ''}${s}`;
+      };
+
+      const updateDuration = () => {
+        if (timeTotal && !isNaN(audio.duration)) {
+          timeTotal.textContent = formatTime(audio.duration);
+        }
+      };
+
+      audio.addEventListener('loadedmetadata', updateDuration);
+      audio.addEventListener('durationchange', updateDuration);
+
+      audio.addEventListener('timeupdate', () => {
+        if (timeCurrent) timeCurrent.textContent = formatTime(audio.currentTime);
+        if (progressBarFill && audio.duration) {
+          const pct = (audio.currentTime / audio.duration) * 100;
+          progressBarFill.style.width = `${pct}%`;
+        }
+      });
+
+      const setPlaying = (playing: boolean) => {
+        if (playing) {
+          iconPlay?.classList.add('hidden');
+          iconPause?.classList.remove('hidden');
+        } else {
+          iconPlay?.classList.remove('hidden');
+          iconPause?.classList.add('hidden');
+        }
+      };
+
+      btnPlay.addEventListener('click', () => {
+        if (audio.paused) {
+          audio.play().catch(console.error);
+          setPlaying(true);
+        } else {
+          audio.pause();
+          setPlaying(false);
+        }
+      });
+
+      audio.addEventListener('ended', () => setPlaying(false));
+      audio.addEventListener('pause', () => setPlaying(false));
+      audio.addEventListener('play', () => setPlaying(true));
+
+      btnRewind?.addEventListener('click', () => {
+        audio.currentTime = Math.max(0, audio.currentTime - 10);
+      });
+
+      btnForward?.addEventListener('click', () => {
+        audio.currentTime = Math.min(audio.duration || Infinity, audio.currentTime + 10);
+      });
+
+      const speeds = [1, 1.25, 1.5, 2];
+      let speedIdx = 0;
+      btnSpeed?.addEventListener('click', () => {
+        speedIdx = (speedIdx + 1) % speeds.length;
+        const spd = speeds[speedIdx];
+        audio.playbackRate = spd;
+        btnSpeed.textContent = `${spd}x`;
+      });
+
+      progressBarContainer?.addEventListener('click', (e) => {
+        const rect = progressBarContainer.getBoundingClientRect();
+        const clickPos = (e.clientX - rect.left) / rect.width;
+        if (!isNaN(audio.duration)) {
+          audio.currentTime = clickPos * audio.duration;
+        }
+      });
+    });
+  }
+
+  setupAudioPlayers();
+  document.addEventListener('astro:page-load', setupAudioPlayers);
+</script>

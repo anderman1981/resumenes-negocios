@@ -1,0 +1,212 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import AudioPlayer from '../../../components/AudioPlayer.astro';
+import DownloadBox from '../../../components/DownloadBox.astro';
+import FlashcardsDeck from '../../../components/FlashcardsDeck.astro';
+import QuizEvaluativo from '../../../components/QuizEvaluativo.astro';
+import AdSlot from '../../../components/AdSlot.astro';
+import { getProgramas, getDia } from '../../../lib/programas.mjs';
+
+export async function getStaticPaths() {
+  const programas = await getProgramas();
+  const paths = [];
+
+  for (const p of programas) {
+    for (const d of p.dias) {
+      paths.push({
+        params: { programa: p.slug, dia: d.diaSlug },
+        props: { programaSlug: p.slug, diaSlug: d.diaSlug },
+      });
+    }
+  }
+
+  return paths;
+}
+
+const { programaSlug, diaSlug } = Astro.props;
+const diaData = await getDia(programaSlug, diaSlug);
+
+if (!diaData) {
+  return Astro.redirect('/programas');
+}
+
+const {
+  programa,
+  dia,
+  titulo,
+  descripcion,
+  duracion,
+  resumenHtml,
+  guionHtml,
+  quizData,
+  audioUrl,
+  slidesUrl,
+  guiaUrl,
+  nav,
+} = diaData;
+---
+
+<BaseLayout
+  title={`${titulo} — ${programa.nombre}`}
+  description={descripcion || `Lección multimodal Día ${dia} de ${programa.nombre}`}
+  image={programa.portada}
+>
+  <div class="mx-auto max-w-4xl px-4 py-8 sm:py-12">
+    <!-- Breadcrumb -->
+    <nav class="mb-6 flex flex-wrap items-center gap-2 text-xs sm:text-sm text-slate-500">
+      <a href="/" class="hover:text-brand-600 transition">Inicio</a>
+      <span>/</span>
+      <a href="/programas" class="hover:text-brand-600 transition">Programas</a>
+      <span>/</span>
+      <a href={`/programas/${programa.slug}`} class="hover:text-brand-600 transition">{programa.nombre}</a>
+      <span>/</span>
+      <span class="font-bold text-slate-900">Día {dia}</span>
+    </nav>
+
+    <!-- Header -->
+    <header class="border-b border-slate-100 pb-8">
+      <div class="flex flex-wrap items-center gap-2">
+        <a
+          href={`/programas/${programa.slug}`}
+          class="inline-block rounded-full bg-slate-900 px-3 py-1 text-xs font-bold text-white transition hover:bg-brand-600"
+        >
+          {dia === 0 ? 'Día 0: Onboarding' : `Día ${dia} de 7`} · {programa.nombre}
+        </a>
+        <span class="rounded-full bg-brand-50 px-3 py-1 text-xs font-bold text-brand-700">
+          ⏱ {duracion || '10 min'}
+        </span>
+      </div>
+
+      <h1 class="mt-4 text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 leading-tight">
+        {titulo}
+      </h1>
+
+      {descripcion && (
+        <p class="mt-3 text-base sm:text-lg text-slate-600 leading-relaxed">
+          {descripcion}
+        </p>
+      )}
+    </header>
+
+    <!-- Multimodal Audio Player -->
+    {audioUrl && (
+      <div class="mt-8">
+        <AudioPlayer
+          src={audioUrl}
+          title={`Podcast: ${titulo}`}
+          subtitle={`${programa.nombre} — Episodio Oficial`}
+          duration={duracion}
+        />
+      </div>
+    )}
+
+    <!-- Downloadable PDFs (Slides & Guía) -->
+    {(slidesUrl || guiaUrl) && (
+      <DownloadBox
+        slidesUrl={slidesUrl}
+        slidesTitle={`Diapositivas: Día ${dia}`}
+        slidesDesc="Presentación visual ejecutiva y esquemas estratégicos."
+        guiaUrl={guiaUrl}
+        guiaTitle={`Workbook & Guía Práctica: Día ${dia}`}
+        guiaDesc="Matrices de cálculo, autodiagnóstico y rúbricas de ejecución."
+      />
+    )}
+
+    <!-- Main Web Summary (Markdown) -->
+    {resumenHtml && (
+      <section class="mt-10 rounded-2xl border border-slate-100 bg-white p-6 sm:p-10 shadow-sm">
+        <div class="flex items-center gap-2 border-b border-slate-100 pb-4 mb-6">
+          <span class="text-xl">📖</span>
+          <h2 class="text-xl font-bold text-slate-900">Resumen y Marco Estratégico</h2>
+        </div>
+        <article class="prose prose-slate max-w-none prose-headings:font-bold prose-headings:text-slate-900 prose-a:text-brand-600 hover:prose-a:underline prose-strong:text-slate-900 leading-relaxed">
+          <Fragment set:html={resumenHtml} />
+        </article>
+      </section>
+    )}
+
+    <!-- Collapsible Guión Podcast -->
+    {guionHtml && (
+      <details class="group mt-8 overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 transition">
+        <summary class="flex cursor-pointer items-center justify-between p-5 font-bold text-slate-800 hover:text-brand-600">
+          <span class="flex items-center gap-2">
+            <span>🎙️</span>
+            <span>Ver Guión Completo del Podcast (Transcripción)</span>
+          </span>
+          <span class="text-xs rounded-md bg-white border border-slate-200 px-2 py-1 text-slate-500 group-open:rotate-180 transition-transform">
+            ▼
+          </span>
+        </summary>
+        <div class="border-t border-slate-200 bg-white p-6 sm:p-8">
+          <article class="prose prose-slate max-w-none text-sm text-slate-600 leading-relaxed">
+            <Fragment set:html={guionHtml} />
+          </article>
+        </div>
+      </details>
+    )}
+
+    <!-- Flashcards Mnemotécnicas -->
+    {quizData?.flashcards && quizData.flashcards.length > 0 && (
+      <FlashcardsDeck
+        cards={quizData.flashcards}
+        title={`🎴 Flashcards Mnemotécnicas — Día ${dia}`}
+      />
+    )}
+
+    <!-- Quiz Evaluativo -->
+    {quizData?.quiz && quizData.quiz.length > 0 && (
+      <QuizEvaluativo
+        questions={quizData.quiz}
+        title={`📝 Quiz Evaluativo — Día ${dia}`}
+      />
+    )}
+
+    <div class="my-8">
+      <AdSlot slot="inArticle" />
+    </div>
+
+    <!-- Day Navigation Bar -->
+    <nav class="mt-12 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-200 pt-8">
+      {nav.anterior ? (
+        <a
+          href={`/programas/${programa.slug}/${nav.anterior.slug}`}
+          class="flex w-full sm:w-auto items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 text-left transition hover:border-brand-300 hover:shadow-sm"
+        >
+          <span class="text-xl">←</span>
+          <div>
+            <span class="block text-xs font-semibold text-slate-400">Lección Anterior</span>
+            <span class="font-bold text-slate-900 text-sm">{nav.anterior.titulo}</span>
+          </div>
+        </a>
+      ) : (
+        <div class="hidden sm:block"></div>
+      )}
+
+      <a
+        href={`/programas/${programa.slug}`}
+        class="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-100 transition"
+      >
+        <span>📑 Temario Completo</span>
+      </a>
+
+      {nav.siguiente ? (
+        <a
+          href={`/programas/${programa.slug}/${nav.siguiente.slug}`}
+          class="flex w-full sm:w-auto items-center justify-end gap-3 rounded-xl border border-slate-200 bg-white p-4 text-right transition hover:border-brand-300 hover:shadow-sm"
+        >
+          <div>
+            <span class="block text-xs font-semibold text-slate-400">Siguiente Lección</span>
+            <span class="font-bold text-slate-900 text-sm">{nav.siguiente.titulo}</span>
+          </div>
+          <span class="text-xl">→</span>
+        </a>
+      ) : (
+        <div class="w-full sm:w-auto text-center sm:text-right">
+          <span class="inline-block rounded-xl bg-emerald-50 border border-emerald-200 px-4 py-2 text-xs font-bold text-emerald-800">
+            🎉 ¡Fin del Programa!
+          </span>
+        </div>
+      )}
+    </nav>
+  </div>
+</BaseLayout>

@@ -1,0 +1,189 @@
+---
+interface Flashcard {
+  front: string;
+  back: string;
+}
+
+interface Props {
+  cards: Flashcard[];
+  title?: string;
+}
+
+const { cards = [], title = '🎴 Flashcards Mnemotécnicas' } = Astro.props;
+const deckId = `deck-${Math.random().toString(36).slice(2, 9)}`;
+---
+
+{cards.length > 0 && (
+  <div id={deckId} class="my-8 rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-sm">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-4">
+      <div>
+        <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+          <span>{title}</span>
+        </h3>
+        <p class="text-xs text-slate-500 mt-0.5">
+          Haz clic en la ficha para girarla o usa las teclas de flecha y barra espaciadora.
+        </p>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="card-counter inline-block rounded-full bg-brand-50 px-3 py-1 text-xs font-bold text-brand-700">
+          Ficha 1 de {cards.length}
+        </span>
+      </div>
+    </div>
+
+    <!-- Progress line -->
+    <div class="mt-4 h-1.5 w-full overflow-hidden rounded-full bg-slate-100">
+      <div class="deck-progress h-full bg-brand-500 transition-all duration-300" style={`width: ${(1 / cards.length) * 100}%`}></div>
+    </div>
+
+    <!-- Flashcard Display Box -->
+    <div class="mt-6 flex justify-center">
+      <div
+        class="flashcard-card group relative min-h-[220px] sm:min-h-[240px] w-full max-w-xl cursor-pointer select-none rounded-2xl border-2 border-slate-200 bg-gradient-to-br from-slate-50 to-white p-6 sm:p-8 shadow-md transition-all duration-200 hover:border-brand-400 hover:shadow-lg flex flex-col justify-between"
+        tabindex="0"
+        role="button"
+        aria-label="Girar tarjeta de estudio"
+      >
+        <div class="flex items-center justify-between">
+          <span class="card-face-badge inline-flex items-center gap-1 rounded-md bg-slate-200/80 px-2 py-0.5 text-[11px] font-bold text-slate-700 uppercase tracking-wider">
+            Pregunta / Concepto
+          </span>
+          <span class="text-xs text-slate-400 flex items-center gap-1">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+            </svg>
+            Clic para voltear
+          </span>
+        </div>
+
+        <div class="my-6 text-center">
+          <p class="card-text text-base sm:text-xl font-medium text-slate-800 leading-relaxed">
+            {cards[0].front}
+          </p>
+        </div>
+
+        <div class="text-center text-xs text-slate-400">
+          <span class="key-hint hidden sm:inline">Tip: Pulsa <kbd class="px-1.5 py-0.5 bg-slate-100 border border-slate-300 rounded text-[10px] font-mono">Espacio</kbd> para girar</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Controls -->
+    <div class="mt-6 flex items-center justify-between gap-3">
+      <button
+        type="button"
+        class="btn-prev inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs sm:text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed"
+        disabled
+      >
+        <span>←</span>
+        <span>Anterior</span>
+      </button>
+
+      <button
+        type="button"
+        class="btn-flip inline-flex items-center gap-1.5 rounded-xl bg-brand-50 border border-brand-200 px-4 py-2 text-xs sm:text-sm font-bold text-brand-700 transition hover:bg-brand-100"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+        </svg>
+        <span>Girar Ficha</span>
+      </button>
+
+      <button
+        type="button"
+        class="btn-next inline-flex items-center gap-1.5 rounded-xl bg-slate-900 px-4 py-2 text-xs sm:text-sm font-semibold text-white shadow-sm transition hover:bg-brand-600 disabled:opacity-40 disabled:cursor-not-allowed"
+      >
+        <span>Siguiente</span>
+        <span>→</span>
+      </button>
+    </div>
+  </div>
+)}
+
+<script define:vars={{ cards, deckId }}>
+  function initDeck() {
+    const root = document.getElementById(deckId);
+    if (!root || !cards || cards.length === 0) return;
+    if (root.dataset.ready === 'true') return;
+    root.dataset.ready = 'true';
+
+    let currentIdx = 0;
+    let isFlipped = false;
+
+    const cardEl = root.querySelector('.flashcard-card');
+    const badgeEl = root.querySelector('.card-face-badge');
+    const textEl = root.querySelector('.card-text');
+    const counterEl = root.querySelector('.card-counter');
+    const progressEl = root.querySelector('.deck-progress');
+    const btnPrev = root.querySelector('.btn-prev');
+    const btnNext = root.querySelector('.btn-next');
+    const btnFlip = root.querySelector('.btn-flip');
+
+    function render() {
+      const card = cards[currentIdx];
+      if (!card) return;
+
+      if (isFlipped) {
+        badgeEl.textContent = '💡 Respuesta / Clave Estratégica';
+        badgeEl.className = 'card-face-badge inline-flex items-center gap-1 rounded-md bg-emerald-100 px-2 py-0.5 text-[11px] font-bold text-emerald-800 uppercase tracking-wider';
+        cardEl.className = 'flashcard-card group relative min-h-[220px] sm:min-h-[240px] w-full max-w-xl cursor-pointer select-none rounded-2xl border-2 border-emerald-400 bg-gradient-to-br from-emerald-50/50 to-white p-6 sm:p-8 shadow-md transition-all duration-200 hover:shadow-lg flex flex-col justify-between';
+        textEl.innerHTML = card.back.replace(/\*\*(.*?)\*\*/g, '<strong class="text-emerald-950 font-bold">$1</strong>');
+      } else {
+        badgeEl.textContent = '❓ Pregunta / Concepto';
+        badgeEl.className = 'card-face-badge inline-flex items-center gap-1 rounded-md bg-slate-200/80 px-2 py-0.5 text-[11px] font-bold text-slate-700 uppercase tracking-wider';
+        cardEl.className = 'flashcard-card group relative min-h-[220px] sm:min-h-[240px] w-full max-w-xl cursor-pointer select-none rounded-2xl border-2 border-slate-200 bg-gradient-to-br from-slate-50 to-white p-6 sm:p-8 shadow-md transition-all duration-200 hover:border-brand-400 hover:shadow-lg flex flex-col justify-between';
+        textEl.innerHTML = card.front.replace(/\*\*(.*?)\*\*/g, '<strong class="text-slate-900 font-bold">$1</strong>');
+      }
+
+      if (counterEl) counterEl.textContent = `Ficha ${currentIdx + 1} de ${cards.length}`;
+      if (progressEl) progressEl.style.width = `${((currentIdx + 1) / cards.length) * 100}%`;
+      if (btnPrev) btnPrev.disabled = currentIdx === 0;
+      if (btnNext) btnNext.disabled = currentIdx === cards.length - 1;
+    }
+
+    function toggleFlip() {
+      isFlipped = !isFlipped;
+      render();
+    }
+
+    function next() {
+      if (currentIdx < cards.length - 1) {
+        currentIdx++;
+        isFlipped = false;
+        render();
+      }
+    }
+
+    function prev() {
+      if (currentIdx > 0) {
+        currentIdx--;
+        isFlipped = false;
+        render();
+      }
+    }
+
+    cardEl?.addEventListener('click', toggleFlip);
+    btnFlip?.addEventListener('click', toggleFlip);
+    btnNext?.addEventListener('click', next);
+    btnPrev?.addEventListener('click', prev);
+
+    // Keyboard support
+    cardEl?.addEventListener('keydown', (e) => {
+      if (e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault();
+        toggleFlip();
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        next();
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        prev();
+      }
+    });
+
+    render();
+  }
+
+  initDeck();
+  document.addEventListener('astro:page-load', initDeck);
+</script>

@@ -1,0 +1,286 @@
+{
+  "flashcards": [
+    {
+      "front": "¿Cuál es la falla de medir a Marketing por volumen de MQLs?",
+      "back": "Genera sobre-captación de leads de baja calidad sin intención de compra."
+    },
+    {
+      "front": "¿Qué es un Lead Value SLA?",
+      "back": "Un acuerdo donde Marketing se compromete a entregar un valor monetario total de pipeline, no un número de leads."
+    },
+    {
+      "front": "¿Cómo se calcula el valor de un tipo de lead?",
+      "back": "Valor = (Tasa de Conversión a Venta %) × (ARPU Promedio por Cliente)."
+    },
+    {
+      "front": "¿Cuál es la regla de los 5 minutos en llamadas Inbound?",
+      "back": "Contactar al lead en los primeros 5 minutos aumenta 21x las probabilidades de calificarlo exitosamente."
+    },
+    {
+      "front": "¿Qué es una cadencia de prospección recíproca?",
+      "back": "El compromiso de Ventas de realizar entre 6 y 8 intentos de contacto en un periodo de 14 días."
+    },
+    {
+      "front": "¿Qué es el tablero \"Do Not Be On It\"?",
+      "back": "Dashboard público que expone a los vendedores con leads calificados fuera del plazo de SLA sin contactar."
+    },
+    {
+      "front": "¿Qué ocurre con los leads no contactados tras terminar la cadencia?",
+      "back": "Se reciclan automáticamente a campañas de nutrimiento automatizadas de Marketing."
+    },
+    {
+      "front": "¿Por qué un lead Enterprise tiene mayor valor en el SLA que uno SMB?",
+      "back": "Debido a su mayor ARPU y tasa de retención esperada, requiriendo menos unidades para cumplir la cuota de valor."
+    },
+    {
+      "front": "¿Cuál es el beneficio de la reunión semanal de sincronización SLA?",
+      "back": "Calibrar la percepción de calidad de los leads y ajustar valores monetarios por canal."
+    },
+    {
+      "front": "¿Cuál es la principal transformación cultural del SLA?",
+      "back": "Pasa de culpar al otro departamento a compartir la responsabilidad del logro de ingresos."
+    }
+  ],
+  "quiz": [
+    {
+      "id": 1,
+      "question": "¿Por qué la métrica tradicional de número de MQLs suele generar fricción entre Ventas y Marketing?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Porque Marketing no sabe usar el CRM."
+        },
+        {
+          "key": "b",
+          "text": "Porque incentiva la cantidad sobre la calidad, llenando el embudo de contactos no calificados."
+        },
+        {
+          "key": "c",
+          "text": "Porque Ventas no quiere hablar con clientes."
+        },
+        {
+          "key": "d",
+          "text": "Porque los MQLs son demasiado costosos de medir."
+        }
+      ],
+      "correct": "b",
+      "justification": "Priorizar el volumen bruta induce a marketing a capturar leads baratos sin capacidad de compra."
+    },
+    {
+      "id": 2,
+      "question": "En un SLA de Valor Monetario, si una solicitud de demo convierte al 10% con un ARPU de $20,000, ¿cuál es el valor asignado a cada demo?",
+      "options": [
+        {
+          "key": "a",
+          "text": "$200"
+        },
+        {
+          "key": "b",
+          "text": "$2,000"
+        },
+        {
+          "key": "c",
+          "text": "$20,000"
+        },
+        {
+          "key": "d",
+          "text": "$200,000"
+        }
+      ],
+      "correct": "b",
+      "justification": "Valor = 0.10 × $20,000 = $2,000 dólares en el SLA."
+    },
+    {
+      "id": 3,
+      "question": "¿Cuál es el beneficio de medir el desempeño de Marketing en cuota de valor en dólares?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Que Marketing puede gastar más presupuesto."
+        },
+        {
+          "key": "b",
+          "text": "Que Marketing enfoca sus recursos de captación en los segmentos de cliente de mayor valor y mejor conversión."
+        },
+        {
+          "key": "c",
+          "text": "Que Ventas no necesita trabajar."
+        },
+        {
+          "key": "d",
+          "text": "Que se eliminan los costos de publicidad."
+        }
+      ],
+      "correct": "b",
+      "justification": "Alinea el esfuerzo de marketing con la generación directa de pipeline de alto impacto comercial."
+    },
+    {
+      "id": 4,
+      "question": "Según los estudios de respuesta a leads Inbound, contactar a un prospecto en los primeros 5 minutos:",
+      "options": [
+        {
+          "key": "a",
+          "text": "Es considerado invasivo por el cliente."
+        },
+        {
+          "key": "b",
+          "text": "Incrementa 21 veces las probabilidades de calificar la oportunidad en comparación con esperar 30 minutos."
+        },
+        {
+          "key": "c",
+          "text": "Reduce el precio de venta."
+        },
+        {
+          "key": "d",
+          "text": "Requiere contratación de agencias externas."
+        }
+      ],
+      "correct": "b",
+      "justification": "La inmediatez aprovecha la ventana de atención y contexto activo del comprador."
+    },
+    {
+      "id": 5,
+      "question": "¿En qué consiste el compromiso de Ventas dentro del SLA?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Pagar la pauta de marketing."
+        },
+        {
+          "key": "b",
+          "text": "Contactar los leads en los plazos establecidos y ejecutar una cadencia mínima de intentos."
+        },
+        {
+          "key": "c",
+          "text": "Asistir a los eventos de marketing."
+        },
+        {
+          "key": "d",
+          "text": "Redactar el contenido de los webinars."
+        }
+      ],
+      "correct": "b",
+      "justification": "Garantiza que los prospectos calificados reciban la atención oportuna acordada."
+    },
+    {
+      "id": 6,
+      "question": "¿Cuál es la función principal del tablero \"Do Not Be On It\"?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Publicar los mejores vendedores del mes."
+        },
+        {
+          "key": "b",
+          "text": "Visibilizar los leads calificados que no han sido contactados dentro de las horas del SLA para evitar fugas."
+        },
+        {
+          "key": "c",
+          "text": "Mostrar las ausencias del personal."
+        },
+        {
+          "key": "d",
+          "text": "Evaluar las campañas de Google."
+        }
+      ],
+      "correct": "b",
+      "justification": "La transparencia pública estimula la disciplina operativa y evita que los leads queden en el olvido."
+    },
+    {
+      "id": 7,
+      "question": "¿Cuántos intentos de contacto se recomiendan generalmente en una cadencia de prospección Inbound estándar?",
+      "options": [
+        {
+          "key": "a",
+          "text": "1 o 2 intentos."
+        },
+        {
+          "key": "b",
+          "text": "Entre 6 y 8 intentos distribuidos en 14 días."
+        },
+        {
+          "key": "c",
+          "text": "Más de 30 intentos diarios."
+        },
+        {
+          "key": "d",
+          "text": "Ninguno, se envía un solo correo."
+        }
+      ],
+      "correct": "b",
+      "justification": "Una cadencia de 6 a 8 toques multidominio incrementa la tasa de respuesta sin caer en spam."
+    },
+    {
+      "id": 8,
+      "question": "¿Qué debe ocurrir con un lead que no responde tras completar toda la cadencia de prospección?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Borrarlo del CRM permanentemente."
+        },
+        {
+          "key": "b",
+          "text": "Reciclarlo a campañas de nutrimiento automatizado de Marketing."
+        },
+        {
+          "key": "c",
+          "text": "Demandar a la empresa del prospecto."
+        },
+        {
+          "key": "d",
+          "text": "Llamarlo todos los días indefinidamente."
+        }
+      ],
+      "correct": "b",
+      "justification": "Permitir que Marketing mantenga la relación activa hasta que el cliente esté listo para comprar."
+    },
+    {
+      "id": 9,
+      "question": "¿Con qué frecuencia deben actualizarse las tasas de conversión del SLA?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Diario."
+        },
+        {
+          "key": "b",
+          "text": "De manera trimestral o semestral según la muestra de datos reales."
+        },
+        {
+          "key": "c",
+          "text": "Cada 5 años."
+        },
+        {
+          "key": "d",
+          "text": "Nunca se deben cambiar."
+        }
+      ],
+      "correct": "b",
+      "justification": "Garantiza que los valores de lead reflejen la madurez actual de la propuesta y la tasa de cierre."
+    },
+    {
+      "id": 10,
+      "question": "La alineación científica entre Ventas y Marketing permite a la empresa:",
+      "options": [
+        {
+          "key": "a",
+          "text": "Reducir el ciclo de venta y maximizar el retorno de la inversión de captación."
+        },
+        {
+          "key": "b",
+          "text": "Eliminar la necesidad de tener gerentes."
+        },
+        {
+          "key": "c",
+          "text": "Vender productos sin hacer demos."
+        },
+        {
+          "key": "d",
+          "text": "Reemplazar a los ejecutivos por bots."
+        }
+      ],
+      "correct": "a",
+      "justification": "La sincronización de procesos elimina cuellos de botella y acelerar la conversión a ingresos."
+    }
+  ]
+}

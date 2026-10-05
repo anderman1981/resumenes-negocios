@@ -1,0 +1,406 @@
+{
+  "flashcards": [
+    {
+      "front": "¿En qué consiste la estrategia Beachhead (\"Diseña Grande, Empieza Pequeño\")?",
+      "back": "Diseñar una visión audaz a largo plazo pero enfocar el 100% de los recursos iniciales en dominar un nicho reducido y específico."
+    },
+    {
+      "front": "¿Por qué las startups tienen ventaja frente a los incumbentes en la era de la IA?",
+      "back": "Porque los incumbentes sufren el Dilema del Innovador y temen destruir sus ingresos tradicionales por licencias."
+    },
+    {
+      "front": "¿Por qué un wrapper simple de IA no es un foso defensivo (Moat)?",
+      "back": "Porque carece de datos propietarios e integración profunda, haciéndolo fácilmente replicable por cualquier competidor."
+    },
+    {
+      "front": "¿Qué es un Efecto de Red de Datos Propietarios?",
+      "back": "Un bucle donde cada nuevo cliente aporta datos que mejoran la precisión del modelo de IA para toda la base."
+    },
+    {
+      "front": "¿Qué es el Workflow Embedding?",
+      "back": "Incrustarse profundamente en los procesos operativos clave del cliente para generar altos costos de cambio (*switching costs*)."
+    },
+    {
+      "front": "¿Cómo está evolucionando la monetización de software B2B con la IA?",
+      "back": "Transicionando de cobro por usuario/asiento ($/seat) a cobro por trabajo ejecutado o valor entregado ($/outcome)."
+    },
+    {
+      "front": "¿Cuál es el peligro de saltarse el orden de la arquitectura de 7 días?",
+      "back": "Escalar ventas antes de validar PMF o GTM Fit conduce inevitablemente al agotamiento de caja y quiebra."
+    },
+    {
+      "front": "¿Qué rol juegan las comunidades ágiles en la estrategia Beachhead?",
+      "back": "Sirven como el terreno de pruebas ideal para obtener retroalimentación inmediata y acelerar el ciclo de producto."
+    },
+    {
+      "front": "¿Qué indica que un nicho Beachhead ha sido dominado exitosamente?",
+      "back": "Alcanzar una cuota de mercado superior al 50% en el segmento objetivo con fuerte NRR y referencias orgánicas."
+    },
+    {
+      "front": "¿Cuál es el factor determinante del éxito a largo plazo según la serie?",
+      "back": "La ejecución científica, disciplinada y basada en datos de cada etapa del go-to-market."
+    }
+  ],
+  "quiz": [
+    {
+      "id": 1,
+      "question": "¿Cuál es el motivo principal por el que el 75% de las startups en Series A y C fracasan?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Falta de ideas creativas."
+        },
+        {
+          "key": "b",
+          "text": "Escalamiento prematuro de ventas sin haber validado Product-Market Fit y economía unitaria."
+        },
+        {
+          "key": "c",
+          "text": "Exceso de personal administrativo."
+        },
+        {
+          "key": "d",
+          "text": "Impuestos elevados."
+        }
+      ],
+      "correct": "b",
+      "justification": "Acelerar la contratación comercial sin procesos repetibles ni retención destruye el capital."
+    },
+    {
+      "id": 2,
+      "question": "La fórmula cuantitativa del Product-Market Fit (PMF) se basa en:",
+      "options": [
+        {
+          "key": "a",
+          "text": "Encuestas de satisfacción telefónicas."
+        },
+        {
+          "key": "b",
+          "text": "El porcentaje de clientes en una cohorte que alcanzan un evento líder de retención en un tiempo determinado."
+        },
+        {
+          "key": "c",
+          "text": "El número de seguidores en redes sociales."
+        },
+        {
+          "key": "d",
+          "text": "El volumen de menciones en prensa."
+        }
+      ],
+      "correct": "b",
+      "justification": "Mide el comportamiento real de uso recurrente que predice la retención a largo plazo."
+    },
+    {
+      "id": 3,
+      "question": "Para confirmar el Go-To-Market Fit (GTM Fit), las dos métricas innegociables son:",
+      "options": [
+        {
+          "key": "a",
+          "text": "ROI > 100% y CTR > 5%."
+        },
+        {
+          "key": "b",
+          "text": "LTV:CAC Ratio > 3.0x y Periodo de Recuperación (Payback) < 12 meses."
+        },
+        {
+          "key": "c",
+          "text": "NPS > 90 y Churn > 20%."
+        },
+        {
+          "key": "d",
+          "text": "MRR > $1M y 100 empleados."
+        }
+      ],
+      "correct": "b",
+      "justification": "Aseguran que la adquisición de clientes sea económicamente rentable y sustentable en flujo de caja."
+    },
+    {
+      "id": 4,
+      "question": "En el cálculo del Fully Loaded CAC, ¿qué elemento suele omitirse erróneamente?",
+      "options": [
+        {
+          "key": "a",
+          "text": "El costo de las galletas de la oficina."
+        },
+        {
+          "key": "b",
+          "text": "Los salarios base, comisiones y herramientas de los equipos de ventas y SDRs."
+        },
+        {
+          "key": "c",
+          "text": "El gasto en servidores."
+        },
+        {
+          "key": "d",
+          "text": "El costo de registro de marca."
+        }
+      ],
+      "correct": "b",
+      "justification": "Ignorar los costos de personal de ventas maquilla el CAC real haciéndolo parecer erróneamente bajo."
+    },
+    {
+      "id": 5,
+      "question": "El concepto de 'Velocímetro de Escalamiento' dictamina que el ritmo de contratación de vendedores debe depender de:",
+      "options": [
+        {
+          "key": "a",
+          "text": "El saldo de dinero en la cuenta bancaria tras levantar una ronda."
+        },
+        {
+          "key": "b",
+          "text": "La salud de las métricas de retención y economía unitaria."
+        },
+        {
+          "key": "c",
+          "text": "La presión de los competidores."
+        },
+        {
+          "key": "d",
+          "text": "La época del año."
+        }
+      ],
+      "correct": "b",
+      "justification": "Las métricas operativas son las únicas que garantizan que el sistema comercial puede absorber nuevo personal con éxito."
+    },
+    {
+      "id": 6,
+      "question": "¿Por qué se recomienda contratar vendedores en parejas (Paired Hiring) en fases tempranas?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Para que compartan automóvil."
+        },
+        {
+          "key": "b",
+          "text": "Para aislar si el rendimiento se debe a la habilidad del individuo o a un fallo en el playbook de ventas."
+        },
+        {
+          "key": "c",
+          "text": "Para reducir salarios."
+        },
+        {
+          "key": "d",
+          "text": "Para duplicar las llamadas por hora."
+        }
+      ],
+      "correct": "b",
+      "justification": "Al tener dos personas bajo las mismas condiciones se distingue el desempeño personal de la validez del mercado."
+    },
+    {
+      "id": 7,
+      "question": "El Service Level Agreement (SLA) moderno entre Ventas y Marketing establece que Marketing se compromete a entregar:",
+      "options": [
+        {
+          "key": "a",
+          "text": "Un número bruto de 1,000 MQLs sin importar la calidad."
+        },
+        {
+          "key": "b",
+          "text": "Una cuota monetaria de valor de pipeline calificado ($ en dólares de valor de lead)."
+        },
+        {
+          "key": "c",
+          "text": "Folletos impresos para eventos."
+        },
+        {
+          "key": "d",
+          "text": "Publicaciones diarias en blogs."
+        }
+      ],
+      "correct": "b",
+      "justification": "Alinea a marketing con la calidad y generación real de ingresos en lugar de métricas vanidosas de volumen."
+    },
+    {
+      "id": 8,
+      "question": "La 'Regla de los 5 Minutos' en la atención a leads Inbound demuestra que:",
+      "options": [
+        {
+          "key": "a",
+          "text": "Un vendedor no debe hablar más de 5 minutos por teléfono."
+        },
+        {
+          "key": "b",
+          "text": "Responder a un prospecto en los primeros 5 minutos incrementa 21 veces la probabilidad de calificarlo."
+        },
+        {
+          "key": "c",
+          "text": "Las demos deben durar 5 minutos."
+        },
+        {
+          "key": "d",
+          "text": "El cliente cuelga a los 5 minutos."
+        }
+      ],
+      "correct": "b",
+      "justification": "Aprovecha la ventana de máximo interés y atención del comprador mientras está en el sitio web."
+    },
+    {
+      "id": 9,
+      "question": "Según el análisis de regresión de Mark Roberge, el predictor #1 de éxito en la contratación de vendedores es:",
+      "options": [
+        {
+          "key": "a",
+          "text": "Experiencia previa de 10 años en el sector."
+        },
+        {
+          "key": "b",
+          "text": "Coachability (Entrenabilidad)."
+        },
+        {
+          "key": "c",
+          "text": "Título universitario de posgrado."
+        },
+        {
+          "key": "d",
+          "text": "Apariencia física."
+        }
+      ],
+      "correct": "b",
+      "justification": "La entrenabilidad permite adaptar al vendedor al playbook cambiante de la startup."
+    },
+    {
+      "id": 10,
+      "question": "La forma más objetiva de evaluar la Coachability en una entrevista comercial es:",
+      "options": [
+        {
+          "key": "a",
+          "text": "Preguntar al candidato si le gusta aprender."
+        },
+        {
+          "key": "b",
+          "text": "Realizar una simulación de Role Play, entregar feedback directo y evaluar la aplicación inmediata en una segunda simulación."
+        },
+        {
+          "key": "c",
+          "text": "Revisar sus cartas de recomendación."
+        },
+        {
+          "key": "d",
+          "text": "Hacer un examen escrito de opción múltiple."
+        }
+      ],
+      "correct": "b",
+      "justification": "Permite observar en tiempo real la capacidad del candidato para procesar y ejecutar críticas."
+    },
+    {
+      "id": 11,
+      "question": "En la gestión de equipos comerciales, la 'Analogía de la Lección de Golf' propone:",
+      "options": [
+        {
+          "key": "a",
+          "text": "Entrenar en campos de golf."
+        },
+        {
+          "key": "b",
+          "text": "Diagnosticar el embudo e invertir 30 días en corregir UNA sola habilidad individual a la vez."
+        },
+        {
+          "key": "c",
+          "text": "Sancionar las fallas de inmediato."
+        },
+        {
+          "key": "d",
+          "text": "Evaluar al equipo una vez al año."
+        }
+      ],
+      "correct": "b",
+      "justification": "Evita la parálisis por análisis enfocando los esfuerzos en el cuello de botella principal."
+    },
+    {
+      "id": 12,
+      "question": "La práctica de 'Film Review' en ventas consiste en:",
+      "options": [
+        {
+          "key": "a",
+          "text": "Ver películas de Hollywood los viernes por la tarde."
+        },
+        {
+          "key": "b",
+          "text": "Analizar y discutir semanalmente en equipo grabaciones reales de llamadas comerciales para retroalimentación continua."
+        },
+        {
+          "key": "c",
+          "text": "Grabar videos publicitarios."
+        },
+        {
+          "key": "d",
+          "text": "Evaluar la vestimenta en las reuniones."
+        }
+      ],
+      "correct": "b",
+      "justification": "Genera aprendizaje social continuo a partir de casos reales de la empresa."
+    },
+    {
+      "id": 13,
+      "question": "¿Cómo ayuda el cobro diferido o las comisiones por retención a mejorar la calidad de las ventas?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Aumentando el salario base de los gerentes."
+        },
+        {
+          "key": "b",
+          "text": "Desincentivando que los vendedores traigan clientes tóxicos o sin fit que cancelan en pocos meses."
+        },
+        {
+          "key": "c",
+          "text": "Eliminando el uso del CRM."
+        },
+        {
+          "key": "d",
+          "text": "Reduciendo el precio del producto."
+        }
+      ],
+      "correct": "b",
+      "justification": "Alinea el beneficio económico del vendedor con la salud financiera de largo plazo de la compañía."
+    },
+    {
+      "id": 14,
+      "question": "La estrategia Beachhead ('Diseña Grande, Empieza Pequeño') aconseja a las startups:",
+      "options": [
+        {
+          "key": "a",
+          "text": "Vender su producto en ciudades costeras."
+        },
+        {
+          "key": "b",
+          "text": "Tener una visión ambiciosa pero enfocar el 100% de los recursos iniciales en dominar un nicho reducido y específico."
+        },
+        {
+          "key": "c",
+          "text": "Competir directamente contra los gigantes en todos los mercados simultáneamente."
+        },
+        {
+          "key": "d",
+          "text": "No gastar presupuesto en marketing."
+        }
+      ],
+      "correct": "b",
+      "justification": "Permite construir tracción, caja y referencias sólidas antes de expandirse a mercados mayores."
+    },
+    {
+      "id": 15,
+      "question": "¿Cuál de los siguientes elementos representa un foso defensivo (Moat) real y sostenible para una startup de IA?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Una interfaz bonita construida sobre una API pública."
+        },
+        {
+          "key": "b",
+          "text": "Efectos de red de datos propietarios e integración profunda en los procesos operativos clave del cliente."
+        },
+        {
+          "key": "c",
+          "text": "Un logotipo registrado."
+        },
+        {
+          "key": "d",
+          "text": "Descuentos agresivos de precio."
+        }
+      ],
+      "correct": "b",
+      "justification": "La data exclusiva y el costo de cambio de procesos son barreras que la competencia no puede duplicar fácilmente."
+    }
+  ]
+}

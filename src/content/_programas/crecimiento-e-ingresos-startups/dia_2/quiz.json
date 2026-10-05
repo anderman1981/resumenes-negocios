@@ -1,0 +1,286 @@
+{
+  "flashcards": [
+    {
+      "front": "¿Qué diferencia al PMF del GTM Fit?",
+      "back": "PMF demuestra que el cliente ama el producto (retención). GTM Fit demuestra que podemos adquirirlo rentablemente (economía unitaria)."
+    },
+    {
+      "front": "¿Cuál es la fórmula del LTV?",
+      "back": "LTV = (ARPU × Margen Bruto %) / Churn Rate %."
+    },
+    {
+      "front": "¿Qué significa Fully Loaded CAC?",
+      "back": "El costo total de adquisición que incluye salarios de ventas y marketing, comisiones, herramientas y gasto publicitario."
+    },
+    {
+      "front": "¿Cuál es el benchmark saludable para LTV:CAC?",
+      "back": "Un ratio mayor a 3.0x (idealmente entre 3x y 5x)."
+    },
+    {
+      "front": "¿Cuál es la meta estándar para el CAC Payback Period?",
+      "back": "Recuperar el costo de adquisición en menos de 12 meses."
+    },
+    {
+      "front": "¿Cómo afecta el Margen Bruto al LTV?",
+      "back": "A menor margen bruto, menor beneficio neto retenido por cliente, reduciendo drásticamente el LTV real."
+    },
+    {
+      "front": "¿Qué ocurre si el LTV:CAC es menor a 1.0x?",
+      "back": "La empresa pierde dinero con cada nuevo cliente adquirido (máquina de destrucción de capital)."
+    },
+    {
+      "front": "¿Qué es Net Revenue Retention (NRR)?",
+      "back": "Porcentaje de ARR retenido y expandido dentro de la base de clientes existente tras descontar churn y downgrades."
+    },
+    {
+      "front": "¿Por qué ayuda el cobro anual por adelantado?",
+      "back": "Elimina el riesgo de flujo de caja y reduce inmediatamente el periodo de Payback efectivo a cero días."
+    },
+    {
+      "front": "¿Cuál es la consecuencia de acelerar ventas sin GTM Fit?",
+      "back": "Agotamiento prematuro de la caja (*capital burn*) e imposibilidad de levantar rondas subsecuentes."
+    }
+  ],
+  "quiz": [
+    {
+      "id": 1,
+      "question": "¿Cuál es la diferencia central entre PMF y GTM Fit?",
+      "options": [
+        {
+          "key": "a",
+          "text": "PMF mide ingresos; GTM Fit mide empleados."
+        },
+        {
+          "key": "b",
+          "text": "PMF evalúa la satisfacción y retención; GTM Fit evalúa la rentabilidad y repetibilidad de la adquisición."
+        },
+        {
+          "key": "c",
+          "text": "PMF aplica a B2C; GTM Fit aplica a B2B."
+        },
+        {
+          "key": "d",
+          "text": "No existe diferencia, son términos idénticos."
+        }
+      ],
+      "correct": "b",
+      "justification": "PMF demuestra que los usuarios obtienen valor sostenido, mientras que GTM Fit demuestra la sostenibilidad económica del canal de ventas."
+    },
+    {
+      "id": 2,
+      "question": "Si el ARPU es de $10,000, el Margen Bruto es del 80% y el Churn Anual es del 20%, ¿cuál es el LTV?",
+      "options": [
+        {
+          "key": "a",
+          "text": "$40,000"
+        },
+        {
+          "key": "b",
+          "text": "$50,000"
+        },
+        {
+          "key": "c",
+          "text": "$32,000"
+        },
+        {
+          "key": "d",
+          "text": "$10,000"
+        }
+      ],
+      "correct": "a",
+      "justification": "LTV = ($10,000 × 0.80) / 0.20 = $8,000 / 0.20 = $40,000."
+    },
+    {
+      "id": 3,
+      "question": "¿Qué componente suele omitirse erróneamente en el cálculo del CAC?",
+      "options": [
+        {
+          "key": "a",
+          "text": "El costo de las campañas de Google Ads."
+        },
+        {
+          "key": "b",
+          "text": "Los salarios base y comisiones de los ejecutivos de cuenta (AEs) y SDRs."
+        },
+        {
+          "key": "c",
+          "text": "Las tarifas de procesamiento de tarjeta de crédito."
+        },
+        {
+          "key": "d",
+          "text": "Los descuentos otorgados."
+        }
+      ],
+      "correct": "b",
+      "justification": "Muchas empresas solo cuentan el gasto directo de pauta publicitaria, ignorando la carga salarial y de software comercial (*Fully Loaded CAC*)."
+    },
+    {
+      "id": 4,
+      "question": "¿Cuál es el valor objetivo mínimo para el ratio LTV:CAC en una startup SaaS saludable?",
+      "options": [
+        {
+          "key": "a",
+          "text": "1.0x"
+        },
+        {
+          "key": "b",
+          "text": "2.0x"
+        },
+        {
+          "key": "c",
+          "text": "3.0x"
+        },
+        {
+          "key": "d",
+          "text": "10.0x"
+        }
+      ],
+      "correct": "c",
+      "justification": "Un ratio de 3.0x asegura suficiente margen para cubrir costos fijos corporativos y financiar el desarrollo de producto."
+    },
+    {
+      "id": 5,
+      "question": "Un CAC Payback de 24 meses se considera:",
+      "options": [
+        {
+          "key": "a",
+          "text": "Excelente en cualquier modelo."
+        },
+        {
+          "key": "b",
+          "text": "Insostenible y riesgoso sin grandes reservas de capital."
+        },
+        {
+          "key": "c",
+          "text": "El estándar de la industria para micro-SaaS."
+        },
+        {
+          "key": "d",
+          "text": "Una señal de que se debe contratar más vendedores."
+        }
+      ],
+      "correct": "b",
+      "justification": "Requiere 2 años completos solo para recuperar el costo de adquisición, consumiendo enormes cantidades de caja."
+    },
+    {
+      "id": 6,
+      "question": "¿Cómo se define el Net Revenue Retention (NRR)?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Ingresos totales divididos por número de ventas."
+        },
+        {
+          "key": "b",
+          "text": "(ARR Inicial + Expansión - Churn - Downgrades) / ARR Inicial."
+        },
+        {
+          "key": "c",
+          "text": "Margen bruto menos gastos de ventas."
+        },
+        {
+          "key": "d",
+          "text": "Total de leads generados por marketing."
+        }
+      ],
+      "correct": "b",
+      "justification": "Mida la salud del ingreso recurrente dentro de las cohortes existentes con el paso del tiempo."
+    },
+    {
+      "id": 7,
+      "question": "Si una startup tiene un LTV:CAC de 6.0x y un Payback de 5 meses, ¿cuál es el diagnóstico?",
+      "options": [
+        {
+          "key": "a",
+          "text": "La empresa está en quiebra inminente."
+        },
+        {
+          "key": "b",
+          "text": "La empresa tiene luz verde total y probablemente debería invertir más agresivamente en adquisición."
+        },
+        {
+          "key": "c",
+          "text": "El equipo de ventas es ineficiente."
+        },
+        {
+          "key": "d",
+          "text": "El producto tiene churn excesivo."
+        }
+      ],
+      "correct": "b",
+      "justification": "Métricas extremadamente saludables indican que la unidad económica es muy fuerte y soporta aceleración."
+    },
+    {
+      "id": 8,
+      "question": "¿Qué estrategia ayuda a reducir inmediatamente el periodo de Payback de caja?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Ofrecer descuentos por contratos de pago mensual."
+        },
+        {
+          "key": "b",
+          "text": "Requerir pagos anuales por adelantado."
+        },
+        {
+          "key": "c",
+          "text": "Duplicar la plantilla de SDRs."
+        },
+        {
+          "key": "d",
+          "text": "Aumentar el presupuesto de branding."
+        }
+      ],
+      "correct": "b",
+      "justification": "Recibir el 100% del pago del año en el Día 1 financia el CAC inmediatamente."
+    },
+    {
+      "id": 9,
+      "question": "¿Qué sucede con el LTV si el Churn Rate se duplica?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Permanece igual."
+        },
+        {
+          "key": "b",
+          "text": "Se duplica."
+        },
+        {
+          "key": "c",
+          "text": "Se reduce a la mitad."
+        },
+        {
+          "key": "d",
+          "text": "Se incrementa un 20%."
+        }
+      ],
+      "correct": "c",
+      "justification": "Al estar el Churn en el denominador de la fórmula, duplicar el churn divide la vida útil esperada y el LTV a la mitad."
+    },
+    {
+      "id": 10,
+      "question": "En la metodología de Mark Roberge, ¿cuándo es correcto iniciar la escala de contratación comercial?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Inmediatamente después de cerrar la ronda Seed."
+        },
+        {
+          "key": "b",
+          "text": "Cuando se ha validado tanto el PMF como un GTM Fit con LTV:CAC > 3x y Payback < 12m."
+        },
+        {
+          "key": "c",
+          "text": "Cuando la competencia contrata más ejecutivos."
+        },
+        {
+          "key": "d",
+          "text": "Cuando el equipo fundador esté cansado de vender."
+        }
+      ],
+      "correct": "b",
+      "justification": "La aceleración prematura sin economía unitaria saludable es la causa principal del fracaso en Series A."
+    }
+  ]
+}
