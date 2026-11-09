@@ -21,6 +21,7 @@ dia: 0
 audio: "/assets/programas/crecimiento-e-ingresos-startups/audio/dia_0_onboarding_escalabilidad.mp3"
 spotify: "https://open.spotify.com/episode/3bUW6u5pDol9riwT6TH265?si=FxwyB9TzQpypEpV9asHjSw"
 youtube: ""
+short: "/shorts/crecimiento-dia-0.mp4"
 pdf: "/assets/programas/crecimiento-e-ingresos-startups/pdf/dia_0_guia_onboarding_sistema.pdf"
 pdfNombre: "Descargar material de trabajo (PDF)"
 ---

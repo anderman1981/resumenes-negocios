@@ -21,6 +21,7 @@ dia: 1
 audio: "/assets/programas/crecimiento-e-ingresos-startups/audio/dia_1_cuantificacion_pmf.mp3"
 spotify: "https://open.spotify.com/episode/7xQ5TCfGrjZbdIL8q34s29?si=PKpzySlESgCOXKgpVNLVBQ"
 youtube: ""
+short: "/shorts/crecimiento-dia-1.mp4"
 pdf: "/assets/programas/crecimiento-e-ingresos-startups/pdf/dia_1_guia_matriz_cohortes_pmf.pdf"
 pdfNombre: "Descargar material de trabajo (PDF)"
 ---

@@ -21,6 +21,7 @@ dia: 4
 audio: "/assets/programas/crecimiento-e-ingresos-startups/audio/dia_4_alineacion_ventas_marketing.mp3"
 spotify: "https://open.spotify.com/episode/5TYw3GZJU0d0USzS6BGthQ?si=BWkb2M7mRiOS0G1Vde6mUA"
 youtube: ""
+short: "/shorts/crecimiento-dia-4.mp4"
 pdf: "/assets/programas/crecimiento-e-ingresos-startups/pdf/dia_4_guia_sla_ventas_marketing.pdf"
 pdfNombre: "Descargar material de trabajo (PDF)"
 ---
