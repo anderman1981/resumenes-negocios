@@ -1,0 +1,94 @@
+# Generado desde resumen: /home/anderson5/projects/googleads/_cola/startups/Dia_7_Resumen_Web_Disrupcion_IA_GTM_Moats-v2.md
+# Slug: crecimiento-dia-7 | 6 escenas | 80s
+channel: Resúmenes de Negocios
+caseNumber: 1
+title: Cómo construir una startup defensible en la era de la IA
+totalDuration: 80
+artDirection:
+  medium: ilustración digital profesional estilo presentación ejecutiva
+  lineWork: líneas limpias, iconografía de negocios
+  palette: azul corporativo, blanco, acentos naranjas
+  lighting: iluminación difusa profesional
+  texture: gradientes suaves, fondos limpios
+  mood: confianza, profesionalismo, energía
+  composition: encuadres centrados, gráficos de datos cuando aplique
+  humanTreatment: siluetas profesionales, sin rostros detallados
+  constraints: sin texto en imagen, sin logos, sin gore
+scenes:
+  - id: scene-01
+    block: GANCHO
+    start: 0
+    end: 12
+    voiceover: La IA no es una mejora incremental, es un cambio de paradigma
+      equivalente al nacimiento de la web comercial. Las startups tienen una
+      ventaja estructural que los gigantes no pueden seguir.
+    onScreenText:
+      - 🚨 La IA cambia todo
+      - El futuro pertenece a quienes se adapten
+    imagePrompt: Futurista ciudad con líneas de datos fluyendo en el aire,
+      arquitectura vertical, neones azules y naranjas
+    motion: zoom-in
+  - id: scene-02
+    block: DESARROLLO
+    start: 12
+    end: 24
+    voiceover: Construye tu moat con efectos de red de datos propios. Cuantos más
+      usuarios, más inteligente se vuelve tu modelo. Es una ventaja defensiva
+      que los gigantes no pueden replicar.
+    onScreenText:
+      - 🧠 Moats sostenibles
+      - Datos propios = inteligencia colectiva
+    imagePrompt: Diagrama circular con nodos de usuarios, flechas que convergen en
+      un núcleo central con luz azul
+    motion: pan-right
+  - id: scene-03
+    block: DESARROLLO
+    start: 24
+    end: 36
+    voiceover: "Usa la estrategia Beachhead: diseña un cambio disruptivo, pero
+      empieza con un nicho específico donde los clientes sufren un dolor no
+      resuelto. Enfócate al 100% en ese espacio."
+    onScreenText:
+      - 🎯 Estrategia Beachhead
+      - Diseña grande, empieza pequeño
+    imagePrompt: Mapa de industria con un área destacada en amarillo, flecha
+      apuntando a un pequeño mercado
+    motion: zoom-out
+  - id: scene-04
+    block: DESARROLLO
+    start: 36
+    end: 48
+    voiceover: Cobra por resultados, no por usuarios. Convierte tu IA en el sistema
+      operativo central de tu cliente. Los competidores no tienen el alcance ni
+      la integración que necesitas.
+    onScreenText:
+      - 💰 Modelos de cobro por resultados
+      - Sistema operativo del cliente
+    imagePrompt: Interfaz digital con iconos de integración, contadores en rojo y un
+      logo central en azul
+    motion: pan-left
+  - id: scene-05
+    block: DESARROLLO
+    start: 48
+    end: 60
+    voiceover: Los gigantes lanzan wrappers de IA, pero no pueden migrar sus flujos
+      de trabajo. Profundiza en un nicho vertical y usa datos que ellos no
+      poseen. Esa es tu ventaja.
+    onScreenText:
+      - 📈 Competir con gigantes
+      - Profundiza en tu nicho
+    imagePrompt: "Dos columnas: una con logos gigantes y una con una startup pequeña
+      con datos exclusivos"
+    motion: shake
+  - id: scene-06
+    block: CIERRE
+    start: 60
+    end: 80
+    voiceover: ¿Quieres dominar la era de la IA? Descarga el blueprint completo y
+      haz de tu startup una máquina de ventas escalable. Tu próximo paso es hoy.
+    onScreenText:
+      - ⬇️ Descarga el blueprint
+      - Haz de tu startup una máquina de ventas
+    imagePrompt: Fondo blanco con iconos de descarga, reloj y documento abierto,
+      sombra progresiva
+    motion: zoom-out

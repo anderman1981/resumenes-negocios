@@ -1,0 +1,92 @@
+# Generado desde resumen: /home/anderson5/projects/googleads/_cola/startups/Dia_2_Resumen_Web_Go_To_Market_Fit-v2.md
+# Slug: crecimiento-dia-2 | 6 escenas | 60s
+channel: Resúmenes de Negocios
+caseNumber: 1
+title: "GTM Fit y Economía Unitaria: 2 Claves para Escalar"
+totalDuration: 60
+artDirection:
+  medium: ilustración digital profesional estilo presentación ejecutiva
+  lineWork: líneas limpias, iconografía de negocios
+  palette: azul corporativo, blanco, acentos naranjas
+  lighting: iluminación difusa profesional
+  texture: gradientes suaves, fondos limpios
+  mood: confianza, profesionalismo, energía
+  composition: encuadres centrados, gráficos de datos cuando aplique
+  humanTreatment: siluetas profesionales, sin rostros detallados
+  constraints: sin texto en imagen, sin logos, sin gore
+scenes:
+  - id: scene-01
+    block: GANCHO
+    start: 0
+    end: 8
+    voiceover: ¿Sabes cuál es la diferencia entre tener un producto que los usuarios
+      aman y poder venderlo a escala? Hoy descubrimos lo crítico entre PMF y GTM
+      Fit.
+    onScreenText:
+      - ¿PMF o GTM Fit?
+      - La diferencia que define tu escalabilidad
+    imagePrompt: "Ilustración vertical de dos cuadrados divididos: izquierda con
+      icono de corazón (PMF) y derecha con icono de escalera (GTM Fit), fondo
+      azul corporativo"
+    motion: zoom-in
+  - id: scene-02
+    block: DESARROLLO
+    start: 8
+    end: 16
+    voiceover: PMF se mide con retención. GTM Fit requiere entender si puedes
+      adquirir clientes de forma rentable. Es el núcleo de tu modelo económico.
+    onScreenText:
+      - "PMF: Retención > 70%"
+      - "GTM Fit: CAC < LTV 3x"
+    imagePrompt: Infografía vertical con iconos de reloj (retención) y gráficos de
+      barras (CAC vs LTV), fondo blanco con degradado azul
+    motion: pan-left
+  - id: scene-03
+    block: DESARROLLO
+    start: 16
+    end: 24
+    voiceover: LTV es el valor total que un cliente aporta. Lo calculas
+      multiplicando ingreso promedio por margen, dividido entre la tasa de
+      cancelaciones.
+    onScreenText:
+      - LTV = (ARPU × Margen)/Tasa de Cancelación
+      - Métrica clave para escalar
+    imagePrompt: Fórmula LTV en cuadrado gris con iconos de monedas, porcentaje y
+      cancelación al lado, fondo naranja claro
+    motion: pan-right
+  - id: scene-04
+    block: DESARROLLO
+    start: 24
+    end: 32
+    voiceover: "CAC es el costo de adquirir un cliente. Error común: incluir
+      salarios fijos en el cálculo. El CAC real debe ser totalmente cargado."
+    onScreenText:
+      - CAC = (Marketing + Ventas)/Clientes
+      - Evita el error del CAC parcial
+    imagePrompt: Gráfica vertical de CAC con flecha roja señalando 'no incluir
+      salarios', fondo blanco con degradado azul
+    motion: shake
+  - id: scene-05
+    block: DESARROLLO
+    start: 32
+    end: 48
+    voiceover: "Para escalar, 2 reglas innegociables: LTV/CAC > 3x y Payback < 12
+      meses. Cualquiera de estos desequilibrados hunde tu modelo."
+    onScreenText:
+      - LTV/CAC > 3x
+      - Payback < 12 meses
+    imagePrompt: Checklist vertical con reglas en cuadrados amarillos sobre fondo
+      azul corporativo, iconos de balanza y reloj
+    motion: zoom-out
+  - id: scene-06
+    block: CIERRE
+    start: 48
+    end: 60
+    voiceover: Descarga tu guía completa para calcular estas métricas. Solo 2
+      minutos te ayudarán a evitar errores caros en tu startup.
+    onScreenText:
+      - Descarga tu guía gratis
+      - Calcula tu economía unitaria
+    imagePrompt: Botón rojo con sombra y texto 'Descargar Guía' sobre fondo blanco,
+      icono de descarga al lado
+    motion: zoom-in

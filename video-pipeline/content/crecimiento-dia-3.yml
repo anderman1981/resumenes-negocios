@@ -1,0 +1,96 @@
+# Generado desde resumen: /home/anderson5/projects/googleads/_cola/startups/Dia_3_Resumen_Web_Velocimetro_Escalamiento-v2.md
+# Slug: crecimiento-dia-3 | 6 escenas | 75s
+channel: Resúmenes de Negocios
+caseNumber: 1
+title: "El Velocímetro del Escalamiento: ¿Sobrecargas tu equipo?"
+totalDuration: 75
+artDirection:
+  medium: ilustración digital profesional estilo presentación ejecutiva
+  lineWork: líneas limpias, iconografía de negocios
+  palette: azul corporativo, blanco, acentos naranjas
+  lighting: iluminación difusa profesional
+  texture: gradientes suaves, fondos limpios
+  mood: confianza, profesionalismo, energía
+  composition: encuadres centrados, gráficos de datos cuando aplique
+  humanTreatment: siluetas profesionales, sin rostros detallados
+  constraints: sin texto en imagen, sin logos, sin gore
+scenes:
+  - id: scene-01
+    block: GANCHO
+    start: 0
+    end: 12
+    voiceover: ¿Qué pasa si contratas 10 vendedores sin probar si tu modelo
+      funciona? La mayoría de las startups de riesgo se destruyen así. Hoy
+      descubrimos cómo evitar la quema de capital con el velocímetro del
+      escalamiento.
+    onScreenText:
+      - 📈 Escalamiento Prematuro
+      - ⚠️ 80% de startups lo fallan
+    imagePrompt: Dashboard con indicadores de retención y payback, fondo azul
+      corporativo con cuadrícula gráfica
+    motion: zoom-in
+  - id: scene-02
+    block: DESARROLLO
+    start: 12
+    end: 24
+    voiceover: El velocímetro mide tu ritmo real. Si la retención es alta y el
+      payback <10 meses, acelera. Pero si hay degradación o churn, pausa nuevas
+      contrataciones. ¡No uses el dinero de la ronda para improvisar!
+    onScreenText:
+      - "🟢 Luz Verde: Acelera"
+      - "🟡 Luz Amarilla: Pausa"
+      - "🔴 Luz Roja: Congela"
+    imagePrompt: Indicadores de retención y payback en forma de semáforo, con
+      gráficos de líneas rojas/verdes
+    motion: pan-right
+  - id: scene-03
+    block: DESARROLLO
+    start: 24
+    end: 36
+    voiceover: Contrata vendedores en parejas. Si ambos triunfan, es el mercado. Si
+      uno falla, es el individuo. Esta técnica aísla lo real de lo accidental y
+      evita decisiones basadas en impresiones.
+    onScreenText:
+      - 🤝 Contrata en parejas
+      - 📊 Aisla éxito o fracaso
+    imagePrompt: Siluetas de dos vendedores en una escena de ventas, con datos de
+      performance superpuestos
+    motion: zoom-out
+  - id: scene-04
+    block: DESARROLLO
+    start: 36
+    end: 48
+    voiceover: "Analiza con la segmentación tridimensional: ¿Quiénes son tus
+      clientes ideales? ¿Qué usan del producto? ¿Cómo llegaron? Este enfoque
+      revela los sub-mercados escalables que otros ignoran."
+    onScreenText:
+      - 🔍 ICP + Caso de Uso + Canal
+      - 📈 Datos cruzados para segmentar
+    imagePrompt: Matriz 3D con ejes ICP, Caso de Uso y Canal, con puntos de datos en 3D
+    motion: pan-left
+  - id: scene-05
+    block: DESARROLLO
+    start: 48
+    end: 60
+    voiceover: Si tu board exige contratar 10 vendedores, muestra la matriz del
+      velocímetro. Agregar más sin leads calificados diluirá el rendimiento,
+      prolongará el ramp-up y destruirá la moral del equipo.
+    onScreenText:
+      - 🛑 Dilución del rendimiento
+      - ⚠️ Incremento del ramp-up
+    imagePrompt: Matriz de velocímetro con 10 vendedores y 5 leads calificados, en
+      escala de color
+    motion: shake
+  - id: scene-06
+    block: CIERRE
+    start: 60
+    end: 75
+    voiceover: Controla el ritmo de contratación con el velocímetro y segmenta tu
+      mercado. ¡Descarga la guía completa para aplicar estos métodos y evitar la
+      quema de capital!
+    onScreenText:
+      - 📊 Descarga la guía completa
+      - 🚀 Escala con control
+    imagePrompt: Fondo blanco con íconos de velocímetro y segmentación, textos de
+      descarga en naranja
+    motion: zoom-out

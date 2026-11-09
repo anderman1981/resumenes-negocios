@@ -1,0 +1,89 @@
+# Generado desde resumen: /home/anderson5/projects/googleads/_cola/startups/Dia_6_Resumen_Web_Coaching_Metrico_Compensacion-v2.md
+# Slug: crecimiento-dia-6 | 6 escenas | 90s
+channel: Resúmenes de Negocios
+caseNumber: 1
+title: ¿Coaching de ventas basado en métricas? Así se hace
+totalDuration: 90
+artDirection:
+  medium: ilustración digital profesional estilo presentación ejecutiva
+  lineWork: líneas limpias, iconografía de negocios
+  palette: azul corporativo, blanco, acentos naranjas
+  lighting: iluminación difusa profesional
+  texture: gradientes suaves, fondos limpios
+  mood: confianza, profesionalismo, energía
+  composition: encuadres centrados, gráficos de datos cuando aplique
+  humanTreatment: siluetas profesionales, sin rostros detallados
+  constraints: sin texto en imagen, sin logos, sin gore
+scenes:
+  - id: scene-01
+    block: GANCHO
+    start: 0
+    end: 12
+    voiceover: ¿Qué si te digo que un mal gerente comercial abruma a su equipo con
+      errores? ¡Parece un golfista que le dice al jugador 10 fallos en una bola!
+    onScreenText:
+      - ¿Por qué los vendedores fracasan en ventas?
+      - "Clave: métricas y coaching"
+    imagePrompt: Ilustración de un golfista profesional señalando errores a un
+      jugador con un palo de golf, fondo blanco con sombra abstracta
+    motion: zoom-in
+  - id: scene-02
+    block: DESARROLLO
+    start: 12
+    end: 24
+    voiceover: El verdadero coach no critica 10 fallos. Enfoca en un solo error
+      clave durante 30 días, como un golfista que mejora su swing
+    onScreenText:
+      - Diagnóstico de cuello de botella
+      - Métrica + acción = progreso
+    imagePrompt: Ilustración de un coach profesional señalando un solo punto en una
+      bola de golf con una flecha roja, fondo amarillo brillante
+    motion: pan-left
+  - id: scene-03
+    block: DESARROLLO
+    start: 24
+    end: 36
+    voiceover: "Comparar tasas de conversión revela habilidades por mejorar:
+      preguntas, demostración o cierre"
+    onScreenText:
+      - Análisis de etapas de conversión
+      - Identificar el problema real
+    imagePrompt: Ilustración de un gráfico de barras comparativo con tres etapas de
+      ventas y flechas rojas apuntando a problemas
+    motion: pan-right
+  - id: scene-04
+    block: DESARROLLO
+    start: 36
+    end: 48
+    voiceover: "El Film Review es la clave: revisar llamadas como equipos
+      deportivos, con vulnerabilidad y aprendizaje"
+    onScreenText:
+      - Sesiones de Film Review
+      - Enfoque en aprendizaje
+    imagePrompt: Ilustración de un grupo de cinco personas revisando una pantalla de
+      video con un coach al frente, fondo azul con sombra gris
+    motion: zoom-out
+  - id: scene-05
+    block: DESARROLLO
+    start: 48
+    end: 60
+    voiceover: "Las comisiones diferidas y anti-churn alinean incentivos: más valor
+      = más ganancia"
+    onScreenText:
+      - Planes de compensación
+      - Alineación con retención
+    imagePrompt: Ilustración de una tabla de datos con columnas 'Comisión' y
+      'Retención' conectadas por flechas naranjas
+    motion: shake
+  - id: scene-06
+    block: CIERRE
+    start: 60
+    end: 90
+    voiceover: Descarga el material completo y transforma tu sistema de ventas. ¡Tu
+      equipo merece un coaching basado en métricas!
+    onScreenText:
+      - Descarga el material completo
+      - Transforma tu sistema de ventas
+    imagePrompt: Ilustración de un botón de descarga con icono de PDF y texto
+      'Descargar todo' sobre fondo blanco
+    motion: zoom-out

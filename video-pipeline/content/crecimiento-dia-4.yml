@@ -1,0 +1,87 @@
+# Generado desde resumen: /home/anderson5/projects/googleads/_cola/startups/Dia_4_Resumen_Web_Alineacion_Ventas_Marketing-v2.md
+# Slug: crecimiento-dia-4 | 6 escenas | 72s
+channel: Resúmenes de Negocios
+caseNumber: 1
+title: ¿Cuánto valen tus leads? La fórmula que revoluciona ventas y marketing
+totalDuration: 72
+artDirection:
+  medium: ilustración digital profesional estilo presentación ejecutiva
+  lineWork: líneas limpias, iconografía de negocios
+  palette: azul corporativo, blanco, acentos naranjas
+  lighting: iluminación difusa profesional
+  texture: gradientes suaves, fondos limpios
+  mood: confianza, profesionalismo, energía
+  composition: encuadres centrados, gráficos de datos cuando aplique
+  humanTreatment: siluetas profesionales, sin rostros detallados
+  constraints: sin texto en imagen, sin logos, sin gore
+scenes:
+  - id: scene-01
+    block: GANCHO
+    start: 0
+    end: 12
+    voiceover: ¿Sabías que el 70% de los leads de Marketing no generan ventas? ¡Es
+      hora de cambiar la forma de medir el valor!
+    onScreenText:
+      - 70% de leads
+      - No generan ventas
+    imagePrompt: "Split screen: lado izquierdo con icono de PDF y reloj, lado
+      derecho con icono de moneda y gráfico de disminución"
+    motion: zoom-in
+  - id: scene-02
+    block: DESARROLLO
+    start: 12
+    end: 24
+    voiceover: Con el SLA monetario, medimos cada lead por su valor en dólares. No
+      más volumen, ¡solo impacto!
+    onScreenText:
+      - Valor del lead =
+      - Tasa conversión x ARPU
+    imagePrompt: Fórmula con colores naranja y azul, números 10, 10%, $50.000
+      visualizados como monedas
+    motion: pan-left
+  - id: scene-03
+    block: DESARROLLO
+    start: 24
+    end: 36
+    voiceover: Sales debe responder en 5 minutos. 6-8 contactos en 14 días o el lead
+      se pierde para siempre.
+    onScreenText:
+      - Regla de 5 minutos
+      - 6-8 contactos en 14 días
+    imagePrompt: Calendario digital con iconos de reloj de 5 minutos y botón de llamada
+    motion: zoom-out
+  - id: scene-04
+    block: DESARROLLO
+    start: 36
+    end: 48
+    voiceover: El dashboard 'Do Not Be On It' mantiene a todos alineados. Leads no
+      contactados se destacan en rojo.
+    onScreenText:
+      - Dashboard transparente
+      - Alertas en rojo
+    imagePrompt: Panel de control con leads en forma de tarjetas, 3 en rojo y 5 en verde
+    motion: pan-right
+  - id: scene-05
+    block: DESARROLLO
+    start: 48
+    end: 60
+    voiceover: Si Marketing cumple el SLA pero ventas no cierra, el problema está en
+      la tasa de cierre, no en el volumen.
+    onScreenText:
+      - Responsabilidad clara
+      - Métricas objetivas
+    imagePrompt: "Split screen: lado izquierdo con gráfico de cumplimiento, lado
+      derecho con métricas de ventas"
+    motion: shake
+  - id: scene-06
+    block: CIERRE
+    start: 60
+    end: 72
+    voiceover: Descarga el playbook completo y transforma tu pipeline. ¡Las métricas
+      correctas son el primer paso para ganar!
+    onScreenText:
+      - Descarga el playbook
+      - Transforma tu pipeline
+    imagePrompt: Icono de descarga en forma de PDF con flecha hacia abajo y texto
+      'Descargar' en naranja
+    motion: zoom-out

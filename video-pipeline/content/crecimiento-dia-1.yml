@@ -1,0 +1,88 @@
+# Generado desde resumen: /home/anderson5/projects/googleads/_cola/startups/Dia_1_Resumen_Web_Cuantificacion_PMF-v2.md
+# Slug: crecimiento-dia-1 | 6 escenas | 90s
+channel: Resúmenes de Negocios
+caseNumber: 1
+title: Cómo cuantificar el Product-Market Fit | Día 1
+totalDuration: 90
+artDirection:
+  medium: ilustración digital profesional estilo presentación ejecutiva
+  lineWork: líneas limpias, iconografía de negocios
+  palette: azul corporativo, blanco, acentos naranjas
+  lighting: iluminación difusa profesional
+  texture: gradientes suaves, fondos limpios
+  mood: confianza, profesionalismo, energía
+  composition: encuadres centrados, gráficos de datos cuando aplique
+  humanTreatment: siluetas profesionales, sin rostros detallados
+  constraints: sin texto en imagen, sin logos, sin gore
+scenes:
+  - id: scene-01
+    block: GANCHO
+    start: 0
+    end: 15
+    voiceover: La mayoría de los fundadores caen en la trampa del Churn. ¿Sabías que
+      cuando un cliente cancela, refleja errores cometidos 12 meses atrás? ¡Es
+      hora de medir el PMF de forma científica!
+    onScreenText:
+      - ¿Churn es un indicador lagging?
+      - ¿Cómo cuantificar el PMF?
+    imagePrompt: A graph showing churn vs PMF with a red line indicating lagging
+      indicator, corporate blue and orange accents
+    motion: zoom-in
+  - id: scene-02
+    block: DESARROLLO
+    start: 15
+    end: 30
+    voiceover: "El PMF se calcula con la fórmula: p% de clientes alcanzan el evento
+      e en el tiempo t. Es el Aha Moment que valida tu producto."
+    onScreenText:
+      - PMF = p% de clientes alcanzan el evento e en t
+      - Fórmula clave para validar tu producto
+    imagePrompt: Whiteboard con ecuación PMF y lápiz señalando el aha moment
+    motion: pan-left
+  - id: scene-03
+    block: DESARROLLO
+    start: 30
+    end: 45
+    voiceover: "Slack: 70% de equipos envían 2000 mensajes en 30 días. Dropbox: 85%
+      sube 1 archivo en 1 hora. HubSpot: 80% usa 5+ funciones en 60 días."
+    onScreenText:
+      - "Slack: 70% en 30 días"
+      - "Dropbox: 85% en 1 hora"
+      - "HubSpot: 80% en 60 días"
+    imagePrompt: Icons de Slack, Dropbox y HubSpot con números destacados en naranja
+    motion: zoom-out
+  - id: scene-04
+    block: DESARROLLO
+    start: 45
+    end: 60
+    voiceover: "Analiza tu matriz de cohortes: cada fila es un mes, las columnas
+      muestran la evolución del indicador líder. Ejemplo: Septiembre alcanza 82%
+      en 6 meses."
+    onScreenText:
+      - Matriz de cohortes mensual
+      - Evita decisiones basadas en suposiciones
+    imagePrompt: Tabla de cohortes con datos por mes, colores graduados desde blanco
+      a naranja
+    motion: pan-slow
+  - id: scene-05
+    block: DESARROLLO
+    start: 60
+    end: 75
+    voiceover: El crecimiento cuantitativo prueba el PMF. Observa cómo el % de
+      clientes que alcanzan el evento mejora con cada iteración.
+    onScreenText:
+      - PMF se mide con datos
+      - Cada mejora refleja el éxito
+    imagePrompt: Gráfico de líneas mostrando aumento del % de clientes alcanzando el evento
+    motion: shake
+  - id: scene-06
+    block: CIERRE
+    start: 75
+    end: 90
+    voiceover: "Descarga el workbook para calcular tu PMF y matriz de cohortes.
+      Avanza al Día 2: Go-To-Market Fit y Economía Unitaria."
+    onScreenText:
+      - Descargar workbook PMF & Matriz de Cohortes
+      - Avanzar al Día 2 ➔
+    imagePrompt: Botón de descarga con flecha hacia la derecha en naranja sobre fondo blanco
+    motion: zoom-out

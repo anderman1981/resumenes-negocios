@@ -1,0 +1,101 @@
+# Generado desde resumen: /home/anderson5/projects/googleads/_cola/startups/Dia_5_Resumen_Web_Formula_Contratacion_Ventas-v2.md
+# Slug: crecimiento-dia-5 | 6 escenas | 90s
+channel: Resúmenes de Negocios
+caseNumber: 1
+title: ¿Cómo contratar vendedores que aprenden rápido? La fórmula que evita
+  fracasos en startups
+totalDuration: 90
+artDirection:
+  medium: ilustración digital profesional estilo presentación ejecutiva
+  lineWork: líneas limpias, iconografía de negocios
+  palette: azul corporativo, blanco, acentos naranjas
+  lighting: iluminación difusa profesional
+  texture: gradientes suaves, fondos limpios
+  mood: confianza, profesionalismo, energía
+  composition: encuadres centrados, gráficos de datos cuando aplique
+  humanTreatment: siluetas profesionales, sin rostros detallados
+  constraints: sin texto en imagen, sin logos, sin gore
+scenes:
+  - id: scene-01
+    block: GANCHO
+    start: 0
+    end: 15
+    voiceover: ¿Por qué más del 70% de contrataciones de ventas en startups
+      fracasan? La respuesta no está en la experiencia, sino en una habilidad
+      clave que se mide en 10 minutos.
+    onScreenText:
+      - 70% de fracasos
+      - La fórmula que cambia todo
+    imagePrompt: Un espacio de oficina startup con un signo de interrogación en el
+      centro, uso de azul corporativo, blanco y acentos naranjas, iluminación
+      difusa profesional, fondos limpios con gradientes suaves
+    motion: zoom-in
+  - id: scene-02
+    block: DESARROLLO
+    start: 15
+    end: 30
+    voiceover: "La falacia del vendedor estrella tradicional: contratar a ejecutivos
+      con experiencia en corporaciones grandes fracasa porque no están
+      acostumbrados a la adaptabilidad de las startups."
+    onScreenText:
+      - ¿Experiencia o coachability?
+      - Vendedores adaptables vs. corporativos
+    imagePrompt: "Dos columnas: izquierda con un vendedor corporativo en una oficina
+      grande, derecha con un vendedor startup en un ambiente ágil, tonos
+      corporativos y naranjas, iluminación profesional"
+    motion: pan-left
+  - id: scene-03
+    block: DESARROLLO
+    start: 30
+    end: 45
+    voiceover: "Mark Roberge identificó 5 rasgos predictivos: coachability (30%),
+      curiosidad (25%), inteligencia (20%), ética de trabajo (15%) y éxito
+      previo (10%). La coachability es el 30% más impactante."
+    onScreenText:
+      - Los 5 factores que definen un buen vendedor
+      - "Coachability: el 30% clave"
+    imagePrompt: Gráfica vertical con 5 círculos en escala de 1 a 10, etiquetados
+      con los rasgos, estilo infografía profesional, tonos corporativos y
+      naranjas
+    motion: zoom-out
+  - id: scene-04
+    block: DESARROLLO
+    start: 45
+    end: 60
+    voiceover: "La prueba definitiva: una simulación de venta de 10 minutos. Evalúa
+      si el candidato aplica el feedback o se defiende. Solo así se mide su
+      entrenabilidad real."
+    onScreenText:
+      - Simulación de venta en vivo
+      - Feedback y repetición
+    imagePrompt: "Panel de control con cronómetro, cuadro de feedback y dos escenas
+      de rol play: candidato antes y después del feedback, estilo infografía con
+      tonos corporativos"
+    motion: pan-right
+  - id: scene-05
+    block: DESARROLLO
+    start: 60
+    end: 75
+    voiceover: Evita sesgos personales con una rúbrica cuantitativa. Cada
+      entrevistador califica independientemente los 5 rasgos basado en
+      evidencias de la simulación.
+    onScreenText:
+      - Rúbrica cuantitativa
+      - Evaluación objetiva
+    imagePrompt: Tabla de rúbrica con 5 columnas (rasgos) y 10 filas de
+      calificación, estilizada como spreadsheet profesional con iconos de
+      negocios, tonos corporativos
+    motion: zoom-in
+  - id: scene-06
+    block: CIERRE
+    start: 75
+    end: 90
+    voiceover: Descarga la guía completa y el podcast para aplicar esta fórmula. Tu
+      startup merece vendedores que crezcan con el negocio, no solo con
+      experiencia.
+    onScreenText:
+      - Descarga la guía completa
+      - Aplica la fórmula ahora
+    imagePrompt: Botón de descarga con icono de archivo, fondo blanco con gradiente
+      suave, textura de papel, iluminación profesional, sin logos
+    motion: shake
