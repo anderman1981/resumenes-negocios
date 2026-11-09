@@ -1,0 +1,84 @@
+# Generado desde resumen: /home/anderson5/projects/googleads/video-pipeline/../_cola/startups/Dia_0_Resumen_Web_Marco_Estructural-v2.md
+# Slug: crecimiento-dia-0 | 6 escenas | 90s
+channel: Resúmenes de Negocios
+caseNumber: 1
+title: ¿Por qué 75% de startups en Serie A fracasan? 🚨
+totalDuration: 90
+artDirection:
+  medium: ilustración digital profesional estilo presentación ejecutiva
+  lineWork: líneas limpias, iconografía de negocios
+  palette: azul corporativo, blanco, acentos naranjas
+  lighting: iluminación difusa profesional
+  texture: gradientes suaves, fondos limpios
+  mood: confianza, profesionalismo, energía
+  composition: encuadres centrados, gráficos de datos cuando aplique
+  humanTreatment: siluetas profesionales, sin rostros detallados
+  constraints: sin texto en imagen, sin logos, sin gore
+scenes:
+  - id: scene-01
+    block: GANCHO
+    start: 0
+    end: 12
+    voiceover: ¿Sabías que el 75% de startups financiadas en Serie A y Serie C
+      fracasan? ¿Por qué sucede esto? 📈
+    onScreenText:
+      - 75%
+      - de startups fracasan
+    imagePrompt: Gráfico de barras verticales con 75% resaltado en naranja, fondo blanco
+    motion: zoom-in
+  - id: scene-02
+    block: DESARROLLO
+    start: 12
+    end: 24
+    voiceover: El principal error es la escalada prematura. Empresas contratan
+      ventas y inyectan marketing sin validar el producto y el mercado.
+    onScreenText:
+      - Escalada prematura
+      - sin validación
+    imagePrompt: Dibujo simbólico de una empresa con escalera torcida y balanza
+      desequilibrada
+    motion: pan-left
+  - id: scene-03
+    block: DESARROLLO
+    start: 24
+    end: 36
+    voiceover: La era de los softwares de licencia terminó. Hoy, las ventas son
+      creativas de valor, no solo generación de ingresos.
+    onScreenText:
+      - De shelfware a suscripción
+      - ventas como creación de valor
+    imagePrompt: Contraste visual entre un servidor físico y una interfaz de suscripción
+    motion: zoom-out
+  - id: scene-04
+    block: DESARROLLO
+    start: 36
+    end: 48
+    voiceover: "El Programa de 7 días te guiará: desde diagnóstico hasta alineación
+      de ventas y marketing científico."
+    onScreenText:
+      - 7 días para transformar
+      - tu startup
+    imagePrompt: Infografía con los 7 días del programa en forma de escalera
+    motion: slide-up
+  - id: scene-05
+    block: DESARROLLO
+    start: 48
+    end: 60
+    voiceover: Aprenderás a medir PMF, validar GTM Fit y construir una economía
+      sostenible con LTV:CAC > 3.
+    onScreenText:
+      - PMF y GTM Fit
+      - LTV:CAC > 3
+    imagePrompt: Dashboard con métricas clave en formato de radar
+    motion: zoom-in
+  - id: scene-06
+    block: CIERRE
+    start: 60
+    end: 90
+    voiceover: Descarga la guía de onboarding y avanza al Día 1. Tu escalabilidad
+      comienza hoy. 🚀
+    onScreenText:
+      - Descargar guía
+      - Avanzar al Día 1
+    imagePrompt: Botón de descarga con flecha hacia la derecha y barras de progreso
+    motion: pan-right
