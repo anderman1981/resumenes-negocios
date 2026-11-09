@@ -1,0 +1,19 @@
+models:
+  text: qwen3:8b
+  textHeavy: qwen3:8b
+  visionEval: minicpm-v
+  visionEvalFallback: llava
+  tts: edge-tts
+  stt: faster-whisper
+  embedding: nomic-embed-text
+  reranker: placeholder
+
+voice:
+  default: es-CO-GonzaloNeural
+
+media:
+  mode: local
+  providers:
+    - local
+  candidates: 5
+  shortlist: 0

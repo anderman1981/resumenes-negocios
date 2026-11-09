@@ -40,3 +40,11 @@ videos-podcast/
 
 # subtitulos generados
 subtitulos/
+
+# Video pipeline artifacts
+video-pipeline/assets/audio/
+video-pipeline/assets/images/
+video-pipeline/assets/output/
+video-pipeline/renders/
+video-pipeline/node_modules/
+video-pipeline/.env

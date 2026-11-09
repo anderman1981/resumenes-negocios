@@ -1,0 +1,136 @@
+// Configuración central: rutas absolutas y acceso a la API del cluster NaN.
+// Todos los modelos del cluster se acceden por la misma API OpenAI-compatible,
+// con el mismo base URL. Aquí se centraliza esa configuración.
+//
+// Los valores ajustables (modelos, voz, providers) viven en `config.yml` en la
+// raíz; este módulo los carga. Los secretos siguen en el entorno (.env).
+//
+// `dotenv/config` carga el .env al importar: cualquier script que use `config`
+// ve las variables sin pasos extra. (Si no existe .env, dotenv no falla.)
+import 'dotenv/config';
+import { fileURLToPath } from 'node:url';
+import { dirname, resolve } from 'node:path';
+import { readFileSync } from 'node:fs';
+import { parse } from 'yaml';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+// raíz del proyecto = dos niveles arriba de src/config/
+const ROOT = resolve(__dirname, '..', '..');
+
+function required(name: string): string {
+  // dotenv/config ya volcó el .env en process.env (ver import arriba).
+  const v = process.env[name];
+  if (!v) {
+    throw new Error(
+      `Falta la variable de entorno ${name}. Copia .env.example a .env y complétala.`,
+    );
+  }
+  return v;
+}
+
+// --- Carga de config.yml (modelos, voz, providers) ---
+// Es obligatorio: sin él no sabemos a qué modelos del cluster llamar.
+interface FileConfig {
+  models: {
+    text: string;
+    textHeavy: string;
+    visionEval: string;
+    visionEvalFallback: string;
+    tts: string;
+    stt: string;
+    embedding: string;
+    // Reranker anunciado pero aún no desplegado (ver TROUBLESHOOTING.md);
+    // models:check lo sondea.
+    reranker: string;
+  };
+  voice: { default: string };
+  media: { providers: string[]; candidates?: number; shortlist?: number; mode?: string };
+}
+
+function loadFileConfig(): FileConfig {
+  const path = resolve(ROOT, 'config.yml');
+  try {
+    return parse(readFileSync(path, 'utf-8')) as FileConfig;
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    throw new Error(
+      `No se pudo leer config.yml en ${path}. Es obligatorio ` +
+        `(modelos, voz, providers). Detalle: ${msg}`,
+    );
+  }
+}
+
+// El parse de YAML no garantiza la forma: un typo en config.yml acabaría como
+// `model: undefined` en el cluster (HTTP 422 críptico). Mejor fallar al cargar.
+const MODEL_KEYS = [
+  'text', 'textHeavy', 'visionEval', 'visionEvalFallback',
+  'tts', 'stt', 'embedding', 'reranker',
+] as const;
+
+function validateFileConfig(file: FileConfig): FileConfig {
+  const missing: string[] = [];
+  for (const key of MODEL_KEYS) {
+    const v = file?.models?.[key];
+    if (typeof v !== 'string' || v.length === 0) missing.push(`models.${key}`);
+  }
+  if (typeof file?.voice?.default !== 'string' || file.voice.default.length === 0) {
+    missing.push('voice.default');
+  }
+  if (!Array.isArray(file?.media?.providers) || file.media.providers.length === 0) {
+    missing.push('media.providers');
+  }
+  if (missing.length > 0) {
+    throw new Error(
+      `ERROR: config.yml incompleto\n` +
+        `WHY: faltan o están vacías estas claves: ${missing.join(', ')}\n` +
+        `FIX: complétalas en config.yml (la referencia está versionada en el repo)`,
+    );
+  }
+  return file;
+}
+
+const file = validateFileConfig(loadFileConfig());
+
+export const config = {
+  // Rutas absolutas (evita que los scripts escriban en el lugar equivocado).
+  paths: {
+    root: ROOT,
+    audio: resolve(ROOT, 'assets', 'audio'),
+    images: resolve(ROOT, 'assets', 'images'),
+    output: resolve(ROOT, 'assets', 'output'),
+    content: resolve(ROOT, 'src', 'content'),
+    // Casos (storyboards) como DATOS en YAML — editables sin tocar código.
+    cases: resolve(ROOT, 'content'),
+    // Imágenes por caso: los scene-id se repiten entre casos; un directorio
+    // plano hace que un caso pise al otro. Única fuente de esta convención
+    // (la usan visión al guardar y compose al descubrir).
+    imagesFor: (slug: string) => resolve(ROOT, 'assets', 'images', slug),
+  },
+
+  // Cluster NaN: una sola API OpenAI-compatible para todos los modelos.
+  nan: {
+    baseUrl: () => required('NAN_BASE_URL'),   // base URL del cluster
+    apiKey: () => required('NAN_API_KEY'),     // token del miembro
+  },
+
+  // Nombres de modelo del cluster (vienen de config.yml; ajustar allí).
+  models: file.models,
+
+  // Voz por defecto para kokoro (override puntual con NAN_VOICE_ID).
+  voice: {
+    id: () => process.env.NAN_VOICE_ID ?? file.voice.default,
+  },
+
+  // Proveedores de media por defecto (override puntual con MEDIA_PROVIDERS).
+  media: {
+    providers: file.media.providers,
+    // Candidatas por proveedor y escena (config.yml > media.candidates).
+    candidates: file.media.candidates ?? 5,
+    // Candidatas que pasan a descarga+visión tras el pre-ranking por texto
+    // (config.yml > media.shortlist; 0 = sin pre-ranking).
+    shortlist: file.media.shortlist ?? 0,
+    // Modo de imágenes SIN validar (config.yml > media.mode; override puntual
+    // con la env MEDIA_MODE). Lo valida resolveMediaMode en la etapa de visión.
+    mode: () => process.env.MEDIA_MODE ?? file.media.mode,
+  },
+} as const;
