@@ -3,9 +3,10 @@ interface Props {
   youtube?: string;
   spotify?: string;
   audio?: string;
+  short?: string;
   titulo?: string;
 }
-const { youtube, spotify, audio, titulo = '' } = Astro.props;
+const { youtube, spotify, audio, short, titulo = '' } = Astro.props;
 
 // Acepta un ID o una URL completa de episodio de Spotify y extrae el ID.
 let spotifyId = '';
@@ -41,6 +42,28 @@ if (spotify) {
       <source src={audio} type={audio.endsWith('.mp3') ? 'audio/mpeg' : 'audio/mp4'} />
       Tu navegador no soporta audio.
     </audio>
+  </div>
+)}
+
+{short && (
+  <div class="mt-8">
+    <p class="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-700">
+      📱 Video resumen (short)
+    </p>
+    <div class="mx-auto" style="max-width:360px">
+      <div class="relative overflow-hidden rounded-2xl bg-black" style="aspect-ratio:9/16">
+        <video
+          class="absolute inset-0 h-full w-full object-cover"
+          controls
+          preload="metadata"
+          playsinline
+          poster=""
+        >
+          <source src={short} type="video/mp4" />
+          Tu navegador no soporta video.
+        </video>
+      </div>
+    </div>
   </div>
 )}
 

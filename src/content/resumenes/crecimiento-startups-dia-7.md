@@ -21,6 +21,7 @@ dia: 7
 audio: "/assets/programas/crecimiento-e-ingresos-startups/audio/dia_7_disrupcion_ia_gtm_moats.mp3"
 spotify: "https://open.spotify.com/episode/2gfcIELVtbjtcNQEOX6KgL?si=zr4cNyZ7QgCDm3j_M-BNxw"
 youtube: ""
+short: "/shorts/crecimiento-dia-7.mp4"
 pdf: "/assets/programas/crecimiento-e-ingresos-startups/pdf/dia_7_guia_blueprint_moats_beachhead.pdf"
 pdfNombre: "Descargar material de trabajo (PDF)"
 ---

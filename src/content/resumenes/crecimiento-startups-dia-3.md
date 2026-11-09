@@ -21,6 +21,7 @@ dia: 3
 audio: "/assets/programas/crecimiento-e-ingresos-startups/audio/dia_3_velocimetro_escalamiento.mp3"
 spotify: "https://open.spotify.com/episode/2GsFOy6s3klsISUJxhokWn?si=GX7-lF2CRvuBVE3nchg6jQ"
 youtube: ""
+short: "/shorts/crecimiento-dia-3.mp4"
 pdf: "/assets/programas/crecimiento-e-ingresos-startups/pdf/dia_3_guia_matriz_segmentacion.pdf"
 pdfNombre: "Descargar material de trabajo (PDF)"
 ---

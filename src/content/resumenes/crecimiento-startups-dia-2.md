@@ -21,6 +21,7 @@ dia: 2
 audio: "/assets/programas/crecimiento-e-ingresos-startups/audio/dia_2_gtm_fit_economia_unitaria.mp3"
 spotify: "https://open.spotify.com/episode/1owX5bHS4lxTfHtWgvuBwM?si=azU4HgmwTQGArPuCEQVCLA"
 youtube: ""
+short: "/shorts/crecimiento-dia-2.mp4"
 pdf: "/assets/programas/crecimiento-e-ingresos-startups/pdf/dia_2_guia_calculadora_ltv_cac.pdf"
 pdfNombre: "Descargar material de trabajo (PDF)"
 ---

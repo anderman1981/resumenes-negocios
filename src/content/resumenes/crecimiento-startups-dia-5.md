@@ -21,6 +21,7 @@ dia: 5
 audio: "/assets/programas/crecimiento-e-ingresos-startups/audio/dia_5_formula_contratacion_ventas.mp3"
 spotify: "https://open.spotify.com/episode/6cuHnKxspha0Vo2sUuhFGC?si=7y8qjVAPSVSQRig0Q9v1_Q"
 youtube: ""
+short: "/shorts/crecimiento-dia-5.mp4"
 pdf: "/assets/programas/crecimiento-e-ingresos-startups/pdf/dia_5_guia_rubrica_entrevista.pdf"
 pdfNombre: "Descargar material de trabajo (PDF)"
 ---

@@ -21,6 +21,7 @@ dia: 6
 audio: "/assets/programas/crecimiento-e-ingresos-startups/audio/dia_6_coaching_metrico_compensacion.mp3"
 spotify: "https://open.spotify.com/episode/7fedZ6kZrpvjeSY22GQNcS?si=0AFXikxwR0G0BA7C4xrT6w"
 youtube: ""
+short: "/shorts/crecimiento-dia-6.mp4"
 pdf: "/assets/programas/crecimiento-e-ingresos-startups/pdf/dia_6_guia_manual_film_review.pdf"
 pdfNombre: "Descargar material de trabajo (PDF)"
 ---
