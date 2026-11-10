@@ -35,6 +35,7 @@
     <!-- ═══ DASHBOARD ═══ -->
     <div id="page-dashboard" class="page p-6 space-y-6">
       <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4" id="stat-cards"></div>
+      <div id="series-overview"></div>
       <div class="grid gap-6 lg:grid-cols-2">
         <div class="stat-card">
           <h2 class="mb-3 text-sm font-bold uppercase tracking-wide text-slate-400">Completitud por resumen</h2>
@@ -53,6 +54,7 @@
         <aside class="overflow-auto border-r border-slate-200 bg-white p-3">
           <div class="mb-3 flex items-center gap-2">
             <input id="buscar" type="search" placeholder="Buscar..." class="flex-1 rounded-lg border border-slate-300 px-3 py-1.5 text-sm" />
+            <button id="btn-nueva-serie" class="rounded-lg bg-purple-600 px-2 py-1.5 text-[11px] font-semibold text-white hover:bg-purple-700" title="Nueva serie">Serie+</button>
             <button id="btn-nuevo" class="rounded-lg bg-brand-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-brand-700">+</button>
           </div>
           <div id="content-list" class="space-y-1 text-sm"></div>
@@ -317,6 +319,42 @@
   </div>
 </div>
 
+<!-- Modal: Nueva Serie -->
+<div id="modal-serie" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" style="display:none">
+  <div class="w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-lg font-bold">Crear nueva serie</h2>
+      <button onclick="closeSeriesModal()" class="text-slate-400 hover:text-slate-600 text-xl leading-none">&times;</button>
+    </div>
+    <form id="form-serie" class="space-y-4">
+      <label class="block text-sm font-medium">Nombre de la serie<input name="serieNombre" placeholder="Ventas con Logica" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" required></label>
+      <label class="block text-sm font-medium">Slug (auto)<input name="serie" placeholder="ventas-con-logica" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm font-mono bg-slate-50" readonly></label>
+      <div class="grid gap-4 sm:grid-cols-2">
+        <label class="text-sm font-medium">Libro<input name="libro" placeholder="Nombre del libro" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"></label>
+        <label class="text-sm font-medium">Autor<input name="autor" placeholder="Autor del libro" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"></label>
+      </div>
+      <div class="grid gap-4 sm:grid-cols-2">
+        <label class="text-sm font-medium">Categoria
+          <select name="categoria" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
+            <option value="ventas">ventas</option>
+            <option value="emprendimiento">emprendimiento</option>
+            <option value="productividad">productividad</option>
+            <option value="finanzas-personales">finanzas-personales</option>
+            <option value="marketing-digital">marketing-digital</option>
+            <option value="ecommerce">ecommerce</option>
+          </select>
+        </label>
+        <label class="text-sm font-medium">Numero de dias<input name="dias" type="number" min="1" max="30" value="7" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" required></label>
+      </div>
+      <div class="flex items-center gap-3 pt-2">
+        <button type="submit" class="rounded-lg bg-purple-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-purple-700">Crear serie</button>
+        <button type="button" onclick="closeSeriesModal()" class="rounded-lg border border-slate-300 px-5 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-50">Cancelar</button>
+        <span id="serie-msg" class="text-sm text-slate-500"></span>
+      </div>
+    </form>
+  </div>
+</div>
+
 <script>
 const $ = s => document.querySelector(s);
 const $$ = s => document.querySelectorAll(s);
@@ -348,29 +386,68 @@ setInterval(() => { $('#clock').textContent = new Date().toLocaleString('es-CO')
 
 // ═══ DASHBOARD ═══
 async function loadDashboard() {
-  const [stats, list] = await Promise.all([
+  const [stats, seriesData] = await Promise.all([
     fetch('/api/stats').then(r=>r.json()),
-    fetch('/api/list').then(r=>r.json()),
+    fetch('/api/series').then(r=>r.json()),
   ]);
+
+  const totalSeries = seriesData.series.length;
+  const totalInSeries = seriesData.series.reduce((n,s) => n + s.items.length, 0);
 
   $('#stat-cards').innerHTML = [
     card('Resumenes', stats.total, `${stats.published} publicados, ${stats.drafts} borradores`, '#3b82f6'),
+    card('Series', totalSeries, `${totalInSeries} en serie, ${seriesData.standalone.length} sueltos`, '#8b5cf6'),
     card('Con Short', stats.withShort, `de ${stats.total} resumenes`, '#22c55e'),
     card('Con Audio', stats.withAudio + stats.withSpotify, `Spotify: ${stats.withSpotify}, Local: ${stats.withAudio}`, '#a855f7'),
-    card('Con PDF', stats.withPdf, `de ${stats.total} resumenes`, '#f59e0b'),
   ].join('');
 
-  // Completeness table
-  const rows = list.items.map(it => {
-    const dots = [
-      dot(it.hasShort, 'Short'),
-      dot(it.hasSpotify, 'Spotify'),
-      dot(it.hasAudio, 'Audio'),
-      dot(it.hasYoutube, 'YouTube'),
-      dot(it.hasPdf, 'PDF'),
-    ].join('');
-    return `<tr class="border-t border-slate-100"><td class="py-2 pr-3 text-sm">${esc(it.titulo)}</td><td class="py-2 text-right whitespace-nowrap">${dots}</td></tr>`;
-  }).join('');
+  // Series overview cards
+  const seriesColors = ['#3b82f6','#8b5cf6','#ec4899','#f59e0b','#10b981','#ef4444'];
+  $('#series-overview').innerHTML = seriesData.series.length ? `
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      ${seriesData.series.map((s, i) => {
+        const color = seriesColors[i % seriesColors.length];
+        const withShort = s.items.filter(it => it.hasShort).length;
+        const withAudio = s.items.filter(it => it.hasAudio).length;
+        const pctShort = Math.round(withShort / s.items.length * 100);
+        const pctAudio = Math.round(withAudio / s.items.length * 100);
+        return `<div class="stat-card">
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="text-xs font-bold uppercase tracking-wide" style="color:${color}">${esc(s.categoria)}</div>
+              <div class="mt-1 text-sm font-bold leading-tight">${esc(s.serieNombre)}</div>
+              <div class="mt-0.5 text-xs text-slate-400">${esc(s.libro)} &mdash; ${esc(s.autor)}</div>
+            </div>
+            <span class="grid h-8 w-8 place-items-center rounded-lg text-sm font-black text-white" style="background:${color}">${s.items.length}</span>
+          </div>
+          <div class="mt-3 space-y-2">
+            <div><div class="flex justify-between text-[11px] text-slate-500"><span>Shorts</span><span>${withShort}/${s.items.length}</span></div>
+              <div class="mt-0.5 h-1.5 rounded-full bg-slate-100"><div class="h-1.5 rounded-full bg-green-500" style="width:${pctShort}%"></div></div></div>
+            <div><div class="flex justify-between text-[11px] text-slate-500"><span>Audio</span><span>${withAudio}/${s.items.length}</span></div>
+              <div class="mt-0.5 h-1.5 rounded-full bg-slate-100"><div class="h-1.5 rounded-full bg-purple-500" style="width:${pctAudio}%"></div></div></div>
+          </div>
+          <div class="mt-3 flex flex-wrap gap-1">${s.items.map(it => {
+            const ok = !it.borrador && it.hasShort && it.hasAudio;
+            return `<span class="rounded px-1.5 py-0.5 text-[10px] font-medium ${ok?'bg-green-100 text-green-700':'bg-slate-100 text-slate-500'}" title="${esc(it.titulo)}">D${it.dia??'?'}</span>`;
+          }).join('')}</div>
+        </div>`;
+      }).join('')}
+    </div>` : '';
+
+  // Completeness table — grouped by series then standalone
+  let rows = '';
+  seriesData.series.forEach(s => {
+    rows += `<tr class="bg-slate-50"><td colspan="2" class="py-2 px-2 text-xs font-bold uppercase tracking-wide text-purple-600">${esc(s.serieNombre)} <span class="font-normal text-slate-400">(${s.items.length} dias)</span></td></tr>`;
+    s.items.forEach(it => {
+      rows += `<tr class="border-t border-slate-100"><td class="py-1.5 pr-3 text-sm pl-3">${esc(it.titulo)}</td><td class="py-1.5 text-right whitespace-nowrap">${dot(it.hasShort,'Short')}${dot(it.hasAudio,'Audio')}${dot(it.hasYoutube,'YT')}${dot(it.hasPdf,'PDF')}</td></tr>`;
+    });
+  });
+  if (seriesData.standalone.length) {
+    rows += `<tr class="bg-slate-50"><td colspan="2" class="py-2 px-2 text-xs font-bold uppercase tracking-wide text-slate-500">Sueltos <span class="font-normal text-slate-400">(${seriesData.standalone.length})</span></td></tr>`;
+    seriesData.standalone.forEach(it => {
+      rows += `<tr class="border-t border-slate-100"><td class="py-1.5 pr-3 text-sm pl-3">${esc(it.titulo)}</td><td class="py-1.5 text-right whitespace-nowrap">${dot(it.hasShort,'Short')}${dot(it.hasAudio,'Audio')}${dot(it.hasYoutube,'YT')}${dot(it.hasPdf,'PDF')}</td></tr>`;
+    });
+  }
   $('#completeness-table').innerHTML = `<table class="w-full"><tbody>${rows}</tbody></table>`;
 
   // Shorts on disk
@@ -391,34 +468,65 @@ function dot(ok, label) {
 }
 
 // ═══ CONTENT ═══
+let contentSeries = [];
+let contentStandalone = [];
 let contentItems = [];
 let activeSlug = null;
 
 async function loadContent() {
-  const { items } = await fetch('/api/list').then(r=>r.json());
-  contentItems = items;
+  const { series, standalone } = await fetch('/api/series').then(r=>r.json());
+  contentSeries = series;
+  contentStandalone = standalone;
+  contentItems = [...series.flatMap(s => s.items), ...standalone];
   renderContentList();
+}
+
+function contentItemBtn(it) {
+  const active = it.slug === activeSlug ? 'bg-brand-50 border-brand-200' : 'border-transparent hover:bg-slate-50';
+  const badge = it.borrador ? '<span class="rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-bold text-amber-700">BORRADOR</span>' : '';
+  const dots = [it.hasShort?'text-green-500':'text-red-300', it.hasAudio?'text-green-500':'text-red-300', it.hasYoutube?'text-green-500':'text-red-300'].map((c,i)=>
+    `<span class="${c} text-[10px]">${['V','A','Y'][i]}</span>`
+  ).join(' ');
+  const diaLabel = it.dia != null ? `<span class="rounded bg-purple-100 px-1 py-0.5 text-[10px] font-bold text-purple-700">D${it.dia}</span> ` : '';
+  return `<button data-slug="${esc(it.slug)}" class="content-item w-full rounded-lg border px-3 py-2 text-left transition ${active}">
+    <div class="flex items-center justify-between"><span class="font-medium text-sm leading-tight">${diaLabel}${esc(it.titulo)}</span>${badge}</div>
+    <div class="mt-1 flex items-center gap-2 text-[11px] text-slate-400"><span>${it.fecha ? String(it.fecha).slice(0,10) : 'sin fecha'}</span><span>${dots}</span></div>
+  </button>`;
 }
 
 function renderContentList() {
   const q = ($('#buscar')?.value || '').toLowerCase();
-  const filtered = q ? contentItems.filter(it => it.titulo.toLowerCase().includes(q) || it.slug.includes(q)) : contentItems;
-  $('#content-list').innerHTML = filtered.map(it => {
-    const active = it.slug === activeSlug ? 'bg-brand-50 border-brand-200' : 'border-transparent hover:bg-slate-50';
-    const badge = it.borrador ? '<span class="rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-bold text-amber-700">BORRADOR</span>' : '';
-    const dots = [it.hasShort?'text-green-500':'text-red-300', it.hasSpotify?'text-green-500':'text-red-300', it.hasYoutube?'text-green-500':'text-red-300'].map((c,i)=>
-      `<span class="${c} text-[10px]">${['V','S','Y'][i]}</span>`
-    ).join(' ');
-    return `<button data-slug="${esc(it.slug)}" class="content-item w-full rounded-lg border px-3 py-2 text-left transition ${active}">
-      <div class="flex items-center justify-between"><span class="font-medium text-sm leading-tight">${esc(it.titulo)}</span>${badge}</div>
-      <div class="mt-1 flex items-center gap-2 text-[11px] text-slate-400"><span>${it.fecha ? String(it.fecha).slice(0,10) : 'sin fecha'}</span><span>${dots}</span></div>
-    </button>`;
-  }).join('');
+  let html = '';
+
+  contentSeries.forEach(s => {
+    const filtered = s.items.filter(it => !q || it.titulo.toLowerCase().includes(q) || it.slug.includes(q));
+    if (!filtered.length) return;
+    html += `<div class="mb-2">
+      <button onclick="this.nextElementSibling.classList.toggle('hidden')" class="flex w-full items-center justify-between rounded-lg bg-purple-50 px-3 py-2 text-left hover:bg-purple-100 transition">
+        <span class="text-xs font-bold text-purple-700">${esc(s.serieNombre)}</span>
+        <span class="text-[10px] text-purple-400">${filtered.length} dias</span>
+      </button>
+      <div class="mt-1 space-y-0.5 pl-2 border-l-2 border-purple-200">
+        ${filtered.map(it => contentItemBtn(it)).join('')}
+      </div>
+    </div>`;
+  });
+
+  const standaloneFiltered = contentStandalone.filter(it => !q || it.titulo.toLowerCase().includes(q) || it.slug.includes(q));
+  if (standaloneFiltered.length) {
+    html += `<div class="mb-2">
+      <div class="rounded-lg bg-slate-50 px-3 py-2 text-xs font-bold uppercase tracking-wide text-slate-500">Sueltos (${standaloneFiltered.length})</div>
+      <div class="mt-1 space-y-0.5">${standaloneFiltered.map(it => contentItemBtn(it)).join('')}</div>
+    </div>`;
+  }
+
+  $('#content-list').innerHTML = html || '<p class="text-sm text-slate-400 py-4 text-center">Sin resultados</p>';
   $$('.content-item').forEach(b => b.addEventListener('click', () => openEditor(b.dataset.slug)));
 }
 
 $('#buscar')?.addEventListener('input', renderContentList);
 $('#btn-nuevo')?.addEventListener('click', () => { activeSlug = null; showEditor({},''); });
+$('#btn-nueva-serie')?.addEventListener('click', openSeriesModal);
 
 async function openEditor(slug) {
   const { data, content } = await fetch('/api/item/' + slug).then(r=>r.json());
@@ -587,6 +695,58 @@ async function loadUploadFiles() {
       : '<p class="text-sm text-slate-400 py-2">Vacio</p>';
   }
 }
+
+// ═══ CREATE SERIES MODAL ═══
+function openSeriesModal() {
+  $('#modal-serie').style.display = 'flex';
+  const form = $('#form-serie');
+  form.reset();
+  form.elements.serie.value = '';
+  $('#serie-msg').textContent = '';
+}
+function closeSeriesModal() {
+  $('#modal-serie').style.display = 'none';
+}
+
+$('#form-serie')?.elements.serieNombre?.addEventListener('input', e => {
+  const slug = e.target.value.toLowerCase()
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  $('#form-serie').elements.serie.value = slug;
+});
+
+$('#form-serie')?.addEventListener('submit', async e => {
+  e.preventDefault();
+  const f = $('#form-serie');
+  const body = {
+    serie: f.elements.serie.value,
+    serieNombre: f.elements.serieNombre.value.trim(),
+    libro: f.elements.libro.value.trim(),
+    autor: f.elements.autor.value.trim(),
+    categoria: f.elements.categoria.value,
+    dias: Number(f.elements.dias.value),
+  };
+  if (!body.serie || !body.serieNombre) return;
+  $('#serie-msg').textContent = 'Creando...';
+  try {
+    const r = await fetch('/api/series', { method: 'POST', headers: {'content-type':'application/json'}, body: JSON.stringify(body) });
+    const res = await r.json();
+    if (res.ok) {
+      const created = res.created.filter(c => !c.skipped).length;
+      const skipped = res.created.filter(c => c.skipped).length;
+      $('#serie-msg').textContent = `${created} creados${skipped ? `, ${skipped} ya existian` : ''}`;
+      setTimeout(() => { closeSeriesModal(); switchPage('content'); }, 1200);
+    } else {
+      $('#serie-msg').textContent = res.error;
+    }
+  } catch (err) {
+    $('#serie-msg').textContent = 'Error de red';
+  }
+});
+
+$('#modal-serie')?.addEventListener('click', e => {
+  if (e.target === $('#modal-serie')) closeSeriesModal();
+});
 
 // Boot
 loadDashboard();

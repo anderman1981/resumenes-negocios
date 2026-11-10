@@ -124,6 +124,59 @@ app.get('/api/files/:folder', (req, res) => {
   res.json({ files });
 });
 
+app.get('/api/series', (req, res) => {
+  const files = readdirSync(RES).filter(f => f.endsWith('.md'));
+  const seriesMap = {};
+  const standalone = [];
+  files.forEach(f => {
+    const slug = f.replace(/\.md$/, '');
+    const { data } = matter(readFileSync(join(RES, f), 'utf8'));
+    const item = {
+      slug, titulo: data.titulo || slug, categoria: data.categoria || '',
+      dia: data.dia ?? null, borrador: !!data.borrador, fecha: data.fecha || '',
+      hasShort: !!data.short, hasAudio: !!(data.audio || data.spotify),
+      hasYoutube: !!data.youtube, hasPdf: !!data.pdf,
+    };
+    if (data.serie) {
+      if (!seriesMap[data.serie]) {
+        seriesMap[data.serie] = {
+          serie: data.serie, serieNombre: data.serieNombre || data.serie,
+          libro: data.libro || '', autor: data.autor || '',
+          categoria: data.categoria || '', items: [],
+        };
+      }
+      seriesMap[data.serie].items.push(item);
+    } else {
+      standalone.push(item);
+    }
+  });
+  Object.values(seriesMap).forEach(s => s.items.sort((a, b) => (a.dia ?? 99) - (b.dia ?? 99)));
+  standalone.sort((a, b) => String(b.fecha).localeCompare(String(a.fecha)));
+  res.json({ series: Object.values(seriesMap), standalone });
+});
+
+app.post('/api/series', (req, res) => {
+  const { serie, serieNombre, libro, autor, categoria, dias } = req.body || {};
+  if (!serie || !slugRe.test(serie)) return res.status(400).json({ error: 'Slug de serie invalido' });
+  if (!dias || dias < 1 || dias > 30) return res.status(400).json({ error: 'Dias debe ser entre 1 y 30' });
+  const created = [];
+  for (let d = 1; d <= dias; d++) {
+    const slug = `${serie}-dia-${d}`;
+    const file = join(RES, `${slug}.md`);
+    if (existsSync(file)) { created.push({ slug, skipped: true }); continue; }
+    const data = {
+      titulo: `${serieNombre} - Dia ${d}`, libro: libro || '', autor: autor || '',
+      categoria: categoria || 'emprendimiento', descripcion: '', minutosLectura: 7,
+      fecha: new Date().toISOString().slice(0, 10),
+      borrador: true, destacado: false, serie, serieNombre, dia: d,
+      ideasClave: [], tags: [],
+    };
+    writeFileSync(file, matter.stringify('', data), 'utf8');
+    created.push({ slug, skipped: false });
+  }
+  res.json({ ok: true, created });
+});
+
 app.use('/preview', express.static(PUBLIC));
 
 app.listen(PORT, () => console.log(`\n  Admin dashboard: http://localhost:${PORT}\n`));
