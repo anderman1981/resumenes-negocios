@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "public/index.html"
+        ],
+        "createdAt": "2026-11-10T02:10:57.581Z",
+        "reason": "Section h2s are intentionally small-caps label headers (text-sm uppercase tracking-wide) for admin dashboard aesthetic — visual hierarchy via weight/case/tracking/color, not size"
+      }
+    ]
+  }
+}
