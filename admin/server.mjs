@@ -1,7 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import matter from 'gray-matter';
-import { readdirSync, readFileSync, writeFileSync, existsSync, statSync, mkdirSync } from 'node:fs';
+import { readdirSync, readFileSync, writeFileSync, existsSync, statSync, mkdirSync, unlinkSync } from 'node:fs';
 import { join, dirname, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -175,6 +175,73 @@ app.post('/api/series', (req, res) => {
     created.push({ slug, skipped: false });
   }
   res.json({ ok: true, created });
+});
+
+// ═══ FILES-ALL: unified listing across all public/ subfolders ═══
+const MEDIA_FOLDERS = ['shorts','audio','pdfs','img'];
+
+app.get('/api/files-all', (req, res) => {
+  const allFiles = [];
+  const items = readdirSync(RES).filter(f => f.endsWith('.md'));
+  const linkedMap = {};
+  items.forEach(f => {
+    const slug = f.replace(/\.md$/, '');
+    const { data } = matter(readFileSync(join(RES, f), 'utf8'));
+    ['short','audio','pdf','portada'].forEach(field => {
+      if (data[field]) linkedMap[data[field]] = { slug, field };
+    });
+  });
+
+  for (const folder of MEDIA_FOLDERS) {
+    const dir = join(PUBLIC, folder);
+    if (!existsSync(dir)) continue;
+    readdirSync(dir).forEach(name => {
+      const fullPath = join(dir, name);
+      const st = statSync(fullPath);
+      const url = `/${folder}/${name}`;
+      allFiles.push({
+        name, folder, url,
+        size: fmtSize(st.size), bytes: st.size,
+        ext: extname(name).slice(1).toLowerCase(),
+        modified: st.mtime.toISOString(),
+        linked: linkedMap[url] || null,
+      });
+    });
+  }
+  allFiles.sort((a, b) => new Date(b.modified) - new Date(a.modified));
+  res.json({ files: allFiles });
+});
+
+// ═══ DELETE file ═══
+app.delete('/api/file/:folder/:name', (req, res) => {
+  const folder = req.params.folder.replace(/[^a-z0-9_-]/gi, '');
+  const name = req.params.name.replace(/[^a-zA-Z0-9._-]/g, '');
+  const filePath = join(PUBLIC, folder, name);
+  if (!existsSync(filePath)) return res.status(404).json({ error: 'Archivo no encontrado' });
+  try {
+    unlinkSync(filePath);
+    res.json({ ok: true });
+  } catch (e) {
+    res.status(500).json({ error: String(e).slice(0, 200) });
+  }
+});
+
+// ═══ LINK file to resumen ═══
+app.post('/api/link-file', (req, res) => {
+  const { slug, field, url } = req.body || {};
+  if (!slug || !field || !url) return res.status(400).json({ error: 'Faltan parametros' });
+  const validFields = ['short','audio','pdf','portada'];
+  if (!validFields.includes(field)) return res.status(400).json({ error: 'Campo invalido' });
+  const file = join(RES, `${slug}.md`);
+  if (!existsSync(file)) return res.status(404).json({ error: 'Resumen no encontrado' });
+  try {
+    const { data, content } = matter(readFileSync(file, 'utf8'));
+    data[field] = url;
+    writeFileSync(file, matter.stringify(content, data), 'utf8');
+    res.json({ ok: true });
+  } catch (e) {
+    res.status(500).json({ error: String(e).slice(0, 200) });
+  }
 });
 
 app.use('/preview', express.static(PUBLIC));
