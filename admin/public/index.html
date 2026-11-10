@@ -4,19 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Admin · Resumenes de Negocios</title>
-  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
-  <script>tailwind.config={theme:{extend:{colors:{brand:{50:'#eff6ff',100:'#dbeafe',500:'#3b82f6',600:'#2563eb',700:'#1d4ed8'},sidebar:'#0f172a',card:'#1e293b'}}}}</script>
-  <style>
-    .dot{width:8px;height:8px;border-radius:50%;display:inline-block}
-    .dot-ok{background:#22c55e}.dot-no{background:#ef4444}
-    .tab-active{color:#3b82f6;border-bottom:2px solid #3b82f6}
-    .stat-card{@apply rounded-xl border border-slate-200 bg-white p-5}
-    video::-webkit-media-controls-panel{background:linear-gradient(transparent,rgba(0,0,0,.6))}
-    .sidebar-link{@apply flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white}
-    .sidebar-link.active{@apply bg-white/10 text-white}
-    .drop-zone{@apply rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 p-8 text-center transition}
-    .drop-zone.dragover{@apply border-brand-500 bg-brand-50}
-  </style>
+  <link rel="stylesheet" href="/styles.css">
 </head>
 <body class="h-full bg-slate-100 text-slate-800">
 <div class="flex h-full">
@@ -31,7 +19,7 @@
       <a href="#" data-page="dashboard" class="sidebar-link active"><svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1"/></svg> Dashboard</a>
       <a href="#" data-page="content" class="sidebar-link"><svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg> Contenido</a>
       <a href="#" data-page="shorts" class="sidebar-link"><svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg> Video Shorts</a>
-      <a href="#" data-page="upload" class="sidebar-link"><svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg> Subir archivos</a>
+      <a href="#" data-page="upload" class="sidebar-link"><svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg> Archivos</a>
       <a href="#" data-page="pipeline" class="sidebar-link"><svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg> Pipeline</a>
     </nav>
     <div class="border-t border-white/10 px-5 py-3 text-[11px] text-slate-500">Solo local &middot; No sube a Vercel</div>
@@ -47,6 +35,7 @@
     <!-- ═══ DASHBOARD ═══ -->
     <div id="page-dashboard" class="page p-6 space-y-6">
       <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4" id="stat-cards"></div>
+      <div id="series-overview"></div>
       <div class="grid gap-6 lg:grid-cols-2">
         <div class="stat-card">
           <h2 class="mb-3 text-sm font-bold uppercase tracking-wide text-slate-400">Completitud por resumen</h2>
@@ -65,6 +54,7 @@
         <aside class="overflow-auto border-r border-slate-200 bg-white p-3">
           <div class="mb-3 flex items-center gap-2">
             <input id="buscar" type="search" placeholder="Buscar..." class="flex-1 rounded-lg border border-slate-300 px-3 py-1.5 text-sm" />
+            <button id="btn-nueva-serie" class="rounded-lg bg-purple-600 px-2 py-1.5 text-[11px] font-semibold text-white hover:bg-purple-700" title="Nueva serie">Serie+</button>
             <button id="btn-nuevo" class="rounded-lg bg-brand-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-brand-700">+</button>
           </div>
           <div id="content-list" class="space-y-1 text-sm"></div>
@@ -85,74 +75,329 @@
       </div>
     </div>
 
-    <!-- ═══ UPLOAD ═══ -->
+    <!-- ═══ ARCHIVOS (Media Library) ═══ -->
     <div id="page-upload" class="page hidden p-6 space-y-6">
-      <div class="stat-card">
-        <h2 class="mb-4 text-sm font-bold uppercase tracking-wide text-slate-400">Subir archivos al proyecto</h2>
-        <div class="grid gap-6 md:grid-cols-3">
-          <div>
-            <label class="mb-2 block text-sm font-semibold">Destino</label>
-            <select id="upload-folder" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
-              <option value="shorts">public/shorts/ (MP4 videos)</option>
-              <option value="audio">public/audio/ (Audio files)</option>
-              <option value="pdfs">public/pdfs/ (PDF guides)</option>
-              <option value="img">public/img/ (Images)</option>
-            </select>
+
+      <!-- Upload compact + stats -->
+      <div class="grid gap-4 lg:grid-cols-[1fr_auto]">
+        <div class="stat-card">
+          <div class="flex items-center gap-4">
+            <div class="flex-1">
+              <div class="flex items-center gap-3">
+                <select id="upload-folder" class="rounded-lg border border-slate-300 px-3 py-2 text-sm">
+                  <option value="shorts">shorts/ (MP4)</option>
+                  <option value="audio">audio/</option>
+                  <option value="pdfs">pdfs/</option>
+                  <option value="img">img/</option>
+                </select>
+                <div id="drop-zone" class="drop-zone flex-1 cursor-pointer !py-3 !px-4 flex items-center gap-3">
+                  <input type="file" id="upload-input" multiple class="hidden" />
+                  <svg class="h-6 w-6 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 16V4m0 0L8 8m4-4l4 4M4 20h16"/></svg>
+                  <span class="text-sm text-slate-500">Arrastra o haz click &middot; Max 200MB</span>
+                </div>
+              </div>
+              <div id="upload-results" class="mt-2 space-y-1"></div>
+            </div>
           </div>
         </div>
-        <div id="drop-zone" class="drop-zone mt-4 cursor-pointer">
-          <input type="file" id="upload-input" multiple class="hidden" />
-          <svg class="mx-auto h-10 w-10 text-slate-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 16V4m0 0L8 8m4-4l4 4M4 20h16"/></svg>
-          <p class="mt-2 text-sm font-semibold text-slate-600">Arrastra archivos aqui o haz click</p>
-          <p class="text-xs text-slate-400">Max 200MB por archivo</p>
-        </div>
-        <div id="upload-results" class="mt-4 space-y-2"></div>
-      </div>
-      <div class="grid gap-6 md:grid-cols-2">
-        <div class="stat-card">
-          <h2 class="mb-3 text-sm font-bold uppercase tracking-wide text-slate-400">Archivos en public/shorts/</h2>
-          <div id="files-shorts"></div>
-        </div>
-        <div class="stat-card">
-          <h2 class="mb-3 text-sm font-bold uppercase tracking-wide text-slate-400">Archivos en public/audio/</h2>
-          <div id="files-audio"></div>
+        <div class="stat-card flex items-center gap-6 text-center">
+          <div><div id="media-count-total" class="text-2xl font-black text-slate-700">0</div><div class="text-[10px] uppercase tracking-wide text-slate-400">Total</div></div>
+          <div><div id="media-count-linked" class="text-2xl font-black text-green-600">0</div><div class="text-[10px] uppercase tracking-wide text-slate-400">Vinculados</div></div>
+          <div><div id="media-count-orphan" class="text-2xl font-black text-amber-500">0</div><div class="text-[10px] uppercase tracking-wide text-slate-400">Sin vincular</div></div>
         </div>
       </div>
+
+      <!-- Filter bar -->
+      <div class="flex items-center gap-3 flex-wrap">
+        <div class="flex rounded-lg border border-slate-200 bg-white text-sm overflow-hidden" id="media-tabs">
+          <button data-filter="all" class="px-4 py-2 font-semibold text-brand-600 bg-brand-50">Todos</button>
+          <button data-filter="mp4" class="px-4 py-2 text-slate-500 hover:bg-slate-50">Videos</button>
+          <button data-filter="mp3,wav,ogg,m4a" class="px-4 py-2 text-slate-500 hover:bg-slate-50">Audio</button>
+          <button data-filter="pdf" class="px-4 py-2 text-slate-500 hover:bg-slate-50">PDFs</button>
+          <button data-filter="jpg,jpeg,png,webp,svg,gif" class="px-4 py-2 text-slate-500 hover:bg-slate-50">Imagenes</button>
+        </div>
+        <input id="media-search" type="search" placeholder="Buscar archivo..." class="rounded-lg border border-slate-300 px-3 py-2 text-sm w-56" />
+        <select id="media-link-filter" class="rounded-lg border border-slate-300 px-3 py-2 text-sm">
+          <option value="all">Todos</option>
+          <option value="linked">Vinculados</option>
+          <option value="orphan">Sin vincular</option>
+        </select>
+        <select id="media-sort" class="rounded-lg border border-slate-300 px-3 py-2 text-sm">
+          <option value="date">Mas recientes</option>
+          <option value="name">Nombre A-Z</option>
+          <option value="size">Mas pesados</option>
+        </select>
+      </div>
+
+      <!-- File grid -->
+      <div id="media-grid" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"></div>
+
     </div>
 
-    <!-- ═══ PIPELINE ═══ -->
+    <!-- ═══ PIPELINE (Manual de Administracion) ═══ -->
     <div id="page-pipeline" class="page hidden p-6 space-y-6">
+
+      <!-- Intro -->
       <div class="stat-card">
-        <h2 class="mb-1 text-sm font-bold uppercase tracking-wide text-slate-400">Video Pipeline</h2>
-        <p class="mb-4 text-sm text-slate-500">El pipeline corre en el servidor AMR (SSH). Usa estos comandos para generar shorts.</p>
-        <div class="space-y-3">
-          <div class="rounded-lg bg-slate-900 p-4 font-mono text-sm text-green-400">
-            <p class="text-slate-500"># Conectar al servidor</p>
-            <p>ssh -i ~/.ssh/id_ed25519_amrosai anderson5@192.168.58.116</p>
-            <p class="mt-2 text-slate-500"># Ir al pipeline</p>
-            <p>cd ~/projects/googleads/video-pipeline</p>
-            <p class="mt-2 text-slate-500"># Re-generar un short (solo compose + render + mux)</p>
-            <p>yarn produce:summary "../../_cola/startups/Dia_0_Resumen_Web_Marco_Estructural-v2.md" "crecimiento-dia-0" --skip-script --skip-vision --skip-voice --skip-subtitles</p>
-            <p class="mt-2 text-slate-500"># Generar desde cero (incluye script + voice + subtitles)</p>
-            <p>yarn produce:summary "../../_cola/startups/Dia_0_Resumen_Web_Marco_Estructural-v2.md" "crecimiento-dia-0"</p>
-          </div>
+        <h2 class="mb-1 text-sm font-bold uppercase tracking-wide text-slate-400">Manual de Video Shorts</h2>
+        <p class="text-sm text-slate-500">Guia completa para crear, regenerar y publicar shorts 9:16 con los personajes 3D podcast hosts.</p>
+        <div class="mt-3 grid gap-3 sm:grid-cols-3">
+          <div class="rounded-lg bg-blue-50 p-3 text-center"><div class="text-2xl font-black text-blue-600">1</div><div class="text-xs font-semibold text-blue-800">Escribir resumen</div><div class="text-[10px] text-blue-600">Admin &rarr; Contenido</div></div>
+          <div class="rounded-lg bg-purple-50 p-3 text-center"><div class="text-2xl font-black text-purple-600">2</div><div class="text-xs font-semibold text-purple-800">Generar short</div><div class="text-[10px] text-purple-600">SSH o Cron</div></div>
+          <div class="rounded-lg bg-green-50 p-3 text-center"><div class="text-2xl font-black text-green-600">3</div><div class="text-xs font-semibold text-green-800">Publicar</div><div class="text-[10px] text-green-600">Admin &rarr; Contenido</div></div>
+        </div>
+      </div>
+
+      <!-- VIA 1: Desde el Admin -->
+      <div class="stat-card">
+        <h2 class="mb-3 text-sm font-bold uppercase tracking-wide text-slate-400">Via 1 &mdash; Desde el Admin Dashboard</h2>
+        <div class="space-y-4">
           <div class="rounded-lg border border-slate-200 p-4">
-            <h3 class="mb-2 text-sm font-bold">Personajes 3D (Podcast Hosts)</h3>
-            <p class="text-xs text-slate-500 mb-3">Estos avatares Pixar-style se usan como fondo visual en los shorts. Ubicados en assets/images/host-woman.jpg y host-man.jpg</p>
-            <div class="flex gap-4">
-              <div class="w-24 rounded-lg overflow-hidden bg-slate-100"><div class="aspect-[3/4] bg-slate-200 flex items-center justify-center text-xs text-slate-400">Woman Host</div></div>
-              <div class="w-24 rounded-lg overflow-hidden bg-slate-100"><div class="aspect-[3/4] bg-slate-200 flex items-center justify-center text-xs text-slate-400">Man Host</div></div>
+            <div class="flex items-start gap-3">
+              <span class="grid h-7 w-7 flex-shrink-0 place-items-center rounded-full bg-blue-100 text-xs font-bold text-blue-700">A</span>
+              <div>
+                <h3 class="text-sm font-bold">Crear o editar el resumen</h3>
+                <p class="mt-1 text-xs text-slate-500">Ve a <strong>Contenido</strong> &rarr; click <strong>+</strong> para nuevo resumen. Llena titulo, libro, autor, descripcion, ideas clave y el contenido Markdown. Guarda.</p>
+              </div>
             </div>
           </div>
           <div class="rounded-lg border border-slate-200 p-4">
-            <h3 class="mb-2 text-sm font-bold">Cron semanal</h3>
-            <p class="text-xs text-slate-500">Domingos a las 10:00 AM en el servidor AMR</p>
-            <code class="mt-1 block rounded bg-slate-100 px-3 py-2 text-xs">0 10 * * 0 ~/projects/googleads/scripts/weekly-shorts.sh</code>
+            <div class="flex items-start gap-3">
+              <span class="grid h-7 w-7 flex-shrink-0 place-items-center rounded-full bg-blue-100 text-xs font-bold text-blue-700">B</span>
+              <div>
+                <h3 class="text-sm font-bold">Subir el MP4 generado</h3>
+                <p class="mt-1 text-xs text-slate-500">Ve a <strong>Subir archivos</strong> &rarr; selecciona destino <strong>public/shorts/</strong> &rarr; arrastra el .mp4 o haz click para seleccionar. Se subira automaticamente al proyecto.</p>
+              </div>
+            </div>
+          </div>
+          <div class="rounded-lg border border-slate-200 p-4">
+            <div class="flex items-start gap-3">
+              <span class="grid h-7 w-7 flex-shrink-0 place-items-center rounded-full bg-blue-100 text-xs font-bold text-blue-700">C</span>
+              <div>
+                <h3 class="text-sm font-bold">Vincular short al resumen</h3>
+                <p class="mt-1 text-xs text-slate-500">Ve a <strong>Contenido</strong> &rarr; abre el resumen &rarr; en el campo <strong>Short (ruta MP4)</strong> escribe la ruta relativa: <code class="rounded bg-slate-100 px-1.5 py-0.5 text-[11px]">/shorts/crecimiento-dia-X.mp4</code> &rarr; Guardar.</p>
+              </div>
+            </div>
+          </div>
+          <div class="rounded-lg border border-slate-200 p-4">
+            <div class="flex items-start gap-3">
+              <span class="grid h-7 w-7 flex-shrink-0 place-items-center rounded-full bg-blue-100 text-xs font-bold text-blue-700">D</span>
+              <div>
+                <h3 class="text-sm font-bold">Verificar</h3>
+                <p class="mt-1 text-xs text-slate-500">Ve a <strong>Video Shorts</strong> para previsualizar. El short aparecera con su titulo y reproductor 9:16. En <strong>Dashboard</strong> verificas el indicador verde en la columna "Short".</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+
+      <!-- VIA 2: Por comandos SSH -->
+      <div class="stat-card">
+        <h2 class="mb-3 text-sm font-bold uppercase tracking-wide text-slate-400">Via 2 &mdash; Por Comandos SSH</h2>
+        <div class="space-y-4">
+
+          <div class="rounded-lg border border-slate-200 p-4">
+            <h3 class="text-sm font-bold mb-2">Paso 1: Conectar al servidor</h3>
+            <div class="rounded-lg bg-slate-900 p-3 font-mono text-xs text-green-400 overflow-x-auto">
+              <p>ssh -i ~/.ssh/id_ed25519_amrosai anderson5@192.168.58.116</p>
+              <p class="mt-1">cd ~/proyectos-personales/content-sites/googleads/video-pipeline</p>
+            </div>
+          </div>
+
+          <div class="rounded-lg border border-slate-200 p-4">
+            <h3 class="text-sm font-bold mb-2">Paso 2: Generar un short desde un resumen</h3>
+            <p class="text-xs text-slate-500 mb-2">Pipeline completo: script IA &rarr; imagenes &rarr; voz (edge-tts) &rarr; composicion &rarr; subtitulos &rarr; MP4 final</p>
+            <div class="rounded-lg bg-slate-900 p-3 font-mono text-xs text-green-400 overflow-x-auto">
+              <p class="text-slate-500"># Generar desde cero (pipeline completo ~5-10 min)</p>
+              <p>yarn produce:summary \</p>
+              <p class="pl-4">"../../_cola/startups/Dia_0_Resumen_Web_Marco_Estructural-v2.md" \</p>
+              <p class="pl-4">"crecimiento-dia-0"</p>
+            </div>
+            <div class="mt-2 rounded-lg bg-slate-900 p-3 font-mono text-xs text-green-400 overflow-x-auto">
+              <p class="text-slate-500"># Re-generar solo video (sin IA, usa storyboard existente ~1 min)</p>
+              <p>yarn produce:summary \</p>
+              <p class="pl-4">"../../_cola/startups/Dia_0_Resumen_Web_Marco_Estructural-v2.md" \</p>
+              <p class="pl-4">"crecimiento-dia-0" \</p>
+              <p class="pl-4">--skip-script --skip-vision --skip-voice --skip-subtitles</p>
+            </div>
+          </div>
+
+          <div class="rounded-lg border border-slate-200 p-4">
+            <h3 class="text-sm font-bold mb-2">Paso 3: Generar TODOS los shorts de una serie</h3>
+            <div class="rounded-lg bg-slate-900 p-3 font-mono text-xs text-green-400 overflow-x-auto">
+              <p>bash scripts/generate-shorts.sh</p>
+            </div>
+            <p class="mt-2 text-xs text-slate-500">Ejecuta los 8 shorts de la serie "Crecimiento e Ingresos en Startups" (Dia 0-7) secuencialmente.</p>
+          </div>
+
+          <div class="rounded-lg border border-slate-200 p-4">
+            <h3 class="text-sm font-bold mb-2">Paso 4: Copiar MP4 al sitio web</h3>
+            <div class="rounded-lg bg-slate-900 p-3 font-mono text-xs text-green-400 overflow-x-auto">
+              <p class="text-slate-500"># Copiar el MP4 renderizado a public/shorts/</p>
+              <p>cp renders/crecimiento-dia-0/final.mp4 \</p>
+              <p class="pl-4">../public/shorts/crecimiento-dia-0.mp4</p>
+            </div>
+          </div>
+
+          <div class="rounded-lg border border-slate-200 p-4">
+            <h3 class="text-sm font-bold mb-2">Paso 5: Vincular en el frontmatter</h3>
+            <div class="rounded-lg bg-slate-900 p-3 font-mono text-xs text-green-400 overflow-x-auto">
+              <p class="text-slate-500"># Agregar campo short al markdown del resumen</p>
+              <p class="text-amber-400">short: "/shorts/crecimiento-dia-0.mp4"</p>
+            </div>
+            <p class="mt-2 text-xs text-slate-500">O hazlo desde el Admin &rarr; Contenido &rarr; campo "Short (ruta MP4)".</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Etapas del Pipeline -->
+      <div class="stat-card">
+        <h2 class="mb-3 text-sm font-bold uppercase tracking-wide text-slate-400">Etapas del Pipeline</h2>
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs">
+            <thead><tr class="border-b border-slate-200 text-left text-slate-500">
+              <th class="py-2 pr-3 font-semibold">#</th>
+              <th class="py-2 pr-3 font-semibold">Etapa</th>
+              <th class="py-2 pr-3 font-semibold">Modelo / Herramienta</th>
+              <th class="py-2 pr-3 font-semibold">Entrada</th>
+              <th class="py-2 font-semibold">Salida</th>
+            </tr></thead>
+            <tbody>
+              <tr class="border-t border-slate-100"><td class="py-2 pr-3 font-mono font-bold text-blue-600">01</td><td class="py-2 pr-3 font-semibold">Script</td><td class="py-2 pr-3">qwen3:8b (Ollama)</td><td class="py-2 pr-3">Resumen .md</td><td class="py-2">Storyboard YAML (8-10 escenas)</td></tr>
+              <tr class="border-t border-slate-100"><td class="py-2 pr-3 font-mono font-bold text-blue-600">02</td><td class="py-2 pr-3 font-semibold">Vision</td><td class="py-2 pr-3">minicpm-v / llava</td><td class="py-2 pr-3">Imagenes candidatas</td><td class="py-2">Seleccion de imagenes por escena</td></tr>
+              <tr class="border-t border-slate-100"><td class="py-2 pr-3 font-mono font-bold text-blue-600">03</td><td class="py-2 pr-3 font-semibold">Voice</td><td class="py-2 pr-3">edge-tts (es-CO-GonzaloNeural)</td><td class="py-2 pr-3">Texto del guion</td><td class="py-2">Audio MP3 narrado</td></tr>
+              <tr class="border-t border-slate-100"><td class="py-2 pr-3 font-mono font-bold text-blue-600">04</td><td class="py-2 pr-3 font-semibold">Compose</td><td class="py-2 pr-3">HyperFrames + GSAP + ffmpeg</td><td class="py-2 pr-3">Storyboard + imagenes + audio</td><td class="py-2">Video 9:16 con animaciones</td></tr>
+              <tr class="border-t border-slate-100"><td class="py-2 pr-3 font-mono font-bold text-blue-600">05</td><td class="py-2 pr-3 font-semibold">Subtitles</td><td class="py-2 pr-3">faster-whisper (GPU)</td><td class="py-2 pr-3">Audio MP3</td><td class="py-2">Subtitulos SRT alineados</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Comandos utiles -->
+      <div class="grid gap-6 md:grid-cols-2">
+        <div class="stat-card">
+          <h2 class="mb-3 text-sm font-bold uppercase tracking-wide text-slate-400">Comandos individuales</h2>
+          <div class="space-y-2 font-mono text-xs">
+            <div class="rounded bg-slate-50 p-2"><span class="text-slate-400">Solo script IA:</span><br><code class="text-blue-700">yarn script:summary "ruta/resumen.md" "slug"</code></div>
+            <div class="rounded bg-slate-50 p-2"><span class="text-slate-400">Solo voz:</span><br><code class="text-blue-700">yarn voice "slug"</code></div>
+            <div class="rounded bg-slate-50 p-2"><span class="text-slate-400">Solo composicion:</span><br><code class="text-blue-700">yarn compose "slug"</code></div>
+            <div class="rounded bg-slate-50 p-2"><span class="text-slate-400">Solo subtitulos:</span><br><code class="text-blue-700">yarn subtitles "slug"</code></div>
+            <div class="rounded bg-slate-50 p-2"><span class="text-slate-400">Diagnostico:</span><br><code class="text-blue-700">yarn doctor</code></div>
+            <div class="rounded bg-slate-50 p-2"><span class="text-slate-400">Verificar modelos:</span><br><code class="text-blue-700">yarn models:check</code></div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <h2 class="mb-3 text-sm font-bold uppercase tracking-wide text-slate-400">Infraestructura</h2>
+          <div class="space-y-3">
+            <div class="rounded-lg border border-slate-200 p-3">
+              <h3 class="text-xs font-bold text-slate-600">Personajes 3D (Podcast Hosts)</h3>
+              <p class="mt-1 text-[11px] text-slate-500">Avatares Pixar-style para fondo visual. Ubicacion:</p>
+              <code class="mt-1 block text-[11px] text-slate-600">video-pipeline/assets/images/host-woman.jpg</code>
+              <code class="block text-[11px] text-slate-600">video-pipeline/assets/images/host-man.jpg</code>
+            </div>
+            <div class="rounded-lg border border-slate-200 p-3">
+              <h3 class="text-xs font-bold text-slate-600">Modelos IA (Ollama local)</h3>
+              <p class="mt-1 text-[11px] text-slate-500">qwen3:8b (texto), minicpm-v (vision), llava (fallback), nomic-embed-text (embeddings)</p>
+              <code class="mt-1 block text-[11px] text-slate-600">Ollama: http://localhost:11434</code>
+            </div>
+            <div class="rounded-lg border border-slate-200 p-3">
+              <h3 class="text-xs font-bold text-slate-600">Voz TTS</h3>
+              <p class="mt-1 text-[11px] text-slate-500">edge-tts con voz colombiana: <strong>es-CO-GonzaloNeural</strong></p>
+              <code class="mt-1 block text-[11px] text-slate-600">Python venv: ~/video-pipeline-env</code>
+            </div>
+            <div class="rounded-lg border border-slate-200 p-3">
+              <h3 class="text-xs font-bold text-slate-600">Cron semanal</h3>
+              <p class="mt-1 text-[11px] text-slate-500">Domingos 10:00 AM &mdash; genera shorts automaticamente</p>
+              <code class="mt-1 block text-[11px] text-slate-600">0 10 * * 0 ~/projects/googleads/scripts/weekly-shorts.sh</code>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Archivos del pipeline -->
+      <div class="stat-card">
+        <h2 class="mb-3 text-sm font-bold uppercase tracking-wide text-slate-400">Mapa de archivos</h2>
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs">
+            <thead><tr class="border-b border-slate-200 text-left text-slate-500">
+              <th class="py-2 pr-3 font-semibold">Ruta</th>
+              <th class="py-2 font-semibold">Proposito</th>
+            </tr></thead>
+            <tbody class="font-mono">
+              <tr class="border-t border-slate-100"><td class="py-1.5 pr-3 text-blue-700">video-pipeline/config.yml</td><td class="py-1.5 font-sans text-slate-600">Config de modelos y voces</td></tr>
+              <tr class="border-t border-slate-100"><td class="py-1.5 pr-3 text-blue-700">video-pipeline/content/*.yml</td><td class="py-1.5 font-sans text-slate-600">Storyboards generados por IA</td></tr>
+              <tr class="border-t border-slate-100"><td class="py-1.5 pr-3 text-blue-700">video-pipeline/assets/images/</td><td class="py-1.5 font-sans text-slate-600">Imagenes por escena + hosts</td></tr>
+              <tr class="border-t border-slate-100"><td class="py-1.5 pr-3 text-blue-700">video-pipeline/renders/&lt;slug&gt;/</td><td class="py-1.5 font-sans text-slate-600">Video renderizado (final.mp4)</td></tr>
+              <tr class="border-t border-slate-100"><td class="py-1.5 pr-3 text-blue-700">video-pipeline/scripts/generate-shorts.sh</td><td class="py-1.5 font-sans text-slate-600">Batch: genera los 8 shorts</td></tr>
+              <tr class="border-t border-slate-100"><td class="py-1.5 pr-3 text-blue-700">video-pipeline/scripts/transcribe.py</td><td class="py-1.5 font-sans text-slate-600">STT con faster-whisper (GPU)</td></tr>
+              <tr class="border-t border-slate-100"><td class="py-1.5 pr-3 text-blue-700">public/shorts/*.mp4</td><td class="py-1.5 font-sans text-slate-600">Shorts publicados en el sitio</td></tr>
+              <tr class="border-t border-slate-100"><td class="py-1.5 pr-3 text-blue-700">src/content/resumenes/*.md</td><td class="py-1.5 font-sans text-slate-600">Contenido con frontmatter short:</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
     </div>
 
+  </div>
+</div>
+
+<!-- Modal: Vincular archivo a resumen -->
+<div id="modal-link" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" style="display:none">
+  <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
+    <h3 class="mb-4 text-lg font-bold">Vincular archivo a resumen</h3>
+    <p class="mb-3 text-sm text-slate-500" id="link-file-name"></p>
+    <label class="mb-2 block text-sm font-semibold">Resumen</label>
+    <select id="link-slug" class="mb-4 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"></select>
+    <label class="mb-2 block text-sm font-semibold">Campo</label>
+    <select id="link-field" class="mb-4 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
+      <option value="short">Short (video 9:16)</option>
+      <option value="audio">Audio</option>
+      <option value="pdf">PDF</option>
+      <option value="portada">Portada (imagen)</option>
+    </select>
+    <div class="flex gap-3">
+      <button id="link-cancel" class="flex-1 rounded-lg border border-slate-300 py-2 text-sm font-semibold hover:bg-slate-50">Cancelar</button>
+      <button id="link-confirm" class="flex-1 rounded-lg bg-brand-600 py-2 text-sm font-semibold text-white hover:bg-brand-700">Vincular</button>
+    </div>
+    <p id="link-msg" class="mt-2 text-sm text-center"></p>
+  </div>
+</div>
+
+<!-- Modal: Nueva Serie -->
+<div id="modal-serie" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" style="display:none">
+  <div class="w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-lg font-bold">Crear nueva serie</h2>
+      <button onclick="closeSeriesModal()" class="text-slate-400 hover:text-slate-600 text-xl leading-none">&times;</button>
+    </div>
+    <form id="form-serie" class="space-y-4">
+      <label class="block text-sm font-medium">Nombre de la serie<input name="serieNombre" placeholder="Ventas con Logica" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" required></label>
+      <label class="block text-sm font-medium">Slug (auto)<input name="serie" placeholder="ventas-con-logica" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm font-mono bg-slate-50" readonly></label>
+      <div class="grid gap-4 sm:grid-cols-2">
+        <label class="text-sm font-medium">Libro<input name="libro" placeholder="Nombre del libro" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"></label>
+        <label class="text-sm font-medium">Autor<input name="autor" placeholder="Autor del libro" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"></label>
+      </div>
+      <div class="grid gap-4 sm:grid-cols-2">
+        <label class="text-sm font-medium">Categoria
+          <select name="categoria" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
+            <option value="ventas">ventas</option>
+            <option value="emprendimiento">emprendimiento</option>
+            <option value="productividad">productividad</option>
+            <option value="finanzas-personales">finanzas-personales</option>
+            <option value="marketing-digital">marketing-digital</option>
+            <option value="ecommerce">ecommerce</option>
+          </select>
+        </label>
+        <label class="text-sm font-medium">Numero de dias<input name="dias" type="number" min="1" max="30" value="7" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" required></label>
+      </div>
+      <div class="flex items-center gap-3 pt-2">
+        <button type="submit" class="rounded-lg bg-purple-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-purple-700">Crear serie</button>
+        <button type="button" onclick="closeSeriesModal()" class="rounded-lg border border-slate-300 px-5 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-50">Cancelar</button>
+        <span id="serie-msg" class="text-sm text-slate-500"></span>
+      </div>
+    </form>
   </div>
 </div>
 
@@ -163,7 +408,7 @@ const esc = s => String(s??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>'
 
 // ─── Navigation ───
 let currentPage = 'dashboard';
-const titles = { dashboard:'Dashboard', content:'Contenido', shorts:'Video Shorts', upload:'Subir archivos', pipeline:'Pipeline' };
+const titles = { dashboard:'Dashboard', content:'Contenido', shorts:'Video Shorts', upload:'Archivos', pipeline:'Pipeline' };
 
 $$('[data-page]').forEach(a => a.addEventListener('click', e => {
   e.preventDefault();
@@ -179,7 +424,7 @@ function switchPage(page) {
   if (page === 'dashboard') loadDashboard();
   if (page === 'content') loadContent();
   if (page === 'shorts') loadShorts();
-  if (page === 'upload') loadUploadFiles();
+  if (page === 'upload') loadMediaLibrary();
 }
 
 // Clock
@@ -187,29 +432,68 @@ setInterval(() => { $('#clock').textContent = new Date().toLocaleString('es-CO')
 
 // ═══ DASHBOARD ═══
 async function loadDashboard() {
-  const [stats, list] = await Promise.all([
+  const [stats, seriesData] = await Promise.all([
     fetch('/api/stats').then(r=>r.json()),
-    fetch('/api/list').then(r=>r.json()),
+    fetch('/api/series').then(r=>r.json()),
   ]);
+
+  const totalSeries = seriesData.series.length;
+  const totalInSeries = seriesData.series.reduce((n,s) => n + s.items.length, 0);
 
   $('#stat-cards').innerHTML = [
     card('Resumenes', stats.total, `${stats.published} publicados, ${stats.drafts} borradores`, '#3b82f6'),
+    card('Series', totalSeries, `${totalInSeries} en serie, ${seriesData.standalone.length} sueltos`, '#8b5cf6'),
     card('Con Short', stats.withShort, `de ${stats.total} resumenes`, '#22c55e'),
     card('Con Audio', stats.withAudio + stats.withSpotify, `Spotify: ${stats.withSpotify}, Local: ${stats.withAudio}`, '#a855f7'),
-    card('Con PDF', stats.withPdf, `de ${stats.total} resumenes`, '#f59e0b'),
   ].join('');
 
-  // Completeness table
-  const rows = list.items.map(it => {
-    const dots = [
-      dot(it.hasShort, 'Short'),
-      dot(it.hasSpotify, 'Spotify'),
-      dot(it.hasAudio, 'Audio'),
-      dot(it.hasYoutube, 'YouTube'),
-      dot(it.hasPdf, 'PDF'),
-    ].join('');
-    return `<tr class="border-t border-slate-100"><td class="py-2 pr-3 text-sm">${esc(it.titulo)}</td><td class="py-2 text-right whitespace-nowrap">${dots}</td></tr>`;
-  }).join('');
+  // Series overview cards
+  const seriesColors = ['#3b82f6','#8b5cf6','#ec4899','#f59e0b','#10b981','#ef4444'];
+  $('#series-overview').innerHTML = seriesData.series.length ? `
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      ${seriesData.series.map((s, i) => {
+        const color = seriesColors[i % seriesColors.length];
+        const withShort = s.items.filter(it => it.hasShort).length;
+        const withAudio = s.items.filter(it => it.hasAudio).length;
+        const pctShort = Math.round(withShort / s.items.length * 100);
+        const pctAudio = Math.round(withAudio / s.items.length * 100);
+        return `<div class="stat-card">
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="text-xs font-bold uppercase tracking-wide" style="color:${color}">${esc(s.categoria)}</div>
+              <div class="mt-1 text-sm font-bold leading-tight">${esc(s.serieNombre)}</div>
+              <div class="mt-0.5 text-xs text-slate-400">${esc(s.libro)} &mdash; ${esc(s.autor)}</div>
+            </div>
+            <span class="grid h-8 w-8 place-items-center rounded-lg text-sm font-black text-white" style="background:${color}">${s.items.length}</span>
+          </div>
+          <div class="mt-3 space-y-2">
+            <div><div class="flex justify-between text-[11px] text-slate-500"><span>Shorts</span><span>${withShort}/${s.items.length}</span></div>
+              <div class="mt-0.5 h-1.5 rounded-full bg-slate-100"><div class="h-1.5 rounded-full bg-green-500" style="width:${pctShort}%"></div></div></div>
+            <div><div class="flex justify-between text-[11px] text-slate-500"><span>Audio</span><span>${withAudio}/${s.items.length}</span></div>
+              <div class="mt-0.5 h-1.5 rounded-full bg-slate-100"><div class="h-1.5 rounded-full bg-purple-500" style="width:${pctAudio}%"></div></div></div>
+          </div>
+          <div class="mt-3 flex flex-wrap gap-1">${s.items.map(it => {
+            const ok = !it.borrador && it.hasShort && it.hasAudio;
+            return `<span class="rounded px-1.5 py-0.5 text-[10px] font-medium ${ok?'bg-green-100 text-green-700':'bg-slate-100 text-slate-500'}" title="${esc(it.titulo)}">D${it.dia??'?'}</span>`;
+          }).join('')}</div>
+        </div>`;
+      }).join('')}
+    </div>` : '';
+
+  // Completeness table — grouped by series then standalone
+  let rows = '';
+  seriesData.series.forEach(s => {
+    rows += `<tr class="bg-slate-50"><td colspan="2" class="py-2 px-2 text-xs font-bold uppercase tracking-wide text-purple-600">${esc(s.serieNombre)} <span class="font-normal text-slate-400">(${s.items.length} dias)</span></td></tr>`;
+    s.items.forEach(it => {
+      rows += `<tr class="border-t border-slate-100"><td class="py-1.5 pr-3 text-sm pl-3">${esc(it.titulo)}</td><td class="py-1.5 text-right whitespace-nowrap">${dot(it.hasShort,'Short')}${dot(it.hasAudio,'Audio')}${dot(it.hasYoutube,'YT')}${dot(it.hasPdf,'PDF')}</td></tr>`;
+    });
+  });
+  if (seriesData.standalone.length) {
+    rows += `<tr class="bg-slate-50"><td colspan="2" class="py-2 px-2 text-xs font-bold uppercase tracking-wide text-slate-500">Sueltos <span class="font-normal text-slate-400">(${seriesData.standalone.length})</span></td></tr>`;
+    seriesData.standalone.forEach(it => {
+      rows += `<tr class="border-t border-slate-100"><td class="py-1.5 pr-3 text-sm pl-3">${esc(it.titulo)}</td><td class="py-1.5 text-right whitespace-nowrap">${dot(it.hasShort,'Short')}${dot(it.hasAudio,'Audio')}${dot(it.hasYoutube,'YT')}${dot(it.hasPdf,'PDF')}</td></tr>`;
+    });
+  }
   $('#completeness-table').innerHTML = `<table class="w-full"><tbody>${rows}</tbody></table>`;
 
   // Shorts on disk
@@ -230,34 +514,65 @@ function dot(ok, label) {
 }
 
 // ═══ CONTENT ═══
+let contentSeries = [];
+let contentStandalone = [];
 let contentItems = [];
 let activeSlug = null;
 
 async function loadContent() {
-  const { items } = await fetch('/api/list').then(r=>r.json());
-  contentItems = items;
+  const { series, standalone } = await fetch('/api/series').then(r=>r.json());
+  contentSeries = series;
+  contentStandalone = standalone;
+  contentItems = [...series.flatMap(s => s.items), ...standalone];
   renderContentList();
+}
+
+function contentItemBtn(it) {
+  const active = it.slug === activeSlug ? 'bg-brand-50 border-brand-200' : 'border-transparent hover:bg-slate-50';
+  const badge = it.borrador ? '<span class="rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-bold text-amber-700">BORRADOR</span>' : '';
+  const dots = [it.hasShort?'text-green-500':'text-red-300', it.hasAudio?'text-green-500':'text-red-300', it.hasYoutube?'text-green-500':'text-red-300'].map((c,i)=>
+    `<span class="${c} text-[10px]">${['V','A','Y'][i]}</span>`
+  ).join(' ');
+  const diaLabel = it.dia != null ? `<span class="rounded bg-purple-100 px-1 py-0.5 text-[10px] font-bold text-purple-700">D${it.dia}</span> ` : '';
+  return `<button data-slug="${esc(it.slug)}" class="content-item w-full rounded-lg border px-3 py-2 text-left transition ${active}">
+    <div class="flex items-center justify-between"><span class="font-medium text-sm leading-tight">${diaLabel}${esc(it.titulo)}</span>${badge}</div>
+    <div class="mt-1 flex items-center gap-2 text-[11px] text-slate-400"><span>${it.fecha ? String(it.fecha).slice(0,10) : 'sin fecha'}</span><span>${dots}</span></div>
+  </button>`;
 }
 
 function renderContentList() {
   const q = ($('#buscar')?.value || '').toLowerCase();
-  const filtered = q ? contentItems.filter(it => it.titulo.toLowerCase().includes(q) || it.slug.includes(q)) : contentItems;
-  $('#content-list').innerHTML = filtered.map(it => {
-    const active = it.slug === activeSlug ? 'bg-brand-50 border-brand-200' : 'border-transparent hover:bg-slate-50';
-    const badge = it.borrador ? '<span class="rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-bold text-amber-700">BORRADOR</span>' : '';
-    const dots = [it.hasShort?'text-green-500':'text-red-300', it.hasSpotify?'text-green-500':'text-red-300', it.hasYoutube?'text-green-500':'text-red-300'].map((c,i)=>
-      `<span class="${c} text-[10px]">${['V','S','Y'][i]}</span>`
-    ).join(' ');
-    return `<button data-slug="${esc(it.slug)}" class="content-item w-full rounded-lg border px-3 py-2 text-left transition ${active}">
-      <div class="flex items-center justify-between"><span class="font-medium text-sm leading-tight">${esc(it.titulo)}</span>${badge}</div>
-      <div class="mt-1 flex items-center gap-2 text-[11px] text-slate-400"><span>${it.fecha ? String(it.fecha).slice(0,10) : 'sin fecha'}</span><span>${dots}</span></div>
-    </button>`;
-  }).join('');
+  let html = '';
+
+  contentSeries.forEach(s => {
+    const filtered = s.items.filter(it => !q || it.titulo.toLowerCase().includes(q) || it.slug.includes(q));
+    if (!filtered.length) return;
+    html += `<div class="mb-2">
+      <button onclick="this.nextElementSibling.classList.toggle('hidden')" class="flex w-full items-center justify-between rounded-lg bg-purple-50 px-3 py-2 text-left hover:bg-purple-100 transition">
+        <span class="text-xs font-bold text-purple-700">${esc(s.serieNombre)}</span>
+        <span class="text-[10px] text-purple-400">${filtered.length} dias</span>
+      </button>
+      <div class="mt-1 space-y-0.5 pl-2 border-l-2 border-purple-200">
+        ${filtered.map(it => contentItemBtn(it)).join('')}
+      </div>
+    </div>`;
+  });
+
+  const standaloneFiltered = contentStandalone.filter(it => !q || it.titulo.toLowerCase().includes(q) || it.slug.includes(q));
+  if (standaloneFiltered.length) {
+    html += `<div class="mb-2">
+      <div class="rounded-lg bg-slate-50 px-3 py-2 text-xs font-bold uppercase tracking-wide text-slate-500">Sueltos (${standaloneFiltered.length})</div>
+      <div class="mt-1 space-y-0.5">${standaloneFiltered.map(it => contentItemBtn(it)).join('')}</div>
+    </div>`;
+  }
+
+  $('#content-list').innerHTML = html || '<p class="text-sm text-slate-400 py-4 text-center">Sin resultados</p>';
   $$('.content-item').forEach(b => b.addEventListener('click', () => openEditor(b.dataset.slug)));
 }
 
 $('#buscar')?.addEventListener('input', renderContentList);
 $('#btn-nuevo')?.addEventListener('click', () => { activeSlug = null; showEditor({},''); });
+$('#btn-nueva-serie')?.addEventListener('click', openSeriesModal);
 
 async function openEditor(slug) {
   const { data, content } = await fetch('/api/item/' + slug).then(r=>r.json());
@@ -378,7 +693,13 @@ async function loadShorts() {
   $('#shorts-grid').innerHTML = html || '<p class="text-sm text-slate-400">No hay shorts generados</p>';
 }
 
-// ═══ UPLOAD ═══
+// ═══ MEDIA LIBRARY ═══
+let allMediaFiles = [];
+let mediaFilter = 'all';
+let mediaLinkFilter = 'all';
+let mediaSort = 'date';
+let mediaSearch = '';
+
 const dropZone = $('#drop-zone');
 const uploadInput = $('#upload-input');
 
@@ -397,7 +718,7 @@ async function handleFiles(files) {
   const results = $('#upload-results');
   for (const file of files) {
     const row = document.createElement('div');
-    row.className = 'flex items-center gap-3 rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm';
+    row.className = 'flex items-center gap-3 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm';
     row.innerHTML = `<span class="flex-1 font-mono text-xs">${esc(file.name)}</span><span class="text-slate-400">Subiendo...</span>`;
     results.prepend(row);
     const fd = new FormData();
@@ -413,19 +734,187 @@ async function handleFiles(files) {
       row.innerHTML = `<span class="flex-1">${esc(file.name)}</span><span class="text-red-500">Error</span>`;
     }
   }
-  loadUploadFiles();
+  loadMediaLibrary();
 }
 
-async function loadUploadFiles() {
-  for (const [id, folder] of [['files-shorts','shorts'],['files-audio','audio']]) {
-    const el = $(`#${id}`);
-    if (!el) continue;
-    const { files } = await fetch(`/api/files/${folder}`).then(r=>r.json());
-    el.innerHTML = files.length
-      ? files.map(f=>`<div class="flex items-center justify-between border-t border-slate-100 py-2 text-sm"><span class="font-mono text-xs">${esc(f.name)}</span><span class="text-slate-400">${f.size}</span></div>`).join('')
-      : '<p class="text-sm text-slate-400 py-2">Vacio</p>';
-  }
+// Filter tabs
+$('#media-tabs')?.addEventListener('click', e => {
+  const btn = e.target.closest('button');
+  if (!btn) return;
+  mediaFilter = btn.dataset.filter;
+  $$('#media-tabs button').forEach(b => {
+    b.className = b === btn
+      ? 'px-4 py-2 font-semibold text-brand-600 bg-brand-50'
+      : 'px-4 py-2 text-slate-500 hover:bg-slate-50';
+  });
+  renderMediaGrid();
+});
+
+$('#media-search')?.addEventListener('input', e => { mediaSearch = e.target.value.toLowerCase(); renderMediaGrid(); });
+$('#media-link-filter')?.addEventListener('change', e => { mediaLinkFilter = e.target.value; renderMediaGrid(); });
+$('#media-sort')?.addEventListener('change', e => { mediaSort = e.target.value; renderMediaGrid(); });
+
+async function loadMediaLibrary() {
+  const { files } = await fetch('/api/files-all').then(r => r.json());
+  allMediaFiles = files;
+  const linked = files.filter(f => f.linked).length;
+  $('#media-count-total').textContent = files.length;
+  $('#media-count-linked').textContent = linked;
+  $('#media-count-orphan').textContent = files.length - linked;
+  renderMediaGrid();
 }
+
+function renderMediaGrid() {
+  const exts = mediaFilter === 'all' ? null : mediaFilter.split(',');
+  let filtered = allMediaFiles.filter(f => {
+    if (exts && !exts.includes(f.ext)) return false;
+    if (mediaSearch && !f.name.toLowerCase().includes(mediaSearch)) return false;
+    if (mediaLinkFilter === 'linked' && !f.linked) return false;
+    if (mediaLinkFilter === 'orphan' && f.linked) return false;
+    return true;
+  });
+  if (mediaSort === 'name') filtered.sort((a, b) => a.name.localeCompare(b.name));
+  else if (mediaSort === 'size') filtered.sort((a, b) => b.bytes - a.bytes);
+  // default 'date' already sorted from API
+
+  const grid = $('#media-grid');
+  if (!filtered.length) {
+    grid.innerHTML = '<p class="text-sm text-slate-400 py-8 text-center col-span-full">No hay archivos que coincidan</p>';
+    return;
+  }
+
+  grid.innerHTML = filtered.map(f => {
+    const isVideo = f.ext === 'mp4';
+    const isAudio = ['mp3','wav','ogg','m4a'].includes(f.ext);
+    const isImage = ['jpg','jpeg','png','webp','svg','gif'].includes(f.ext);
+    const isPdf = f.ext === 'pdf';
+
+    let preview;
+    if (isVideo) preview = `<div class="relative bg-black" style="aspect-ratio:16/9"><video class="h-full w-full object-cover" preload="metadata" playsinline controls><source src="/preview${f.url}" type="video/mp4"></video></div>`;
+    else if (isImage) preview = `<div class="bg-slate-50 flex items-center justify-center" style="aspect-ratio:16/9"><img src="/preview${f.url}" class="max-h-full max-w-full object-contain" loading="lazy"></div>`;
+    else if (isAudio) preview = `<div class="bg-gradient-to-br from-purple-50 to-purple-100 flex flex-col items-center justify-center gap-2 p-4" style="aspect-ratio:16/9"><svg class="h-10 w-10 text-purple-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z"/></svg><audio controls preload="metadata" class="w-full h-8"><source src="/preview${f.url}"></audio></div>`;
+    else if (isPdf) preview = `<div class="bg-gradient-to-br from-red-50 to-red-100 flex items-center justify-center" style="aspect-ratio:16/9"><svg class="h-12 w-12 text-red-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M7 21h10a2 2 0 002-2V9l-5-5H7a2 2 0 00-2 2v13a2 2 0 002 2z"/><polyline points="13 3 13 9 19 9"/></svg></div>`;
+    else preview = `<div class="bg-slate-50 flex items-center justify-center" style="aspect-ratio:16/9"><svg class="h-12 w-12 text-slate-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M7 21h10a2 2 0 002-2V9l-5-5H7a2 2 0 00-2 2v13a2 2 0 002 2z"/></svg></div>`;
+
+    const folderBadge = { shorts:'bg-blue-100 text-blue-700', audio:'bg-purple-100 text-purple-700', pdfs:'bg-red-100 text-red-700', img:'bg-emerald-100 text-emerald-700' }[f.folder] || 'bg-slate-100 text-slate-600';
+    const linkedBadge = f.linked
+      ? `<span class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-0.5 text-[10px] font-semibold text-green-700"><span class="dot dot-ok"></span>${esc(f.linked.slug)}</span>`
+      : `<span class="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-semibold text-amber-600">Sin vincular</span>`;
+
+    return `<div class="rounded-xl border border-slate-200 bg-white overflow-hidden group">
+      ${preview}
+      <div class="p-3 space-y-2">
+        <p class="text-sm font-semibold leading-tight truncate" title="${esc(f.name)}">${esc(f.name)}</p>
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase ${folderBadge}">${esc(f.folder)}</span>
+          <span class="text-[11px] text-slate-400">${f.size}</span>
+          <span class="text-[11px] text-slate-400">${new Date(f.modified).toLocaleDateString('es-CO')}</span>
+        </div>
+        ${linkedBadge}
+        <div class="flex gap-2 pt-1">
+          <button onclick="openLinkModal('${esc(f.url)}','${esc(f.name)}')" class="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-50">Vincular</button>
+          <button onclick="deleteFile('${esc(f.folder)}','${esc(f.name)}')" class="rounded-lg border border-red-200 px-3 py-1.5 text-xs font-semibold text-red-500 hover:bg-red-50">Eliminar</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// Delete file
+async function deleteFile(folder, name) {
+  if (!confirm(`Eliminar ${name}?`)) return;
+  const r = await fetch(`/api/file/${folder}/${encodeURIComponent(name)}`, { method: 'DELETE' });
+  const res = await r.json();
+  if (res.ok) loadMediaLibrary();
+  else alert(res.error || 'Error al eliminar');
+}
+
+// Link modal
+let linkFileUrl = '';
+$('#link-cancel')?.addEventListener('click', () => $('#modal-link').style.display = 'none');
+$('#modal-link')?.addEventListener('click', e => { if (e.target === $('#modal-link')) $('#modal-link').style.display = 'none'; });
+$('#link-confirm')?.addEventListener('click', async () => {
+  const slug = $('#link-slug').value;
+  const field = $('#link-field').value;
+  if (!slug) return;
+  const r = await fetch('/api/link-file', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ slug, field, url: linkFileUrl }),
+  });
+  const res = await r.json();
+  $('#link-msg').textContent = res.ok ? 'Vinculado!' : (res.error || 'Error');
+  if (res.ok) {
+    setTimeout(() => { $('#modal-link').style.display = 'none'; $('#link-msg').textContent = ''; }, 800);
+    loadMediaLibrary();
+  }
+});
+
+async function openLinkModal(url, name) {
+  linkFileUrl = url;
+  $('#link-file-name').textContent = name + ' → ' + url;
+  const { items } = await fetch('/api/list').then(r => r.json());
+  $('#link-slug').innerHTML = items.map(it => `<option value="${esc(it.slug)}">${esc(it.titulo)} (${esc(it.slug)})</option>`).join('');
+  const ext = url.split('.').pop().toLowerCase();
+  if (ext === 'mp4') $('#link-field').value = 'short';
+  else if (['mp3','wav','ogg','m4a'].includes(ext)) $('#link-field').value = 'audio';
+  else if (ext === 'pdf') $('#link-field').value = 'pdf';
+  else if (['jpg','jpeg','png','webp'].includes(ext)) $('#link-field').value = 'portada';
+  $('#modal-link').style.display = 'flex';
+  $('#link-msg').textContent = '';
+}
+
+// ═══ CREATE SERIES MODAL ═══
+function openSeriesModal() {
+  $('#modal-serie').style.display = 'flex';
+  const form = $('#form-serie');
+  form.reset();
+  form.elements.serie.value = '';
+  $('#serie-msg').textContent = '';
+}
+function closeSeriesModal() {
+  $('#modal-serie').style.display = 'none';
+}
+
+$('#form-serie')?.elements.serieNombre?.addEventListener('input', e => {
+  const slug = e.target.value.toLowerCase()
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  $('#form-serie').elements.serie.value = slug;
+});
+
+$('#form-serie')?.addEventListener('submit', async e => {
+  e.preventDefault();
+  const f = $('#form-serie');
+  const body = {
+    serie: f.elements.serie.value,
+    serieNombre: f.elements.serieNombre.value.trim(),
+    libro: f.elements.libro.value.trim(),
+    autor: f.elements.autor.value.trim(),
+    categoria: f.elements.categoria.value,
+    dias: Number(f.elements.dias.value),
+  };
+  if (!body.serie || !body.serieNombre) return;
+  $('#serie-msg').textContent = 'Creando...';
+  try {
+    const r = await fetch('/api/series', { method: 'POST', headers: {'content-type':'application/json'}, body: JSON.stringify(body) });
+    const res = await r.json();
+    if (res.ok) {
+      const created = res.created.filter(c => !c.skipped).length;
+      const skipped = res.created.filter(c => c.skipped).length;
+      $('#serie-msg').textContent = `${created} creados${skipped ? `, ${skipped} ya existian` : ''}`;
+      setTimeout(() => { closeSeriesModal(); switchPage('content'); }, 1200);
+    } else {
+      $('#serie-msg').textContent = res.error;
+    }
+  } catch (err) {
+    $('#serie-msg').textContent = 'Error de red';
+  }
+});
+
+$('#modal-serie')?.addEventListener('click', e => {
+  if (e.target === $('#modal-serie')) closeSeriesModal();
+});
 
 // Boot
 loadDashboard();
