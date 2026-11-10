@@ -1,7 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import matter from 'gray-matter';
-import { readdirSync, readFileSync, writeFileSync, existsSync, statSync, mkdirSync } from 'node:fs';
+import { readdirSync, readFileSync, writeFileSync, existsSync, statSync, mkdirSync, unlinkSync } from 'node:fs';
 import { join, dirname, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -122,6 +122,126 @@ app.get('/api/files/:folder', (req, res) => {
     ext: extname(f).slice(1),
   }));
   res.json({ files });
+});
+
+app.get('/api/series', (req, res) => {
+  const files = readdirSync(RES).filter(f => f.endsWith('.md'));
+  const seriesMap = {};
+  const standalone = [];
+  files.forEach(f => {
+    const slug = f.replace(/\.md$/, '');
+    const { data } = matter(readFileSync(join(RES, f), 'utf8'));
+    const item = {
+      slug, titulo: data.titulo || slug, categoria: data.categoria || '',
+      dia: data.dia ?? null, borrador: !!data.borrador, fecha: data.fecha || '',
+      hasShort: !!data.short, hasAudio: !!(data.audio || data.spotify),
+      hasYoutube: !!data.youtube, hasPdf: !!data.pdf,
+    };
+    if (data.serie) {
+      if (!seriesMap[data.serie]) {
+        seriesMap[data.serie] = {
+          serie: data.serie, serieNombre: data.serieNombre || data.serie,
+          libro: data.libro || '', autor: data.autor || '',
+          categoria: data.categoria || '', items: [],
+        };
+      }
+      seriesMap[data.serie].items.push(item);
+    } else {
+      standalone.push(item);
+    }
+  });
+  Object.values(seriesMap).forEach(s => s.items.sort((a, b) => (a.dia ?? 99) - (b.dia ?? 99)));
+  standalone.sort((a, b) => String(b.fecha).localeCompare(String(a.fecha)));
+  res.json({ series: Object.values(seriesMap), standalone });
+});
+
+app.post('/api/series', (req, res) => {
+  const { serie, serieNombre, libro, autor, categoria, dias } = req.body || {};
+  if (!serie || !slugRe.test(serie)) return res.status(400).json({ error: 'Slug de serie invalido' });
+  if (!dias || dias < 1 || dias > 30) return res.status(400).json({ error: 'Dias debe ser entre 1 y 30' });
+  const created = [];
+  for (let d = 1; d <= dias; d++) {
+    const slug = `${serie}-dia-${d}`;
+    const file = join(RES, `${slug}.md`);
+    if (existsSync(file)) { created.push({ slug, skipped: true }); continue; }
+    const data = {
+      titulo: `${serieNombre} - Dia ${d}`, libro: libro || '', autor: autor || '',
+      categoria: categoria || 'emprendimiento', descripcion: '', minutosLectura: 7,
+      fecha: new Date().toISOString().slice(0, 10),
+      borrador: true, destacado: false, serie, serieNombre, dia: d,
+      ideasClave: [], tags: [],
+    };
+    writeFileSync(file, matter.stringify('', data), 'utf8');
+    created.push({ slug, skipped: false });
+  }
+  res.json({ ok: true, created });
+});
+
+// ═══ FILES-ALL: unified listing across all public/ subfolders ═══
+const MEDIA_FOLDERS = ['shorts','audio','pdfs','img'];
+
+app.get('/api/files-all', (req, res) => {
+  const allFiles = [];
+  const items = readdirSync(RES).filter(f => f.endsWith('.md'));
+  const linkedMap = {};
+  items.forEach(f => {
+    const slug = f.replace(/\.md$/, '');
+    const { data } = matter(readFileSync(join(RES, f), 'utf8'));
+    ['short','audio','pdf','portada'].forEach(field => {
+      if (data[field]) linkedMap[data[field]] = { slug, field };
+    });
+  });
+
+  for (const folder of MEDIA_FOLDERS) {
+    const dir = join(PUBLIC, folder);
+    if (!existsSync(dir)) continue;
+    readdirSync(dir).forEach(name => {
+      const fullPath = join(dir, name);
+      const st = statSync(fullPath);
+      const url = `/${folder}/${name}`;
+      allFiles.push({
+        name, folder, url,
+        size: fmtSize(st.size), bytes: st.size,
+        ext: extname(name).slice(1).toLowerCase(),
+        modified: st.mtime.toISOString(),
+        linked: linkedMap[url] || null,
+      });
+    });
+  }
+  allFiles.sort((a, b) => new Date(b.modified) - new Date(a.modified));
+  res.json({ files: allFiles });
+});
+
+// ═══ DELETE file ═══
+app.delete('/api/file/:folder/:name', (req, res) => {
+  const folder = req.params.folder.replace(/[^a-z0-9_-]/gi, '');
+  const name = req.params.name.replace(/[^a-zA-Z0-9._-]/g, '');
+  const filePath = join(PUBLIC, folder, name);
+  if (!existsSync(filePath)) return res.status(404).json({ error: 'Archivo no encontrado' });
+  try {
+    unlinkSync(filePath);
+    res.json({ ok: true });
+  } catch (e) {
+    res.status(500).json({ error: String(e).slice(0, 200) });
+  }
+});
+
+// ═══ LINK file to resumen ═══
+app.post('/api/link-file', (req, res) => {
+  const { slug, field, url } = req.body || {};
+  if (!slug || !field || !url) return res.status(400).json({ error: 'Faltan parametros' });
+  const validFields = ['short','audio','pdf','portada'];
+  if (!validFields.includes(field)) return res.status(400).json({ error: 'Campo invalido' });
+  const file = join(RES, `${slug}.md`);
+  if (!existsSync(file)) return res.status(404).json({ error: 'Resumen no encontrado' });
+  try {
+    const { data, content } = matter(readFileSync(file, 'utf8'));
+    data[field] = url;
+    writeFileSync(file, matter.stringify(content, data), 'utf8');
+    res.json({ ok: true });
+  } catch (e) {
+    res.status(500).json({ error: String(e).slice(0, 200) });
+  }
 });
 
 app.use('/preview', express.static(PUBLIC));
