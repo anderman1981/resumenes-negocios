@@ -1,131 +1,129 @@
-// Panel de administración local del contenido del sitio.
-// Edita los .md de src/content/resumenes, sube documentos a un Blob PÚBLICO
-// (para no cargar el repo) y publica con git push.
 import express from 'express';
 import multer from 'multer';
 import matter from 'gray-matter';
-import { readdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
-import { join, dirname } from 'node:path';
+import { readdirSync, readFileSync, writeFileSync, existsSync, statSync, mkdirSync } from 'node:fs';
+import { join, dirname, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { execSync, spawn } from 'node:child_process';
-import { put } from '@vercel/blob';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-// El repo se monta en /repo dentro de Docker; en local usa la carpeta padre.
 const REPO = process.env.REPO_DIR || join(__dirname, '..');
 const RES = join(REPO, 'src', 'content', 'resumenes');
+const PUBLIC = join(REPO, 'public');
 const PORT = process.env.PORT || 4322;
-const BLOB_TOKEN = process.env.BLOB_READ_WRITE_TOKEN || '';
-const GH_TOKEN = process.env.GH_TOKEN || '';
-const GH_REPO = process.env.GH_REPO || 'anderman1981/resumenes-negocios';
 
 const app = express();
 app.use(express.json({ limit: '2mb' }));
 app.use(express.static(join(__dirname, 'public')));
-const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 500 * 1024 * 1024 } });
 
+const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 200 * 1024 * 1024 } });
 const slugRe = /^[a-z0-9-]+$/;
 
-// Lista de artículos
+function fileSize(path) {
+  try { return statSync(path).size; } catch { return 0; }
+}
+function fmtSize(bytes) {
+  if (!bytes) return '';
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+  return (bytes / 1048576).toFixed(1) + ' MB';
+}
+
 app.get('/api/list', (req, res) => {
-  const files = readdirSync(RES).filter((f) => f.endsWith('.md'));
-  const items = files.map((f) => {
+  const files = readdirSync(RES).filter(f => f.endsWith('.md'));
+  const items = files.map(f => {
     const slug = f.replace(/\.md$/, '');
     const { data } = matter(readFileSync(join(RES, f), 'utf8'));
-    return { slug, titulo: data.titulo || slug, categoria: data.categoria || '', fecha: data.fecha || '', borrador: !!data.borrador };
+    const shortPath = data.short ? join(PUBLIC, data.short) : '';
+    const audioPath = data.audio ? join(PUBLIC, data.audio) : '';
+    return {
+      slug,
+      titulo: data.titulo || slug,
+      libro: data.libro || '',
+      autor: data.autor || '',
+      categoria: data.categoria || '',
+      fecha: data.fecha || '',
+      borrador: !!data.borrador,
+      serie: data.serie || '',
+      serieNombre: data.serieNombre || '',
+      dia: data.dia ?? null,
+      hasYoutube: !!data.youtube,
+      hasSpotify: !!data.spotify,
+      hasAudio: !!(data.audio && existsSync(audioPath)),
+      hasShort: !!(data.short && existsSync(shortPath)),
+      hasPdf: !!data.pdf,
+      shortPath: data.short || '',
+      shortSize: shortPath ? fmtSize(fileSize(shortPath)) : '',
+    };
   }).sort((a, b) => String(b.fecha).localeCompare(String(a.fecha)));
   res.json({ items });
 });
 
-// Leer un artículo
+app.get('/api/stats', (req, res) => {
+  const files = readdirSync(RES).filter(f => f.endsWith('.md'));
+  let total = 0, published = 0, drafts = 0;
+  let withYoutube = 0, withSpotify = 0, withAudio = 0, withShort = 0, withPdf = 0;
+  files.forEach(f => {
+    const { data } = matter(readFileSync(join(RES, f), 'utf8'));
+    total++;
+    if (data.borrador) drafts++; else published++;
+    if (data.youtube) withYoutube++;
+    if (data.spotify) withSpotify++;
+    if (data.audio) withAudio++;
+    if (data.short) withShort++;
+    if (data.pdf) withPdf++;
+  });
+  const shortsDir = join(PUBLIC, 'shorts');
+  let shortFiles = [];
+  if (existsSync(shortsDir)) {
+    shortFiles = readdirSync(shortsDir)
+      .filter(f => f.endsWith('.mp4'))
+      .map(f => ({ name: f, size: fmtSize(fileSize(join(shortsDir, f))) }));
+  }
+  res.json({ total, published, drafts, withYoutube, withSpotify, withAudio, withShort, withPdf, shortFiles });
+});
+
 app.get('/api/item/:slug', (req, res) => {
-  const { slug } = req.params;
-  const file = join(RES, `${slug}.md`);
+  const file = join(RES, `${req.params.slug}.md`);
   if (!existsSync(file)) return res.status(404).json({ error: 'No existe' });
   const { data, content } = matter(readFileSync(file, 'utf8'));
-  res.json({ slug, data, content });
+  res.json({ slug: req.params.slug, data, content });
 });
 
-// Guardar (crear o editar) un artículo
 app.post('/api/item/:slug', (req, res) => {
   const { slug } = req.params;
-  if (!slugRe.test(slug)) return res.status(400).json({ error: 'Slug inválido (usa minúsculas, números y guiones)' });
+  if (!slugRe.test(slug)) return res.status(400).json({ error: 'Slug invalido' });
   const { data = {}, content = '' } = req.body || {};
   try {
-    const md = matter.stringify(content, data);
-    writeFileSync(join(RES, `${slug}.md`), md, 'utf8');
+    writeFileSync(join(RES, `${slug}.md`), matter.stringify(content, data), 'utf8');
     res.json({ ok: true });
   } catch (e) {
     res.status(500).json({ error: String(e).slice(0, 200) });
   }
 });
 
-// Subir un documento/audio/imagen al Blob PÚBLICO → devuelve URL para pegar en un enlace
-app.post('/api/subir', upload.single('archivo'), async (req, res) => {
-  if (!BLOB_TOKEN) return res.status(500).json({ error: 'Falta BLOB_READ_WRITE_TOKEN (store público) en el .env del admin.' });
-  if (!req.file) return res.status(400).json({ error: 'No llegó archivo' });
-  try {
-    const carpeta = (req.body.carpeta || 'media').replace(/[^a-z0-9/_-]/gi, '');
-    const nombre = req.file.originalname.replace(/[^a-zA-Z0-9._-]/g, '_');
-    const blob = await put(`${carpeta}/${nombre}`, req.file.buffer, {
-      access: 'public', addRandomSuffix: false, allowOverwrite: true,
-      contentType: req.file.mimetype, token: BLOB_TOKEN,
-    });
-    res.json({ ok: true, url: blob.url });
-  } catch (e) {
-    res.status(500).json({ error: String(e).slice(0, 200) });
-  }
+app.post('/api/upload', upload.single('file'), (req, res) => {
+  if (!req.file) return res.status(400).json({ error: 'No file' });
+  const folder = (req.body.folder || 'shorts').replace(/[^a-z0-9_-]/gi, '');
+  const dest = join(PUBLIC, folder);
+  mkdirSync(dest, { recursive: true });
+  const name = req.file.originalname.replace(/[^a-zA-Z0-9._-]/g, '_');
+  writeFileSync(join(dest, name), req.file.buffer);
+  res.json({ ok: true, url: `/${folder}/${name}`, size: fmtSize(req.file.size) });
 });
 
-// Publicar: git add + commit + push
-app.post('/api/publicar', (req, res) => {
-  try {
-    execSync('git add -A', { cwd: REPO });
-    try { execSync('git commit -q -m "admin: actualiza contenido"', { cwd: REPO }); }
-    catch (e) { return res.json({ ok: true, msg: 'No había cambios para publicar.' }); }
-    if (GH_TOKEN) {
-      const url = `https://x-access-token:${GH_TOKEN}@github.com/${GH_REPO}.git`;
-      execSync(`git push ${url} HEAD:main`, { cwd: REPO });
-    } else {
-      execSync('git push origin main', { cwd: REPO });
-    }
-    res.json({ ok: true, msg: 'Publicado. Vercel desplegará en ~1 min.' });
-  } catch (e) {
-    res.status(500).json({ error: 'Error al publicar: ' + String(e).slice(0, 250) + ' (configura GH_TOKEN o haz git push manual)' });
-  }
+app.get('/api/files/:folder', (req, res) => {
+  const folder = req.params.folder.replace(/[^a-z0-9_-]/gi, '');
+  const dir = join(PUBLIC, folder);
+  if (!existsSync(dir)) return res.json({ files: [] });
+  const files = readdirSync(dir).map(f => ({
+    name: f,
+    url: `/${folder}/${f}`,
+    size: fmtSize(fileSize(join(dir, f))),
+    ext: extname(f).slice(1),
+  }));
+  res.json({ files });
 });
 
-// ---- Pipeline: ejecutar los scripts de generación ----
-const SCRIPTS = {
-  todo: ['bash', ['scripts/generar-todo.sh']],
-  podcast: ['python3', ['scripts/generar-podcast.py', '_semana/guiones.md']],
-  covers: ['node', ['scripts/generar-covers.mjs']],
-  videos: ['node', ['scripts/generar-video-slides.mjs']],
-  subtitulos: ['python3', ['scripts/generar-subtitulos.py', '--modelo', 'small']],
-  guia: ['python3', ['scripts/generar-guia-pdf.py']],
-  publicar: ['node', ['scripts/publicar-cola.mjs']],
-};
-let job = { running: false, name: null, log: '', code: null };
-function push(txt) { job.log = (job.log + txt).slice(-60000); } // cap ~60KB
+app.use('/preview', express.static(PUBLIC));
 
-app.post('/api/run', (req, res) => {
-  const { script } = req.body || {};
-  if (job.running) return res.status(409).json({ error: 'Ya hay un proceso en curso' });
-  const cmd = SCRIPTS[script];
-  if (!cmd) return res.status(400).json({ error: 'Script no permitido' });
-  job = { running: true, name: script, log: `$ ${cmd[0]} ${cmd[1].join(' ')}\n\n`, code: null };
-  try {
-    const p = spawn(cmd[0], cmd[1], { cwd: REPO });
-    p.stdout.on('data', (d) => push(d.toString()));
-    p.stderr.on('data', (d) => push(d.toString()));
-    p.on('close', (c) => { job.running = false; job.code = c; push(`\n[proceso terminado, código ${c}]\n`); });
-    p.on('error', (e) => { job.running = false; job.code = -1; push(`\n[error: ${e}]\n`); });
-    res.json({ ok: true });
-  } catch (e) {
-    job.running = false;
-    res.status(500).json({ error: String(e).slice(0, 200) });
-  }
-});
-app.get('/api/run/status', (req, res) => res.json(job));
-
-app.listen(PORT, () => console.log(`✅ Admin en http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`\n  Admin dashboard: http://localhost:${PORT}\n`));
