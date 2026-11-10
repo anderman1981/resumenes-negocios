@@ -1,289 +1,434 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" class="h-full">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Admin · Resúmenes de Negocios</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Admin · Resumenes de Negocios</title>
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <script>tailwind.config={theme:{extend:{colors:{brand:{50:'#eff6ff',100:'#dbeafe',500:'#3b82f6',600:'#2563eb',700:'#1d4ed8'},sidebar:'#0f172a',card:'#1e293b'}}}}</script>
+  <style>
+    .dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+    .dot-ok{background:#22c55e}.dot-no{background:#ef4444}
+    .tab-active{color:#3b82f6;border-bottom:2px solid #3b82f6}
+    .stat-card{@apply rounded-xl border border-slate-200 bg-white p-5}
+    video::-webkit-media-controls-panel{background:linear-gradient(transparent,rgba(0,0,0,.6))}
+    .sidebar-link{@apply flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white}
+    .sidebar-link.active{@apply bg-white/10 text-white}
+    .drop-zone{@apply rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 p-8 text-center transition}
+    .drop-zone.dragover{@apply border-brand-500 bg-brand-50}
+  </style>
 </head>
-<body class="bg-slate-100 text-slate-800">
-  <header class="sticky top-0 z-10 flex items-center justify-between border-b border-slate-200 bg-white px-4 py-3">
-    <div class="flex items-center gap-2 font-extrabold"><span class="grid h-8 w-8 place-items-center rounded-lg bg-blue-600 text-white">A</span> Admin de contenido</div>
-    <div class="flex gap-2">
-      <button id="btn-nuevo" class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold hover:bg-slate-50">+ Nuevo</button>
-      <button id="btn-pipeline" class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold hover:bg-slate-50">⚙️ Pipeline</button>
-      <button id="btn-publicar" class="rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700">🚀 Publicar (git push)</button>
+<body class="h-full bg-slate-100 text-slate-800">
+<div class="flex h-full">
+
+  <!-- Sidebar -->
+  <aside class="flex w-60 flex-shrink-0 flex-col bg-sidebar text-white">
+    <div class="flex items-center gap-2.5 px-5 py-5">
+      <span class="grid h-9 w-9 place-items-center rounded-lg bg-brand-600 text-lg font-black">R</span>
+      <div><div class="text-sm font-bold leading-tight">Resumenes</div><div class="text-[11px] text-slate-400">Admin local</div></div>
     </div>
-  </header>
+    <nav class="flex-1 space-y-1 px-3">
+      <a href="#" data-page="dashboard" class="sidebar-link active"><svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1"/></svg> Dashboard</a>
+      <a href="#" data-page="content" class="sidebar-link"><svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg> Contenido</a>
+      <a href="#" data-page="shorts" class="sidebar-link"><svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg> Video Shorts</a>
+      <a href="#" data-page="upload" class="sidebar-link"><svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg> Subir archivos</a>
+      <a href="#" data-page="pipeline" class="sidebar-link"><svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg> Pipeline</a>
+    </nav>
+    <div class="border-t border-white/10 px-5 py-3 text-[11px] text-slate-500">Solo local &middot; No sube a Vercel</div>
+  </aside>
 
-  <div class="mx-auto grid max-w-6xl gap-4 p-4 md:grid-cols-[280px_1fr]">
-    <aside class="self-start rounded-xl border border-slate-200 bg-white p-3 md:sticky md:top-16 md:max-h-[calc(100vh-5rem)] md:overflow-auto">
-      <p class="mb-2 text-xs font-semibold uppercase text-slate-400">Artículos <span id="cnt-total" class="text-slate-300"></span></p>
-      <input id="buscar" type="search" placeholder="🔎 Buscar por título o slug…" class="mb-2 w-full rounded-lg border border-slate-300 px-3 py-1.5 text-sm" />
-      <div id="chips" class="mb-3 flex flex-wrap gap-1"></div>
-      <div id="lista" class="space-y-3 text-sm"></div>
-    </aside>
+  <!-- Main -->
+  <div class="flex-1 overflow-auto">
+    <header class="sticky top-0 z-10 flex items-center justify-between border-b border-slate-200 bg-white/95 px-6 py-3 backdrop-blur">
+      <h1 id="page-title" class="text-2xl font-bold">Dashboard</h1>
+      <div class="text-xs text-slate-400" id="clock"></div>
+    </header>
 
-    <main class="rounded-xl border border-slate-200 bg-white p-4">
-      <div id="vacio" class="py-20 text-center text-slate-400">Selecciona un artículo o crea uno nuevo.</div>
-      <form id="form" class="hidden space-y-3">
-        <div class="grid gap-3 sm:grid-cols-2">
-          <label class="text-sm">Slug (URL)<input name="slug" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" placeholder="mi-resumen" /></label>
-          <label class="text-sm">Categoría
-            <select name="categoria" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2">
-              <option value="marketing-digital">Marketing Digital</option>
-              <option value="emprendimiento">Emprendimiento</option>
-              <option value="finanzas-personales">Finanzas Personales</option>
-              <option value="productividad">Productividad</option>
-              <option value="ventas">Ventas</option>
-              <option value="ecommerce">E-commerce</option>
+    <!-- ═══ DASHBOARD ═══ -->
+    <div id="page-dashboard" class="page p-6 space-y-6">
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4" id="stat-cards"></div>
+      <div class="grid gap-6 lg:grid-cols-2">
+        <div class="stat-card">
+          <h2 class="mb-3 text-sm font-bold uppercase tracking-wide text-slate-400">Completitud por resumen</h2>
+          <div id="completeness-table"></div>
+        </div>
+        <div class="stat-card">
+          <h2 class="mb-3 text-sm font-bold uppercase tracking-wide text-slate-400">Video Shorts en disco</h2>
+          <div id="shorts-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ CONTENT ═══ -->
+    <div id="page-content" class="page hidden">
+      <div class="grid h-[calc(100vh-49px)] grid-cols-[300px_1fr]">
+        <aside class="overflow-auto border-r border-slate-200 bg-white p-3">
+          <div class="mb-3 flex items-center gap-2">
+            <input id="buscar" type="search" placeholder="Buscar..." class="flex-1 rounded-lg border border-slate-300 px-3 py-1.5 text-sm" />
+            <button id="btn-nuevo" class="rounded-lg bg-brand-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-brand-700">+</button>
+          </div>
+          <div id="content-list" class="space-y-1 text-sm"></div>
+        </aside>
+        <main class="overflow-auto p-6">
+          <div id="editor-empty" class="py-20 text-center text-slate-400">Selecciona un resumen o crea uno nuevo</div>
+          <form id="editor" class="hidden max-w-3xl space-y-4"></form>
+        </main>
+      </div>
+    </div>
+
+    <!-- ═══ SHORTS ═══ -->
+    <div id="page-shorts" class="page hidden p-6 space-y-6">
+      <div class="stat-card">
+        <h2 class="mb-1 text-sm font-bold uppercase tracking-wide text-slate-400">Video Shorts</h2>
+        <p class="mb-4 text-sm text-slate-500">Previews de los shorts 9:16 generados con los personajes 3D podcast hosts</p>
+        <div id="shorts-grid" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"></div>
+      </div>
+    </div>
+
+    <!-- ═══ UPLOAD ═══ -->
+    <div id="page-upload" class="page hidden p-6 space-y-6">
+      <div class="stat-card">
+        <h2 class="mb-4 text-sm font-bold uppercase tracking-wide text-slate-400">Subir archivos al proyecto</h2>
+        <div class="grid gap-6 md:grid-cols-3">
+          <div>
+            <label class="mb-2 block text-sm font-semibold">Destino</label>
+            <select id="upload-folder" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
+              <option value="shorts">public/shorts/ (MP4 videos)</option>
+              <option value="audio">public/audio/ (Audio files)</option>
+              <option value="pdfs">public/pdfs/ (PDF guides)</option>
+              <option value="img">public/img/ (Images)</option>
             </select>
-          </label>
-        </div>
-        <label class="block text-sm">Título<input name="titulo" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" /></label>
-        <div class="grid gap-3 sm:grid-cols-2">
-          <label class="text-sm">Libro/Documento<input name="libro" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" /></label>
-          <label class="text-sm">Autor<input name="autor" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" /></label>
-        </div>
-        <label class="block text-sm">Descripción (SEO 150-160)<textarea name="descripcion" rows="2" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2"></textarea></label>
-        <div class="grid gap-3 sm:grid-cols-3">
-          <label class="text-sm">Fecha (publica)<input name="fecha" type="date" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" /></label>
-          <label class="text-sm">Min. lectura<input name="minutosLectura" type="number" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" /></label>
-          <label class="flex items-end gap-4 text-sm">
-            <span class="flex items-center gap-1"><input type="checkbox" name="destacado" /> Destacado</span>
-            <span class="flex items-center gap-1"><input type="checkbox" name="borrador" /> Borrador</span>
-          </label>
-        </div>
-        <label class="block text-sm">Ideas clave (una por línea)<textarea name="ideasClave" rows="3" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2"></textarea></label>
-        <label class="block text-sm">Tags (separadas por coma)<input name="tags" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" /></label>
-
-        <fieldset class="rounded-lg border border-slate-200 p-3">
-          <legend class="px-1 text-xs font-semibold uppercase text-slate-400">Serie (opcional)</legend>
-          <div class="grid gap-3 sm:grid-cols-3">
-            <label class="text-sm">serie<input name="serie" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" /></label>
-            <label class="text-sm">serieNombre<input name="serieNombre" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" /></label>
-            <label class="text-sm">día<input name="dia" type="number" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" /></label>
           </div>
-        </fieldset>
-
-        <fieldset class="rounded-lg border border-slate-200 p-3">
-          <legend class="px-1 text-xs font-semibold uppercase text-slate-400">Enlaces multimedia</legend>
-          <div class="grid gap-3 sm:grid-cols-2">
-            <label class="text-sm">Spotify (URL episodio)<input name="spotify" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" /></label>
-            <label class="text-sm">YouTube (ID)<input name="youtube" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" /></label>
-            <label class="text-sm">Audio público (URL)<input name="audioPublico" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" /></label>
-            <label class="text-sm">PDF (URL o /guias/x.pdf)<input name="pdf" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" /></label>
-            <label class="text-sm">Nombre botón PDF<input name="pdfNombre" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" /></label>
-            <label class="text-sm">Portada (URL)<input name="portada" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" /></label>
-          </div>
-        </fieldset>
-
-        <fieldset class="rounded-lg border border-dashed border-slate-300 p-3">
-          <legend class="px-1 text-xs font-semibold uppercase text-slate-400">Subir documento/audio/imagen (a Blob público)</legend>
-          <div class="flex flex-wrap items-center gap-2">
-            <input type="file" id="archivo" class="text-sm" />
-            <select id="carpeta" class="rounded-lg border border-slate-300 px-2 py-2 text-sm"><option value="docs">docs</option><option value="audio">audio</option><option value="img">img</option></select>
-            <button type="button" id="btn-subir" class="rounded-lg bg-blue-600 px-3 py-2 text-sm font-semibold text-white hover:bg-blue-700">Subir</button>
-            <span id="subir-msg" class="text-sm text-slate-500"></span>
-          </div>
-          <input id="url-subida" readonly class="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs" placeholder="Aquí aparece la URL pública tras subir (cópiala a un campo de arriba)" />
-        </fieldset>
-
-        <label class="block text-sm">Contenido (Markdown)<textarea name="content" rows="16" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 font-mono text-sm"></textarea></label>
-
-        <div class="flex items-center gap-3">
-          <button type="submit" class="rounded-lg bg-slate-900 px-5 py-2.5 font-semibold text-white hover:bg-slate-800">💾 Guardar</button>
-          <span id="guardar-msg" class="text-sm text-slate-500"></span>
         </div>
-      </form>
-    </main>
-  </div>
-
-  <div id="pipe-modal" class="fixed inset-0 z-20 hidden items-center justify-center bg-slate-900/60 p-4">
-    <div class="flex max-h-[85vh] w-full max-w-3xl flex-col rounded-2xl bg-white p-5 shadow-2xl">
-      <div class="flex items-center justify-between">
-        <h2 class="text-lg font-bold">⚙️ Pipeline de generación</h2>
-        <button id="pipe-close" class="text-slate-400 hover:text-slate-700">✕</button>
+        <div id="drop-zone" class="drop-zone mt-4 cursor-pointer">
+          <input type="file" id="upload-input" multiple class="hidden" />
+          <svg class="mx-auto h-10 w-10 text-slate-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 16V4m0 0L8 8m4-4l4 4M4 20h16"/></svg>
+          <p class="mt-2 text-sm font-semibold text-slate-600">Arrastra archivos aqui o haz click</p>
+          <p class="text-xs text-slate-400">Max 200MB por archivo</p>
+        </div>
+        <div id="upload-results" class="mt-4 space-y-2"></div>
       </div>
-      <p class="mt-1 text-sm text-slate-500">Ejecuta los pasos. El log aparece abajo en vivo. (Requiere que el contenedor tenga las herramientas: python, ffmpeg, etc.)</p>
-      <div class="mt-3 flex flex-wrap gap-2">
-        <button data-run="todo" class="pipe-btn rounded-lg bg-slate-900 px-3 py-2 text-sm font-semibold text-white hover:bg-slate-800">▶ Generar TODO</button>
-        <button data-run="podcast" class="pipe-btn rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold hover:bg-slate-50">🎙️ Audios</button>
-        <button data-run="covers" class="pipe-btn rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold hover:bg-slate-50">🖼️ Portadas</button>
-        <button data-run="videos" class="pipe-btn rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold hover:bg-slate-50">🎬 Vídeos</button>
-        <button data-run="subtitulos" class="pipe-btn rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold hover:bg-slate-50">💬 Subtítulos</button>
-        <button data-run="guia" class="pipe-btn rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold hover:bg-slate-50">📄 Guía PDF</button>
-        <button data-run="publicar" class="pipe-btn rounded-lg bg-green-600 px-3 py-2 text-sm font-semibold text-white hover:bg-green-700">🚀 Publicar</button>
+      <div class="grid gap-6 md:grid-cols-2">
+        <div class="stat-card">
+          <h2 class="mb-3 text-sm font-bold uppercase tracking-wide text-slate-400">Archivos en public/shorts/</h2>
+          <div id="files-shorts"></div>
+        </div>
+        <div class="stat-card">
+          <h2 class="mb-3 text-sm font-bold uppercase tracking-wide text-slate-400">Archivos en public/audio/</h2>
+          <div id="files-audio"></div>
+        </div>
       </div>
-      <div class="mt-3 flex items-center gap-2 text-sm"><span id="pipe-estado" class="font-semibold text-slate-500">Inactivo</span></div>
-      <pre id="pipe-log" class="mt-2 flex-1 overflow-auto rounded-lg bg-slate-900 p-3 font-mono text-xs text-slate-100" style="min-height:240px">(sin salida todavía)</pre>
     </div>
+
+    <!-- ═══ PIPELINE ═══ -->
+    <div id="page-pipeline" class="page hidden p-6 space-y-6">
+      <div class="stat-card">
+        <h2 class="mb-1 text-sm font-bold uppercase tracking-wide text-slate-400">Video Pipeline</h2>
+        <p class="mb-4 text-sm text-slate-500">El pipeline corre en el servidor AMR (SSH). Usa estos comandos para generar shorts.</p>
+        <div class="space-y-3">
+          <div class="rounded-lg bg-slate-900 p-4 font-mono text-sm text-green-400">
+            <p class="text-slate-500"># Conectar al servidor</p>
+            <p>ssh -i ~/.ssh/id_ed25519_amrosai anderson5@192.168.58.116</p>
+            <p class="mt-2 text-slate-500"># Ir al pipeline</p>
+            <p>cd ~/projects/googleads/video-pipeline</p>
+            <p class="mt-2 text-slate-500"># Re-generar un short (solo compose + render + mux)</p>
+            <p>yarn produce:summary "../../_cola/startups/Dia_0_Resumen_Web_Marco_Estructural-v2.md" "crecimiento-dia-0" --skip-script --skip-vision --skip-voice --skip-subtitles</p>
+            <p class="mt-2 text-slate-500"># Generar desde cero (incluye script + voice + subtitles)</p>
+            <p>yarn produce:summary "../../_cola/startups/Dia_0_Resumen_Web_Marco_Estructural-v2.md" "crecimiento-dia-0"</p>
+          </div>
+          <div class="rounded-lg border border-slate-200 p-4">
+            <h3 class="mb-2 text-sm font-bold">Personajes 3D (Podcast Hosts)</h3>
+            <p class="text-xs text-slate-500 mb-3">Estos avatares Pixar-style se usan como fondo visual en los shorts. Ubicados en assets/images/host-woman.jpg y host-man.jpg</p>
+            <div class="flex gap-4">
+              <div class="w-24 rounded-lg overflow-hidden bg-slate-100"><div class="aspect-[3/4] bg-slate-200 flex items-center justify-center text-xs text-slate-400">Woman Host</div></div>
+              <div class="w-24 rounded-lg overflow-hidden bg-slate-100"><div class="aspect-[3/4] bg-slate-200 flex items-center justify-center text-xs text-slate-400">Man Host</div></div>
+            </div>
+          </div>
+          <div class="rounded-lg border border-slate-200 p-4">
+            <h3 class="mb-2 text-sm font-bold">Cron semanal</h3>
+            <p class="text-xs text-slate-500">Domingos a las 10:00 AM en el servidor AMR</p>
+            <code class="mt-1 block rounded bg-slate-100 px-3 py-2 text-xs">0 10 * * 0 ~/projects/googleads/scripts/weekly-shorts.sh</code>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
+</div>
 
-  <script>
-    const $ = (s) => document.querySelector(s);
-    const form = $('#form');
-    let actual = null;
+<script>
+const $ = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
+const esc = s => String(s??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
 
-    const CATS = {
-      'marketing-digital': 'Marketing Digital',
-      'emprendimiento': 'Emprendimiento',
-      'finanzas-personales': 'Finanzas Personales',
-      'productividad': 'Productividad',
-      'ventas': 'Ventas',
-      'ecommerce': 'E-commerce',
-    };
-    const catLabel = (c) => CATS[c] || c || 'Sin categoría';
-    const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (m) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[m]));
+// ─── Navigation ───
+let currentPage = 'dashboard';
+const titles = { dashboard:'Dashboard', content:'Contenido', shorts:'Video Shorts', upload:'Subir archivos', pipeline:'Pipeline' };
 
-    let ITEMS = [];
-    let filtroCat = 'todas';
-    let filtroTexto = '';
-    let soloBorradores = false;
+$$('[data-page]').forEach(a => a.addEventListener('click', e => {
+  e.preventDefault();
+  switchPage(a.dataset.page);
+}));
 
-    async function cargarLista() {
-      const { items } = await (await fetch('/api/list')).json();
-      ITEMS = items;
-      render();
-    }
+function switchPage(page) {
+  currentPage = page;
+  $$('.page').forEach(p => p.classList.add('hidden'));
+  $(`#page-${page}`).classList.remove('hidden');
+  $$('[data-page]').forEach(a => a.classList.toggle('active', a.dataset.page === page));
+  $('#page-title').textContent = titles[page] || page;
+  if (page === 'dashboard') loadDashboard();
+  if (page === 'content') loadContent();
+  if (page === 'shorts') loadShorts();
+  if (page === 'upload') loadUploadFiles();
+}
 
-    function itemLi(it) {
-      const activo = it.slug === actual ? 'bg-blue-50 ring-1 ring-blue-200' : '';
-      const draft = it.borrador ? 'text-amber-600' : '';
-      return `<li><button data-slug="${esc(it.slug)}" class="w-full truncate rounded-lg px-2 py-1.5 text-left hover:bg-slate-100 ${activo} ${draft}">${it.borrador ? '📝 ' : ''}${esc(it.titulo)}<span class="block text-xs text-slate-400">${esc(it.fecha) || 'sin fecha'}</span></button></li>`;
-    }
+// Clock
+setInterval(() => { $('#clock').textContent = new Date().toLocaleString('es-CO'); }, 1000);
 
-    function render() {
-      // Conteos por categoría (sobre todo el conjunto)
-      const counts = {};
-      ITEMS.forEach((it) => { const c = it.categoria || 'sin-categoria'; counts[c] = (counts[c] || 0) + 1; });
-      const cats = Object.keys(counts).sort((a, b) => catLabel(a).localeCompare(catLabel(b)));
-      const nBorr = ITEMS.filter((it) => it.borrador).length;
+// ═══ DASHBOARD ═══
+async function loadDashboard() {
+  const [stats, list] = await Promise.all([
+    fetch('/api/stats').then(r=>r.json()),
+    fetch('/api/list').then(r=>r.json()),
+  ]);
 
-      const chip = (id, label, n, active) =>
-        `<button data-cat="${id}" class="chip rounded-full px-2.5 py-1 text-xs font-semibold transition ${active ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}">${esc(label)} <span class="opacity-70">${n}</span></button>`;
-      let chipsHtml = chip('todas', 'Todas', ITEMS.length, filtroCat === 'todas' && !soloBorradores)
-        + cats.map((c) => chip(c, catLabel(c), counts[c], filtroCat === c && !soloBorradores)).join('');
-      if (nBorr) chipsHtml += `<button id="chip-borr" class="rounded-full px-2.5 py-1 text-xs font-semibold transition ${soloBorradores ? 'bg-amber-500 text-white' : 'bg-amber-100 text-amber-700 hover:bg-amber-200'}">📝 Borradores ${nBorr}</button>`;
-      $('#chips').innerHTML = chipsHtml;
-      document.querySelectorAll('.chip').forEach((b) => b.addEventListener('click', () => { filtroCat = b.dataset.cat; soloBorradores = false; render(); }));
-      const cb = $('#chip-borr'); if (cb) cb.addEventListener('click', () => { soloBorradores = !soloBorradores; render(); });
+  $('#stat-cards').innerHTML = [
+    card('Resumenes', stats.total, `${stats.published} publicados, ${stats.drafts} borradores`, '#3b82f6'),
+    card('Con Short', stats.withShort, `de ${stats.total} resumenes`, '#22c55e'),
+    card('Con Audio', stats.withAudio + stats.withSpotify, `Spotify: ${stats.withSpotify}, Local: ${stats.withAudio}`, '#a855f7'),
+    card('Con PDF', stats.withPdf, `de ${stats.total} resumenes`, '#f59e0b'),
+  ].join('');
 
-      // Filtrado
-      const t = filtroTexto.trim().toLowerCase();
-      let list = ITEMS.slice();
-      if (soloBorradores) list = list.filter((it) => it.borrador);
-      else if (filtroCat !== 'todas') list = list.filter((it) => (it.categoria || 'sin-categoria') === filtroCat);
-      if (t) list = list.filter((it) => (it.titulo || '').toLowerCase().includes(t) || it.slug.toLowerCase().includes(t));
+  // Completeness table
+  const rows = list.items.map(it => {
+    const dots = [
+      dot(it.hasShort, 'Short'),
+      dot(it.hasSpotify, 'Spotify'),
+      dot(it.hasAudio, 'Audio'),
+      dot(it.hasYoutube, 'YouTube'),
+      dot(it.hasPdf, 'PDF'),
+    ].join('');
+    return `<tr class="border-t border-slate-100"><td class="py-2 pr-3 text-sm">${esc(it.titulo)}</td><td class="py-2 text-right whitespace-nowrap">${dots}</td></tr>`;
+  }).join('');
+  $('#completeness-table').innerHTML = `<table class="w-full"><tbody>${rows}</tbody></table>`;
 
-      $('#cnt-total').textContent = `(${list.length})`;
+  // Shorts on disk
+  if (stats.shortFiles.length) {
+    $('#shorts-list').innerHTML = stats.shortFiles.map(f =>
+      `<div class="flex items-center justify-between border-t border-slate-100 py-2 text-sm"><span class="font-mono text-xs">${esc(f.name)}</span><span class="text-slate-400">${f.size}</span></div>`
+    ).join('');
+  } else {
+    $('#shorts-list').innerHTML = '<p class="text-sm text-slate-400">No hay shorts en public/shorts/</p>';
+  }
+}
 
-      if (!list.length) { $('#lista').innerHTML = '<p class="px-2 py-6 text-center text-xs text-slate-400">Sin resultados</p>'; return; }
+function card(title, value, sub, color) {
+  return `<div class="stat-card"><div class="text-xs font-bold uppercase tracking-wide text-slate-400">${title}</div><div class="mt-1 text-3xl font-extrabold" style="color:${color}">${value}</div><div class="mt-1 text-xs text-slate-500">${sub}</div></div>`;
+}
+function dot(ok, label) {
+  return `<span class="inline-flex items-center gap-1 ml-2" title="${label}"><span class="dot ${ok?'dot-ok':'dot-no'}"></span><span class="text-[10px] text-slate-400">${label}</span></span>`;
+}
 
-      // Agrupado por categoría, cada grupo ordenado por fecha desc
-      const groups = {};
-      list.forEach((it) => { const c = it.categoria || 'sin-categoria'; (groups[c] ||= []).push(it); });
-      const ordered = Object.keys(groups).sort((a, b) => catLabel(a).localeCompare(catLabel(b)));
-      $('#lista').innerHTML = ordered.map((c) => {
-        const g = groups[c].sort((a, b) => String(b.fecha).localeCompare(String(a.fecha)));
-        return `<div>
-          <p class="mb-1 px-1 text-[11px] font-bold uppercase tracking-wide text-slate-400">${esc(catLabel(c))} <span class="text-slate-300">· ${g.length}</span></p>
-          <ul class="space-y-0.5">${g.map(itemLi).join('')}</ul>
-        </div>`;
-      }).join('');
-      document.querySelectorAll('#lista button[data-slug]').forEach((b) => b.addEventListener('click', () => abrir(b.dataset.slug)));
-    }
+// ═══ CONTENT ═══
+let contentItems = [];
+let activeSlug = null;
 
-    $('#buscar').addEventListener('input', (e) => { filtroTexto = e.target.value; render(); });
+async function loadContent() {
+  const { items } = await fetch('/api/list').then(r=>r.json());
+  contentItems = items;
+  renderContentList();
+}
 
-    function setVal(name, val) { const el = form.elements[name]; if (!el) return; if (el.type === 'checkbox') el.checked = !!val; else el.value = val ?? ''; }
-    function getVal(name) { const el = form.elements[name]; return el.type === 'checkbox' ? el.checked : el.value.trim(); }
+function renderContentList() {
+  const q = ($('#buscar')?.value || '').toLowerCase();
+  const filtered = q ? contentItems.filter(it => it.titulo.toLowerCase().includes(q) || it.slug.includes(q)) : contentItems;
+  $('#content-list').innerHTML = filtered.map(it => {
+    const active = it.slug === activeSlug ? 'bg-brand-50 border-brand-200' : 'border-transparent hover:bg-slate-50';
+    const badge = it.borrador ? '<span class="rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-bold text-amber-700">BORRADOR</span>' : '';
+    const dots = [it.hasShort?'text-green-500':'text-red-300', it.hasSpotify?'text-green-500':'text-red-300', it.hasYoutube?'text-green-500':'text-red-300'].map((c,i)=>
+      `<span class="${c} text-[10px]">${['V','S','Y'][i]}</span>`
+    ).join(' ');
+    return `<button data-slug="${esc(it.slug)}" class="content-item w-full rounded-lg border px-3 py-2 text-left transition ${active}">
+      <div class="flex items-center justify-between"><span class="font-medium text-sm leading-tight">${esc(it.titulo)}</span>${badge}</div>
+      <div class="mt-1 flex items-center gap-2 text-[11px] text-slate-400"><span>${it.fecha ? String(it.fecha).slice(0,10) : 'sin fecha'}</span><span>${dots}</span></div>
+    </button>`;
+  }).join('');
+  $$('.content-item').forEach(b => b.addEventListener('click', () => openEditor(b.dataset.slug)));
+}
 
-    async function abrir(slug) {
-      const r = await fetch('/api/item/' + slug);
-      const { data, content } = await r.json();
-      actual = slug;
-      render();
-      $('#vacio').classList.add('hidden'); form.classList.remove('hidden');
-      ['titulo','libro','autor','categoria','descripcion','minutosLectura','serie','serieNombre','dia','spotify','youtube','audioPublico','pdf','pdfNombre','portada'].forEach((k) => setVal(k, data[k]));
-      setVal('slug', slug);
-      setVal('fecha', data.fecha ? String(data.fecha).slice(0,10) : '');
-      setVal('destacado', data.destacado); setVal('borrador', data.borrador);
-      setVal('ideasClave', (data.ideasClave || []).join('\n'));
-      setVal('tags', (data.tags || []).join(', '));
-      setVal('content', content);
-    }
+$('#buscar')?.addEventListener('input', renderContentList);
+$('#btn-nuevo')?.addEventListener('click', () => { activeSlug = null; showEditor({},''); });
 
-    $('#btn-nuevo').addEventListener('click', () => {
-      actual = null; form.reset(); $('#vacio').classList.add('hidden'); form.classList.remove('hidden');
-      setVal('minutosLectura', 7); setVal('fecha', new Date().toISOString().slice(0,10));
-    });
+async function openEditor(slug) {
+  const { data, content } = await fetch('/api/item/' + slug).then(r=>r.json());
+  activeSlug = slug;
+  renderContentList();
+  showEditor(data, content, slug);
+}
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const slug = getVal('slug');
-      if (!slug) return alert('Falta el slug');
-      const data = {
-        titulo: getVal('titulo'), libro: getVal('libro'), autor: getVal('autor'),
-        categoria: getVal('categoria'), descripcion: getVal('descripcion'),
-        minutosLectura: Number(getVal('minutosLectura')) || 7,
-        ideasClave: getVal('ideasClave').split('\n').map(s=>s.trim()).filter(Boolean),
-        fecha: getVal('fecha'), destacado: getVal('destacado'), borrador: getVal('borrador'),
-        tags: getVal('tags').split(',').map(s=>s.trim()).filter(Boolean),
-      };
-      ['serie','serieNombre','spotify','youtube','audioPublico','pdf','pdfNombre','portada'].forEach((k)=>{ const v=getVal(k); if(v) data[k]=v; });
-      const dia = getVal('dia'); if (dia) data.dia = Number(dia);
-      const r = await fetch('/api/item/' + slug, { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({ data, content: getVal('content') }) });
+function showEditor(data, content, slug) {
+  $('#editor-empty').classList.add('hidden');
+  const f = $('#editor');
+  f.classList.remove('hidden');
+  f.innerHTML = `
+    <div class="grid gap-4 sm:grid-cols-2">
+      <label class="text-sm font-medium">Slug<input name="slug" value="${esc(slug||'')}" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" ${slug?'readonly':''}></label>
+      <label class="text-sm font-medium">Categoria
+        <select name="categoria" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
+          ${['marketing-digital','emprendimiento','finanzas-personales','productividad','ventas','ecommerce'].map(c=>`<option value="${c}" ${data.categoria===c?'selected':''}>${c}</option>`).join('')}
+        </select>
+      </label>
+    </div>
+    <label class="block text-sm font-medium">Titulo<input name="titulo" value="${esc(data.titulo||'')}" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"></label>
+    <div class="grid gap-4 sm:grid-cols-2">
+      <label class="text-sm font-medium">Libro<input name="libro" value="${esc(data.libro||'')}" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"></label>
+      <label class="text-sm font-medium">Autor<input name="autor" value="${esc(data.autor||'')}" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"></label>
+    </div>
+    <label class="block text-sm font-medium">Descripcion<textarea name="descripcion" rows="2" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">${esc(data.descripcion||'')}</textarea></label>
+    <div class="grid gap-4 sm:grid-cols-4">
+      <label class="text-sm font-medium">Fecha<input name="fecha" type="date" value="${data.fecha?String(data.fecha).slice(0,10):''}" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"></label>
+      <label class="text-sm font-medium">Min lectura<input name="minutosLectura" type="number" value="${data.minutosLectura||7}" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"></label>
+      <label class="flex items-end gap-2 text-sm font-medium"><input type="checkbox" name="destacado" ${data.destacado?'checked':''}> Destacado</label>
+      <label class="flex items-end gap-2 text-sm font-medium"><input type="checkbox" name="borrador" ${data.borrador?'checked':''}> Borrador</label>
+    </div>
+    <fieldset class="rounded-lg border border-slate-200 p-3"><legend class="text-xs font-bold uppercase text-slate-400 px-1">Serie</legend>
+      <div class="grid gap-4 sm:grid-cols-3">
+        <label class="text-sm">serie<input name="serie" value="${esc(data.serie||'')}" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"></label>
+        <label class="text-sm">serieNombre<input name="serieNombre" value="${esc(data.serieNombre||'')}" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"></label>
+        <label class="text-sm">dia<input name="dia" type="number" value="${data.dia??''}" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"></label>
+      </div>
+    </fieldset>
+    <fieldset class="rounded-lg border border-slate-200 p-3"><legend class="text-xs font-bold uppercase text-slate-400 px-1">Multimedia</legend>
+      <div class="grid gap-4 sm:grid-cols-2">
+        <label class="text-sm">Spotify<input name="spotify" value="${esc(data.spotify||'')}" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"></label>
+        <label class="text-sm">YouTube ID<input name="youtube" value="${esc(data.youtube||'')}" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"></label>
+        <label class="text-sm">Audio (ruta local)<input name="audio" value="${esc(data.audio||'')}" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"></label>
+        <label class="text-sm">Short (ruta MP4)<input name="short" value="${esc(data.short||'')}" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"></label>
+        <label class="text-sm">PDF<input name="pdf" value="${esc(data.pdf||'')}" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"></label>
+        <label class="text-sm">Portada URL<input name="portada" value="${esc(data.portada||'')}" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"></label>
+      </div>
+    </fieldset>
+    <label class="block text-sm font-medium">Ideas clave (una por linea)<textarea name="ideasClave" rows="3" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm font-mono">${esc((data.ideasClave||[]).join('\n'))}</textarea></label>
+    <label class="block text-sm font-medium">Tags (separadas por coma)<input name="tags" value="${esc((data.tags||[]).join(', '))}" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"></label>
+    <label class="block text-sm font-medium">Contenido Markdown<textarea name="content" rows="18" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm font-mono">${esc(content)}</textarea></label>
+    <div class="flex items-center gap-3">
+      <button type="submit" class="rounded-lg bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white hover:bg-slate-800">Guardar</button>
+      <span id="save-msg" class="text-sm text-slate-500"></span>
+    </div>
+  `;
+  f.onsubmit = saveEditor;
+}
+
+async function saveEditor(e) {
+  e.preventDefault();
+  const f = $('#editor');
+  const gv = n => { const el=f.elements[n]; return el?.type==='checkbox'?el.checked:(el?.value?.trim()||''); };
+  const slug = gv('slug');
+  if (!slug) return alert('Falta el slug');
+  const data = {
+    titulo:gv('titulo'), libro:gv('libro'), autor:gv('autor'), categoria:gv('categoria'),
+    descripcion:gv('descripcion'), minutosLectura:Number(gv('minutosLectura'))||7,
+    fecha:gv('fecha'), destacado:gv('destacado'), borrador:gv('borrador'),
+    ideasClave:gv('ideasClave').split('\n').map(s=>s.trim()).filter(Boolean),
+    tags:gv('tags').split(',').map(s=>s.trim()).filter(Boolean),
+  };
+  ['serie','serieNombre','spotify','youtube','audio','short','pdf','portada'].forEach(k=>{const v=gv(k);if(v)data[k]=v;});
+  const dia=gv('dia'); if(dia) data.dia=Number(dia);
+  const r = await fetch('/api/item/'+slug,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({data,content:gv('content')})});
+  const res = await r.json();
+  $('#save-msg').textContent = res.ok ? 'Guardado' : res.error;
+  if(res.ok) loadContent();
+}
+
+// ═══ SHORTS ═══
+async function loadShorts() {
+  const [list, files] = await Promise.all([
+    fetch('/api/list').then(r=>r.json()),
+    fetch('/api/files/shorts').then(r=>r.json()),
+  ]);
+  const fileMap = {};
+  files.files.forEach(f => fileMap[f.name] = f);
+
+  const items = list.items.filter(it => it.hasShort);
+  const missing = list.items.filter(it => !it.hasShort);
+
+  let html = items.map(it => {
+    const fname = it.shortPath.split('/').pop();
+    const file = fileMap[fname];
+    return `<div class="rounded-xl border border-slate-200 bg-white overflow-hidden">
+      <div class="relative bg-black" style="aspect-ratio:9/16;max-height:400px">
+        <video class="h-full w-full object-cover" controls preload="metadata" playsinline>
+          <source src="/preview${it.shortPath}" type="video/mp4" />
+        </video>
+      </div>
+      <div class="p-3">
+        <p class="text-sm font-semibold leading-tight">${esc(it.titulo)}</p>
+        <p class="mt-1 text-xs text-slate-400">${file?file.size:it.shortSize} &middot; ${esc(fname)}</p>
+      </div>
+    </div>`;
+  }).join('');
+
+  if (missing.length) {
+    html += `<div class="sm:col-span-2 lg:col-span-3 xl:col-span-4 rounded-xl border border-dashed border-slate-300 p-4">
+      <h3 class="text-sm font-bold text-slate-500 mb-2">Sin short (${missing.length})</h3>
+      <div class="flex flex-wrap gap-2">${missing.map(it=>`<span class="rounded-full bg-slate-100 px-3 py-1 text-xs">${esc(it.titulo)}</span>`).join('')}</div>
+    </div>`;
+  }
+
+  $('#shorts-grid').innerHTML = html || '<p class="text-sm text-slate-400">No hay shorts generados</p>';
+}
+
+// ═══ UPLOAD ═══
+const dropZone = $('#drop-zone');
+const uploadInput = $('#upload-input');
+
+dropZone?.addEventListener('click', () => uploadInput.click());
+dropZone?.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+dropZone?.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+dropZone?.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('dragover');
+  handleFiles(e.dataTransfer.files);
+});
+uploadInput?.addEventListener('change', () => handleFiles(uploadInput.files));
+
+async function handleFiles(files) {
+  const folder = $('#upload-folder').value;
+  const results = $('#upload-results');
+  for (const file of files) {
+    const row = document.createElement('div');
+    row.className = 'flex items-center gap-3 rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm';
+    row.innerHTML = `<span class="flex-1 font-mono text-xs">${esc(file.name)}</span><span class="text-slate-400">Subiendo...</span>`;
+    results.prepend(row);
+    const fd = new FormData();
+    fd.append('file', file);
+    fd.append('folder', folder);
+    try {
+      const r = await fetch('/api/upload', { method: 'POST', body: fd });
       const res = await r.json();
-      $('#guardar-msg').textContent = res.ok ? '✅ Guardado' : ('❌ ' + res.error);
-      if (res.ok) cargarLista();
-    });
-
-    $('#btn-subir').addEventListener('click', async () => {
-      const f = $('#archivo').files[0]; if (!f) return alert('Elige un archivo');
-      $('#subir-msg').textContent = 'Subiendo...';
-      const fd = new FormData(); fd.append('archivo', f); fd.append('carpeta', $('#carpeta').value);
-      const r = await fetch('/api/subir', { method:'POST', body: fd });
-      const res = await r.json();
-      if (res.ok) { $('#url-subida').value = res.url; $('#subir-msg').textContent = '✅ Subido'; }
-      else $('#subir-msg').textContent = '❌ ' + res.error;
-    });
-
-    $('#btn-publicar').addEventListener('click', async () => {
-      if (!confirm('¿Publicar cambios a Vercel (git push)?')) return;
-      $('#btn-publicar').textContent = 'Publicando...';
-      const r = await fetch('/api/publicar', { method:'POST' });
-      const res = await r.json();
-      alert(res.ok ? ('✅ ' + (res.msg||'Publicado')) : ('❌ ' + res.error));
-      $('#btn-publicar').textContent = '🚀 Publicar (git push)';
-    });
-
-    // ---- Pipeline ----
-    const pipeModal = $('#pipe-modal');
-    $('#btn-pipeline').addEventListener('click', () => { pipeModal.classList.remove('hidden'); pipeModal.classList.add('flex'); });
-    $('#pipe-close').addEventListener('click', () => { pipeModal.classList.add('hidden'); pipeModal.classList.remove('flex'); });
-    let polling = null;
-    async function pollEstado() {
-      try {
-        const s = await (await fetch('/api/run/status')).json();
-        $('#pipe-log').textContent = s.log || '(sin salida)';
-        $('#pipe-log').scrollTop = $('#pipe-log').scrollHeight;
-        $('#pipe-estado').textContent = s.running ? ('⏳ Ejecutando: ' + s.name) : (s.name ? ('✅ Terminado: ' + s.name + ' (código ' + s.code + ')') : 'Inactivo');
-        document.querySelectorAll('.pipe-btn').forEach((b) => b.disabled = s.running);
-        if (!s.running && polling) { clearInterval(polling); polling = null; }
-      } catch (e) {}
+      row.innerHTML = res.ok
+        ? `<span class="flex-1 font-mono text-xs">${esc(file.name)}</span><code class="text-xs text-brand-600">${res.url}</code><span class="text-green-600 font-semibold">${res.size}</span>`
+        : `<span class="flex-1 font-mono text-xs">${esc(file.name)}</span><span class="text-red-500">${res.error}</span>`;
+    } catch (e) {
+      row.innerHTML = `<span class="flex-1">${esc(file.name)}</span><span class="text-red-500">Error</span>`;
     }
-    document.querySelectorAll('.pipe-btn').forEach((b) => b.addEventListener('click', async () => {
-      const script = b.dataset.run;
-      if (script === 'todo' && !confirm('Ejecutar TODO el pipeline (audios, portadas, vídeos, subtítulos, guía y publicar)?')) return;
-      const r = await fetch('/api/run', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ script }) });
-      const res = await r.json();
-      if (!res.ok) return alert(res.error || 'Error');
-      if (!polling) polling = setInterval(pollEstado, 1500);
-      pollEstado();
-    }));
+  }
+  loadUploadFiles();
+}
 
-    cargarLista();
-  </script>
+async function loadUploadFiles() {
+  for (const [id, folder] of [['files-shorts','shorts'],['files-audio','audio']]) {
+    const el = $(`#${id}`);
+    if (!el) continue;
+    const { files } = await fetch(`/api/files/${folder}`).then(r=>r.json());
+    el.innerHTML = files.length
+      ? files.map(f=>`<div class="flex items-center justify-between border-t border-slate-100 py-2 text-sm"><span class="font-mono text-xs">${esc(f.name)}</span><span class="text-slate-400">${f.size}</span></div>`).join('')
+      : '<p class="text-sm text-slate-400 py-2">Vacio</p>';
+  }
+}
+
+// Boot
+loadDashboard();
+</script>
 </body>
 </html>

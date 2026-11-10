@@ -6,6 +6,12 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],
       "port": 4321
+    },
+    {
+      "name": "admin-dashboard",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["admin/server.mjs"],
+      "port": 4322
     }
   ]
 }

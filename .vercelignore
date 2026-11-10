@@ -3,7 +3,14 @@
 videos/
 _fuentes/
 dist/
+# paneles de administración: solo se usan en local
+admin/
 node_modules/
 .git/
 *.m4a
 *.mp4
+# ...salvo los shorts 9:16: Multimedia.astro los sirve con <source src={short}>,
+# así que si no se despliegan el reproductor da 404. Son ~20-35 MB cada uno,
+# por debajo del límite de 100 MB por archivo.
+# Alternativa más ligera: subirlos al Blob y poner su URL en `short:`.
+!public/shorts/*.mp4
